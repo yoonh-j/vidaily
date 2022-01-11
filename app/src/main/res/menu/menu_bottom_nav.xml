@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/ic_baseline_home_24"
+        android:title="@string/title_home"/>
+
+    <item
+        android:id="@+id/nav_upload"
+        android:icon="@drawable/ic_outline_upload_24"
+        android:title="@string/title_upload"/>
+
+    <item
+        android:id="@+id/nav_alarm"
+        android:icon="@drawable/ic_baseline_alarm_24"
+        android:title="@string/title_alarm"/>
+</menu>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_login"
+        android:name="com.yoond.vidaily.views.LoginFragment"
+        android:label=""
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_nav_login_to_nav_home"
+            app:destination="@id/nav_home" />
+        <action
+            android:id="@+id/action_nav_login_to_nav_signup"
+            app:destination="@id/nav_signup" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_signup"
+        android:name="com.yoond.vidaily.views.SignupFragment"
+        android:label=""
+        tools:layout="@layout/fragment_signup">
+        <action
+            android:id="@+id/action_nav_signup_to_nav_home"
+            app:destination="@id/nav_home" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.yoond.vidaily.views.HomeFragment"
+        android:label=""
+        tools:layout="@layout/fragment_home">
+
+        <action
+            android:id="@+id/action_nav_home_to_nav_search"
+            app:destination="@id/nav_search" />
+        <action
+            android:id="@+id/action_nav_home_to_nav_video"
+            app:destination="@id/nav_video" />
+        <action
+            android:id="@+id/action_nav_home_to_nav_user"
+            app:destination="@id/nav_user" />
+    </fragment>
+
+    <fragment android:id="@+id/nav_upload"
+        android:name="com.yoond.vidaily.views.UploadFragment"
+        android:label=""
+        tools:layout="@layout/fragment_upload"/>
+
+    <fragment
+        android:id="@+id/nav_alarm"
+        android:name="com.yoond.vidaily.views.AlarmFragment"
+        android:label="@string/title_alarm"
+        tools:layout="@layout/fragment_alarm">
+
+        <action
+            android:id="@+id/action_nav_alarm_to_nav_video"
+            app:destination="@id/nav_video" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_video"
+        android:name="com.yoond.vidaily.views.VideoFragment"
+        android:label=""
+        tools:layout="@layout/fragment_video">
+
+        <action
+            android:id="@+id/action_nav_video_to_nav_user"
+            app:destination="@id/nav_user" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_user"
+        android:name="com.yoond.vidaily.views.UserFragment"
+        android:label=""
+        tools:layout="@layout/fragment_user">
+
+        <action
+            android:id="@+id/action_nav_user_to_nav_video"
+            app:destination="@id/nav_video" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_search"
+        android:name="com.yoond.vidaily.views.SearchFragment"
+        android:label=""
+        tools:layout="@layout/fragment_search">
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_comment"
+        android:name="com.yoond.vidaily.views.CommentFragment"
+        android:label="@string/title_comment"
+        tools:layout="@layout/fragment_comment"/>
+</navigation>
