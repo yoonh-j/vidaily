@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="base_layout_margin">10dp</dimen>
+
+    <!-- Video Item -->
+    <dimen name="video_small_width">160dp</dimen>
+    <dimen name="video_small_height">90dp</dimen>
+    <dimen name="video_small_margin">10dp</dimen>
+    <dimen name="video_large_margin">30dp</dimen>
+    <dimen name="video_metadata_margin">10dp</dimen>
+    <dimen name="video_profile_size">50dp</dimen>
+
+    <!-- Home fragment -->
+    <dimen name="home_layout_margin">20dp</dimen>
+</resources>

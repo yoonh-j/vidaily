@@ -20,4 +20,23 @@
     </style>
 
     <style name="Theme.Vidaily.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.ActionBar"/>
+
+    <style name="Theme.Vidaily.HomeLabel" parent="Widget.AppCompat.TextView">
+        <item name="android:padding">@dimen/base_layout_margin</item>
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Body1</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Theme.Vidaily.HomeMoreBtn" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/gray_500</item>
+        <item name="android:drawableTint">@color/gray_500</item>
+        <item name="android:paddingStart">@dimen/base_layout_margin</item>
+        <item name="android:paddingTop">@dimen/base_layout_margin</item>
+        <item name="android:paddingBottom">@dimen/base_layout_margin</item>
+    </style>
+    
+    <style name="Theme.Vidaily.VideoMetadata" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/gray_500</item>
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Caption</item>
+    </style>
 </resources>

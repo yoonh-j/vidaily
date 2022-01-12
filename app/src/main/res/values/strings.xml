@@ -3,6 +3,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <!-- Titles -->
     <string name="title_home">홈</string>
     <string name="title_upload">업로드</string>
     <string name="title_alarm">알림</string>
@@ -12,6 +13,15 @@
     <string name="title_follower">팔로워</string>
     <string name="title_following">팔로잉</string>
     <string name="title_comment">작성 댓글</string>
+
+    <!-- Video Metadata -->
+    <string name="video_views">조회수 %1d회</string>
+
+    <!-- Home Fragment -->
+    <string name="home_label_today">오늘의 동영상</string>
+    <string name="home_label_popular">인기 동영상</string>
+    <string name="home_label_follow">팔로우 중인 동영상</string>
+    <string name="home_more">더보기</string>
 
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>
