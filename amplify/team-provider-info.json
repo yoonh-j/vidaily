@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-vidaily-dev-11215-authRole",
+      "UnauthRoleArn": "arn:aws:iam::691651526134:role/amplify-vidaily-dev-11215-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::691651526134:role/amplify-vidaily-dev-11215-authRole",
+      "Region": "ap-northeast-2",
+      "DeploymentBucketName": "amplify-vidaily-dev-11215-deployment",
+      "UnauthRoleName": "amplify-vidaily-dev-11215-unauthRole",
+      "StackName": "amplify-vidaily-dev-11215",
+      "StackId": "arn:aws:cloudformation:ap-northeast-2:691651526134:stack/amplify-vidaily-dev-11215/6a956cb0-73c2-11ec-8435-063ffc34a318",
+      "AmplifyAppId": "d3c9z1vx887nin"
+    },
+    "categories": {
+      "auth": {
+        "vidailyed5d8ded": {}
+      }
+    }
+  }
+}
