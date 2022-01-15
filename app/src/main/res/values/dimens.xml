@@ -2,6 +2,10 @@
 <resources>
     <dimen name="base_layout_margin">10dp</dimen>
 
+    <dimen name="btn_corner_radius">10dp</dimen>
+    <dimen name="border_height">0.5dp</dimen>
+    <dimen name="edittext_padding">10dp</dimen>
+
     <!-- Video Item -->
     <dimen name="video_small_width">160dp</dimen>
     <dimen name="video_small_height">90dp</dimen>
@@ -9,6 +13,9 @@
     <dimen name="video_large_margin">30dp</dimen>
     <dimen name="video_metadata_margin">10dp</dimen>
     <dimen name="video_profile_size">50dp</dimen>
+
+    <!-- Login fragment -->
+    <dimen name="login_signup_padding">20dp</dimen>
 
     <!-- Home fragment -->
     <dimen name="home_layout_margin">20dp</dimen>

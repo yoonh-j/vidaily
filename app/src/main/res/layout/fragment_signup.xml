@@ -1,15 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+<!--        <variable-->
+<!--            name="codeMatch"-->
+<!--            type="boolean" />-->
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:padding="@dimen/base_layout_margin">
 
-        <TextView
+        <ImageView
+            android:id="@+id/signup_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_launcher_round"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/signup_layout"/>
+
+        <LinearLayout
+            android:id="@+id/signup_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="회원가입"/>
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/signup_logo"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <EditText
+                style="@style/Theme.Vidaily.EditText"
+                android:id="@+id/signup_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/base_layout_margin"
+                android:hint="@string/hint_email"
+                android:inputType="textEmailAddress"/>
+
+            <include layout="@layout/divider"/>
+
+            <EditText
+                style="@style/Theme.Vidaily.EditText"
+                android:id="@+id/signup_pwd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/base_layout_margin"
+                android:hint="@string/hint_pwd"
+                android:inputType="textPassword"
+                app:layout_constraintTop_toBottomOf="@id/signup_email"/>
+
+            <include layout="@layout/divider"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/signup_code_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/base_layout_margin"
+                android:text="@string/signup_code"
+                android:background="@drawable/bg_btn_border"
+                app:layout_constraintTop_toBottomOf="@id/signup_pwd"/>
+
+            <EditText
+                style="@style/Theme.Vidaily.EditText"
+                android:id="@+id/signup_code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/base_layout_margin"
+                android:hint="@string/hint_code"
+                android:inputType="number"
+                app:layout_constraintTop_toBottomOf="@id/signup_email"/>
+
+            <include layout="@layout/divider"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/base_layout_margin"
+                android:gravity="center"
+                android:visibility="invisible"
+                android:text="@string/signup_code_match"
+                android:textColor="@android:color/holo_red_light"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                style="@style/Theme.Vidaily.Button"
+                android:id="@+id/signup_signup_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/base_layout_margin"
+                android:text="@string/btn_signup"
+                app:layout_constraintTop_toBottomOf="@id/signup_pwd"/>
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

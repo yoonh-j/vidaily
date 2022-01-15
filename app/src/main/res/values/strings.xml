@@ -17,11 +17,30 @@
     <!-- Video Metadata -->
     <string name="video_views">조회수 %1d회</string>
 
+    <!-- Sign in/up -->
+    <string name="hint_email">이메일</string>
+    <string name="hint_pwd">비밀번호</string>
+    <string name="hint_code">코드</string>
+    <string name="btn_signup">회원가입</string>
+    <string name="toast_no_email">이메일을 입력하세요.</string>
+    <string name="toast_no_pwd">비밀번호를 입력하세요.</string>
+
+    <!-- Login Fragment -->
+    <string name="login_login">로그인</string>
+
+    <!-- Signup Fragment -->
+    <string name="signup_code">코드 전송</string>
+    <string name="signup_code_match">확인되었습니다.</string>
+    <string name="toast_signup_success">회원가입을 완료했습니다.</string>
+    <string name="toast_signup_failed">회원가입을 실패했습니다.</string>
+    <string name="toast_signup_wrong_code">코드가 일치하지 않습니다.</string>
+
     <!-- Home Fragment -->
     <string name="home_label_today">오늘의 동영상</string>
     <string name="home_label_popular">인기 동영상</string>
-    <string name="home_label_follow">팔로우 중인 동영상</string>
+    <string name="home_label_follow">팔로우하는 동영상</string>
     <string name="home_more">더보기</string>
+    <string name="home_toast_back_pressed">\'뒤로가기\'를 한 번 더 누르면 종료됩니다.</string>
 
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>

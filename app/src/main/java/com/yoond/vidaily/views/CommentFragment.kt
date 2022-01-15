@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.yoond.vidaily.MainActivity
 import com.yoond.vidaily.databinding.FragmentCommentBinding
 
 /**
@@ -21,4 +22,11 @@ class CommentFragment : Fragment() {
         binding = FragmentCommentBinding.inflate(inflater, container, false)
         return binding.root
     }
+
+    override fun onResume() {
+        super.onResume()
+        (activity as MainActivity).setToolbarVisible(true)
+        (activity as MainActivity).setBottomNavVisible(true)
+    }
+
 }

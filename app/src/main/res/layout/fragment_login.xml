@@ -1,15 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:padding="@dimen/base_layout_margin">
 
-        <TextView
+        <ImageView
+            android:id="@+id/login_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_launcher_round"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/login_layout"/>
+
+        <LinearLayout
+            android:id="@+id/login_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="로그인"/>
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/login_logo"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <EditText
+                style="@style/Theme.Vidaily.EditText"
+                android:id="@+id/login_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/base_layout_margin"
+                android:hint="@string/hint_email"
+                android:inputType="textEmailAddress" />
+
+            <include layout="@layout/divider"/>
+
+            <EditText
+                style="@style/Theme.Vidaily.EditText"
+                android:id="@+id/login_pwd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/base_layout_margin"
+                android:hint="@string/hint_pwd"
+                android:inputType="textPassword"
+                app:layout_constraintTop_toBottomOf="@id/login_email"/>
+
+            <include layout="@layout/divider"/>
+
+            <TextView
+                android:id="@+id/login_signup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="@dimen/login_signup_padding"
+                android:text="@string/btn_signup"
+                android:textColor="?attr/colorPrimary"
+                app:layout_constraintTop_toBottomOf="@id/login_pwd"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                style="@style/Theme.Vidaily.Button"
+                android:id="@+id/login_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/login_login"
+                app:layout_constraintTop_toBottomOf="@id/login_signup"/>
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
