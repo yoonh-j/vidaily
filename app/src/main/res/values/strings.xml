@@ -42,6 +42,9 @@
     <string name="home_more">더보기</string>
     <string name="home_toast_back_pressed">\'뒤로가기\'를 한 번 더 누르면 종료됩니다.</string>
 
+    <!-- Upload Fragment -->
+    <string name="toast_upload_error">동영상 업로드 중 문제가 발생했습니다.</string>
+
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>
     <string name="sync_header">Sync</string>

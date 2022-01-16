@@ -1,0 +1,16 @@
+{
+  "resourceName": "videos",
+  "policyUUID": "12ca3784",
+  "bucketName": "vidaily15a71a6b529f4505a20531d3823dbaf6",
+  "storageAccess": "authAndGuest",
+  "guestAccess": [
+    "READ"
+  ],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "triggerFunction": "S3Trigger79845c10",
+  "groupAccess": {}
+}

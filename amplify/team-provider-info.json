@@ -13,7 +13,14 @@
     },
     "categories": {
       "auth": {
-        "vidailyed5d8ded": {}
+        "vidailyed5d8ded": {},
+        "true": {}
+      },
+      "function": {
+        "S3Trigger79845c10": {
+          "deploymentBucketName": "amplify-vidaily-dev-11215-deployment",
+          "s3Key": "amplify-builds/S3Trigger79845c10-4547425a44414974712f-build.zip"
+        }
       }
     }
   }

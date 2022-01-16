@@ -10,14 +10,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.navigation.fragment.findNavController
-import com.amazonaws.mobile.client.AWSMobileClient
-import com.amazonaws.mobile.client.Callback
-import com.amazonaws.mobile.client.results.SignInResult
-import com.amazonaws.mobile.client.results.SignInState
+import com.amplifyframework.core.Amplify
 import com.yoond.vidaily.MainActivity
 import com.yoond.vidaily.R
 import com.yoond.vidaily.databinding.FragmentLoginBinding
-import java.lang.Exception
 
 /**
  * Login if the user hasn't signed in yet
@@ -66,21 +62,17 @@ class LoginFragment : Fragment() {
                 Toast.makeText(requireContext(), resources.getString(R.string.toast_no_pwd), Toast.LENGTH_SHORT).show()
             } // 몇 자 이상인지 등등 조건 추가
             else {
-                AWSMobileClient.getInstance().signIn(email, pwd, null, object: Callback<SignInResult> {
-                    override fun onResult(result: SignInResult?) {
-                        Log.d("LOGIN", "${result?.signInState}")
-                        activity?.runOnUiThread {
-                            if (result?.signInState == SignInState.DONE) {
-                                Log.d("LOGIN", "로그인 성공")
+                Amplify.Auth.signIn(email, pwd,
+                    { result ->
+                        if (result.isSignInComplete) {
+                            Log.i("AMPLIFY_LOGIN", "로그인 성공")
+                            activity?.runOnUiThread {
                                 findNavController().navigate(LoginFragmentDirections.actionNavLoginToNavHome())
                             }
                         }
-                    }
-
-                    override fun onError(e: Exception?) {
-                        Log.e("LOGIN", "로그인 실패", e)
-                    }
-                })
+                    },
+                    { Log.e("AMPLIFY_LOGIN", "로그인 실패:", it) }
+                )
             }
         }
     }

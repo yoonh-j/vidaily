@@ -25,6 +25,9 @@ android {
         }
     }
     compileOptions {
+        // Support for Java 8 features - Amplify
+        coreLibraryDesugaringEnabled true
+
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
@@ -59,8 +62,17 @@ dependencies {
     // circle imageview
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
+    // aws amplify core
+    implementation 'com.amplifyframework:core:1.31.1'
+
+    // Support for Java 8 features
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
+
     // aws cognito
     implementation 'com.amplifyframework:aws-auth-cognito:1.31.1'
+
+    // aws s3
+    implementation 'com.amplifyframework:aws-storage-s3:1.31.1'
 
     // mobile client for initializing the sdk
     implementation('com.amazonaws:aws-android-sdk-mobile-client:2.37.1@aar') { transitive = true }
