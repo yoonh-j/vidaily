@@ -1,0 +1,82 @@
+# this is an auto generated file. This will be overwritten
+subscription OnCreateUser {
+  onCreateUser {
+    uid
+    username
+    following
+    follower
+    videoUrls
+    id
+    createdAt
+    updatedAt
+  }
+}
+subscription OnUpdateUser {
+  onUpdateUser {
+    uid
+    username
+    following
+    follower
+    videoUrls
+    id
+    createdAt
+    updatedAt
+  }
+}
+subscription OnDeleteUser {
+  onDeleteUser {
+    uid
+    username
+    following
+    follower
+    videoUrls
+    id
+    createdAt
+    updatedAt
+  }
+}
+subscription OnCreateMetadata {
+  onCreateMetadata {
+    key
+    uid
+    url
+    title
+    description
+    timeInMillis
+    views
+    likes
+    id
+    createdAt
+    updatedAt
+  }
+}
+subscription OnUpdateMetadata {
+  onUpdateMetadata {
+    key
+    uid
+    url
+    title
+    description
+    timeInMillis
+    views
+    likes
+    id
+    createdAt
+    updatedAt
+  }
+}
+subscription OnDeleteMetadata {
+  onDeleteMetadata {
+    key
+    uid
+    url
+    title
+    description
+    timeInMillis
+    views
+    likes
+    id
+    createdAt
+    updatedAt
+  }
+}

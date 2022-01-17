@@ -1,6 +1,6 @@
 package com.yoond.vidaily.data
 
-data class User(
+data class UserModel(
     val uid: String,
     val username: String,
     val following: Int,

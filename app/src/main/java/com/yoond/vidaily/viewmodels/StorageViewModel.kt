@@ -10,6 +10,15 @@ class StorageViewModel: ViewModel() {
     fun getAllVideos() =
         repository.getAllVideos()
 
-    fun uploadVideo(key: String, video: File) =
-        repository.uploadVideo(key, video)
+    fun getAllMetaData() =
+        repository.getAllMetaData()
+
+    fun uploadVideo(
+        video: File,
+        key: String,
+        uid: String,
+        title: String,
+        description: String,
+        timeInMillis: Long
+    ) = repository.uploadVideo(video, key, uid, title, description, timeInMillis)
 }

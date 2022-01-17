@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.amazonaws.util.IOUtils
+import com.amplifyframework.core.Amplify
 import com.yoond.vidaily.MainActivity
 import com.yoond.vidaily.databinding.FragmentUploadBinding
 import com.yoond.vidaily.viewmodels.StorageViewModel
@@ -47,7 +48,7 @@ class UploadFragment : Fragment() {
         if (requestCode == REQUEST_VIDEO &&
             resultCode == Activity.RESULT_OK &&
             data != null) {
-                uploadVideoTemp(data.data!!)
+                uploadVideo(data.data!!)
         }
     }
     private fun init() {
@@ -58,12 +59,15 @@ class UploadFragment : Fragment() {
         }
     }
 
-    private fun uploadVideoTemp(uri: Uri) {
-        val key = System.currentTimeMillis().toString()
+    private fun uploadVideo(uri: Uri) {
+        val timeInMillis = System.currentTimeMillis()
         val video = getFileFromUri(uri)
+        val uid = Amplify.Auth.currentUser.userId
+        val title = "video title: $timeInMillis"
+        val description = "description"
 
         if (video != null) {
-            viewModel.uploadVideo(key, video)
+            viewModel.uploadVideo(video, timeInMillis.toString(), uid, title, description, timeInMillis)
             Log.d("FILE_SELECTED", uri.toString())
         }
     }

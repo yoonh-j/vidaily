@@ -9,7 +9,8 @@
       "UnauthRoleName": "amplify-vidaily-dev-11215-unauthRole",
       "StackName": "amplify-vidaily-dev-11215",
       "StackId": "arn:aws:cloudformation:ap-northeast-2:691651526134:stack/amplify-vidaily-dev-11215/6a956cb0-73c2-11ec-8435-063ffc34a318",
-      "AmplifyAppId": "d3c9z1vx887nin"
+      "AmplifyAppId": "d3c9z1vx887nin",
+      "APIGatewayAuthURL": "https://s3.amazonaws.com/amplify-vidaily-dev-11215-deployment/amplify-cfn-templates/api/APIGatewayAuthStack.json"
     },
     "categories": {
       "auth": {

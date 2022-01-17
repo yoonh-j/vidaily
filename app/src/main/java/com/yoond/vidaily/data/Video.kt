@@ -6,7 +6,7 @@ data class Video (
     val url: String,
     val title: String,
     val description: String,
-    val timeInMillis: Long,
+    val timeInMillis: String,
     val views: Int,
     val likes: Int
 ) {
