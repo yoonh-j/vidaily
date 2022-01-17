@@ -94,6 +94,7 @@ amplify/.config/local-*
 amplify/logs
 amplify/mock-data
 amplify/backend/amplify-meta.json
+amplify/backend/api/api/cli-inputs.json
 amplify/backend/.temp
 dist/
 node_modules/
@@ -104,6 +105,7 @@ amplifyconfiguration.dart
 amplify-build-config.json
 amplify-gradle-config.json
 amplifytools.xcconfig
+team-provider-info.json
 .secret-*
 **.sample
 #amplify-do-not-edit-end
