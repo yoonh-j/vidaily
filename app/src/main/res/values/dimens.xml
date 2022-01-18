@@ -17,6 +17,9 @@
     <!-- Login fragment -->
     <dimen name="login_signup_padding">20dp</dimen>
 
+    <!-- Profile fragment -->
+    <dimen name="profile_profile_size">200dp</dimen>
+
     <!-- Home fragment -->
     <dimen name="home_layout_margin">20dp</dimen>
 </resources>

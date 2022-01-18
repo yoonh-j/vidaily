@@ -6,9 +6,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.amplifyframework.datastore.generated.model.Metadata
 import com.bumptech.glide.Glide
 import com.yoond.vidaily.R
-import com.yoond.vidaily.data.VideoMinimal
 import com.yoond.vidaily.databinding.ItemHomeSmallBinding
 import com.yoond.vidaily.interfaces.OnVideoItemClickListener
 
@@ -16,7 +16,7 @@ import com.yoond.vidaily.interfaces.OnVideoItemClickListener
 class HomeHorizontalListAdapter(
     val context: Context,
     val onVideoItemClickListener: OnVideoItemClickListener
-): ListAdapter<VideoMinimal, RecyclerView.ViewHolder>(HomeTodayDiffCallback()) {
+): ListAdapter<Metadata, RecyclerView.ViewHolder>(HomeTodayDiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
         HomeTodayViewHolder(
             ItemHomeSmallBinding.inflate(
@@ -27,8 +27,8 @@ class HomeHorizontalListAdapter(
         )
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val video = getItem(position)
-        (holder as HomeTodayViewHolder).bind(video)
+        val metadata = getItem(position)
+        (holder as HomeTodayViewHolder).bind(metadata)
     }
 
     inner class HomeTodayViewHolder(
@@ -36,27 +36,27 @@ class HomeHorizontalListAdapter(
     ): RecyclerView.ViewHolder(binding.root) {
         init {
             binding.setClickListener {
-                val item = binding.video
+                val item = binding.metadata
                 if (item != null) {
-                    onVideoItemClickListener.onItemClick(item.key)
+                    onVideoItemClickListener.onItemClick(item.id)
                 }
             }
         }
 
-        fun bind(item: VideoMinimal) {
-            binding.video = item
+        fun bind(item: Metadata) {
+            binding.metadata = item
             Glide.with(context)
-                .load(item.videoUrl)
+                .load(item.url)
                 .placeholder(R.color.black)
                 .into(binding.itemHomeThumbnail)
         }
     }
 }
 
-private class HomeTodayDiffCallback: DiffUtil.ItemCallback<VideoMinimal>() {
-    override fun areItemsTheSame(oldItem: VideoMinimal, newItem: VideoMinimal) =
-        oldItem.key == newItem.key
+private class HomeTodayDiffCallback: DiffUtil.ItemCallback<Metadata>() {
+    override fun areItemsTheSame(oldItem: Metadata, newItem: Metadata) =
+        oldItem.id == newItem.id
 
-    override fun areContentsTheSame(oldItem: VideoMinimal, newItem: VideoMinimal) =
+    override fun areContentsTheSame(oldItem: Metadata, newItem: Metadata) =
         oldItem == newItem
 }

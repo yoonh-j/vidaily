@@ -21,29 +21,27 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 @ModelConfig(pluralName = "Users")
 public final class User implements Model {
   public static final QueryField ID = field("User", "id");
-  public static final QueryField UID = field("User", "uid");
   public static final QueryField USERNAME = field("User", "username");
+  public static final QueryField PROFILE_URL = field("User", "profileUrl");
   public static final QueryField FOLLOWING = field("User", "following");
   public static final QueryField FOLLOWER = field("User", "follower");
-  public static final QueryField VIDEO_URLS = field("User", "videoUrls");
   private final @ModelField(targetType="ID", isRequired = true) String id;
-  private final @ModelField(targetType="ID", isRequired = true) String uid;
   private final @ModelField(targetType="String", isRequired = true) String username;
+  private final @ModelField(targetType="String", isRequired = true) String profileUrl;
   private final @ModelField(targetType="Int", isRequired = true) Integer following;
   private final @ModelField(targetType="Int", isRequired = true) Integer follower;
-  private final @ModelField(targetType="String") List<String> videoUrls;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
       return id;
   }
   
-  public String getUid() {
-      return uid;
-  }
-  
   public String getUsername() {
       return username;
+  }
+  
+  public String getProfileUrl() {
+      return profileUrl;
   }
   
   public Integer getFollowing() {
@@ -54,10 +52,6 @@ public final class User implements Model {
       return follower;
   }
   
-  public List<String> getVideoUrls() {
-      return videoUrls;
-  }
-  
   public Temporal.DateTime getCreatedAt() {
       return createdAt;
   }
@@ -66,13 +60,12 @@ public final class User implements Model {
       return updatedAt;
   }
   
-  private User(String id, String uid, String username, Integer following, Integer follower, List<String> videoUrls) {
+  private User(String id, String username, String profileUrl, Integer following, Integer follower) {
     this.id = id;
-    this.uid = uid;
     this.username = username;
+    this.profileUrl = profileUrl;
     this.following = following;
     this.follower = follower;
-    this.videoUrls = videoUrls;
   }
   
   @Override
@@ -84,11 +77,10 @@ public final class User implements Model {
       } else {
       User user = (User) obj;
       return ObjectsCompat.equals(getId(), user.getId()) &&
-              ObjectsCompat.equals(getUid(), user.getUid()) &&
               ObjectsCompat.equals(getUsername(), user.getUsername()) &&
+              ObjectsCompat.equals(getProfileUrl(), user.getProfileUrl()) &&
               ObjectsCompat.equals(getFollowing(), user.getFollowing()) &&
               ObjectsCompat.equals(getFollower(), user.getFollower()) &&
-              ObjectsCompat.equals(getVideoUrls(), user.getVideoUrls()) &&
               ObjectsCompat.equals(getCreatedAt(), user.getCreatedAt()) &&
               ObjectsCompat.equals(getUpdatedAt(), user.getUpdatedAt());
       }
@@ -98,11 +90,10 @@ public final class User implements Model {
    public int hashCode() {
     return new StringBuilder()
       .append(getId())
-      .append(getUid())
       .append(getUsername())
+      .append(getProfileUrl())
       .append(getFollowing())
       .append(getFollower())
-      .append(getVideoUrls())
       .append(getCreatedAt())
       .append(getUpdatedAt())
       .toString()
@@ -114,18 +105,17 @@ public final class User implements Model {
     return new StringBuilder()
       .append("User {")
       .append("id=" + String.valueOf(getId()) + ", ")
-      .append("uid=" + String.valueOf(getUid()) + ", ")
       .append("username=" + String.valueOf(getUsername()) + ", ")
+      .append("profileUrl=" + String.valueOf(getProfileUrl()) + ", ")
       .append("following=" + String.valueOf(getFollowing()) + ", ")
       .append("follower=" + String.valueOf(getFollower()) + ", ")
-      .append("videoUrls=" + String.valueOf(getVideoUrls()) + ", ")
       .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
       .append("updatedAt=" + String.valueOf(getUpdatedAt()))
       .append("}")
       .toString();
   }
   
-  public static UidStep builder() {
+  public static UsernameStep builder() {
       return new Builder();
   }
   
@@ -143,26 +133,24 @@ public final class User implements Model {
       null,
       null,
       null,
-      null,
       null
     );
   }
   
   public CopyOfBuilder copyOfBuilder() {
     return new CopyOfBuilder(id,
-      uid,
       username,
+      profileUrl,
       following,
-      follower,
-      videoUrls);
+      follower);
   }
-  public interface UidStep {
-    UsernameStep uid(String uid);
+  public interface UsernameStep {
+    ProfileUrlStep username(String username);
   }
   
 
-  public interface UsernameStep {
-    FollowingStep username(String username);
+  public interface ProfileUrlStep {
+    FollowingStep profileUrl(String profileUrl);
   }
   
 
@@ -179,41 +167,38 @@ public final class User implements Model {
   public interface BuildStep {
     User build();
     BuildStep id(String id);
-    BuildStep videoUrls(List<String> videoUrls);
   }
   
 
-  public static class Builder implements UidStep, UsernameStep, FollowingStep, FollowerStep, BuildStep {
+  public static class Builder implements UsernameStep, ProfileUrlStep, FollowingStep, FollowerStep, BuildStep {
     private String id;
-    private String uid;
     private String username;
+    private String profileUrl;
     private Integer following;
     private Integer follower;
-    private List<String> videoUrls;
     @Override
      public User build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
         
         return new User(
           id,
-          uid,
           username,
+          profileUrl,
           following,
-          follower,
-          videoUrls);
+          follower);
     }
     
     @Override
-     public UsernameStep uid(String uid) {
-        Objects.requireNonNull(uid);
-        this.uid = uid;
+     public ProfileUrlStep username(String username) {
+        Objects.requireNonNull(username);
+        this.username = username;
         return this;
     }
     
     @Override
-     public FollowingStep username(String username) {
-        Objects.requireNonNull(username);
-        this.username = username;
+     public FollowingStep profileUrl(String profileUrl) {
+        Objects.requireNonNull(profileUrl);
+        this.profileUrl = profileUrl;
         return this;
     }
     
@@ -231,12 +216,6 @@ public final class User implements Model {
         return this;
     }
     
-    @Override
-     public BuildStep videoUrls(List<String> videoUrls) {
-        this.videoUrls = videoUrls;
-        return this;
-    }
-    
     /** 
      * @param id id
      * @return Current Builder instance, for fluent method chaining
@@ -249,23 +228,22 @@ public final class User implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String uid, String username, Integer following, Integer follower, List<String> videoUrls) {
+    private CopyOfBuilder(String id, String username, String profileUrl, Integer following, Integer follower) {
       super.id(id);
-      super.uid(uid)
-        .username(username)
+      super.username(username)
+        .profileUrl(profileUrl)
         .following(following)
-        .follower(follower)
-        .videoUrls(videoUrls);
-    }
-    
-    @Override
-     public CopyOfBuilder uid(String uid) {
-      return (CopyOfBuilder) super.uid(uid);
+        .follower(follower);
     }
     
     @Override
      public CopyOfBuilder username(String username) {
       return (CopyOfBuilder) super.username(username);
+    }
+    
+    @Override
+     public CopyOfBuilder profileUrl(String profileUrl) {
+      return (CopyOfBuilder) super.profileUrl(profileUrl);
     }
     
     @Override
@@ -276,11 +254,6 @@ public final class User implements Model {
     @Override
      public CopyOfBuilder follower(Integer follower) {
       return (CopyOfBuilder) super.follower(follower);
-    }
-    
-    @Override
-     public CopyOfBuilder videoUrls(List<String> videoUrls) {
-      return (CopyOfBuilder) super.videoUrls(videoUrls);
     }
   }
   

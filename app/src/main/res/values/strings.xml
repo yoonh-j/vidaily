@@ -35,6 +35,12 @@
     <string name="toast_signup_failed">회원가입을 실패했습니다.</string>
     <string name="toast_signup_wrong_code">코드가 일치하지 않습니다.</string>
 
+    <!-- Profile Fragment -->
+    <string name="hint_username">닉네임</string>
+    <string name="toast_no_image">프로필 사진을 선택하세요.</string>
+    <string name="toast_no_username">닉네임을 입력하세요.</string>
+    <string name="profile_confirm">완료</string>
+
     <!-- Home Fragment -->
     <string name="home_label_today">오늘의 동영상</string>
     <string name="home_label_popular">인기 동영상</string>

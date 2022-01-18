@@ -1,5 +1,6 @@
 package com.amplifyframework.datastore.generated.model;
 
+import com.amplifyframework.core.model.annotations.HasOne;
 import com.amplifyframework.core.model.temporal.Temporal;
 
 import java.util.List;
@@ -21,35 +22,24 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 @ModelConfig(pluralName = "Metadata")
 public final class Metadata implements Model {
   public static final QueryField ID = field("Metadata", "id");
-  public static final QueryField KEY = field("Metadata", "key");
-  public static final QueryField UID = field("Metadata", "uid");
   public static final QueryField URL = field("Metadata", "url");
   public static final QueryField TITLE = field("Metadata", "title");
-  public static final QueryField DESCRIPTION = field("Metadata", "description");
   public static final QueryField TIME_IN_MILLIS = field("Metadata", "timeInMillis");
   public static final QueryField VIEWS = field("Metadata", "views");
   public static final QueryField LIKES = field("Metadata", "likes");
+  public static final QueryField UID = field("Metadata", "uid");
   private final @ModelField(targetType="ID", isRequired = true) String id;
-  private final @ModelField(targetType="String", isRequired = true) String key;
-  private final @ModelField(targetType="ID", isRequired = true) String uid;
   private final @ModelField(targetType="String", isRequired = true) String url;
   private final @ModelField(targetType="String", isRequired = true) String title;
-  private final @ModelField(targetType="String") String description;
   private final @ModelField(targetType="String", isRequired = true) String timeInMillis;
   private final @ModelField(targetType="Int", isRequired = true) Integer views;
   private final @ModelField(targetType="Int", isRequired = true) Integer likes;
+  private final @ModelField(targetType="ID", isRequired = true) String uid;
+  private final @ModelField(targetType="User") @HasOne(associatedWith = "id", type = User.class) User user = null;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
       return id;
-  }
-  
-  public String getKey() {
-      return key;
-  }
-  
-  public String getUid() {
-      return uid;
   }
   
   public String getUrl() {
@@ -58,10 +48,6 @@ public final class Metadata implements Model {
   
   public String getTitle() {
       return title;
-  }
-  
-  public String getDescription() {
-      return description;
   }
   
   public String getTimeInMillis() {
@@ -76,6 +62,14 @@ public final class Metadata implements Model {
       return likes;
   }
   
+  public String getUid() {
+      return uid;
+  }
+  
+  public User getUser() {
+      return user;
+  }
+  
   public Temporal.DateTime getCreatedAt() {
       return createdAt;
   }
@@ -84,16 +78,14 @@ public final class Metadata implements Model {
       return updatedAt;
   }
   
-  private Metadata(String id, String key, String uid, String url, String title, String description, String timeInMillis, Integer views, Integer likes) {
+  private Metadata(String id, String url, String title, String timeInMillis, Integer views, Integer likes, String uid) {
     this.id = id;
-    this.key = key;
-    this.uid = uid;
     this.url = url;
     this.title = title;
-    this.description = description;
     this.timeInMillis = timeInMillis;
     this.views = views;
     this.likes = likes;
+    this.uid = uid;
   }
   
   @Override
@@ -105,14 +97,12 @@ public final class Metadata implements Model {
       } else {
       Metadata metadata = (Metadata) obj;
       return ObjectsCompat.equals(getId(), metadata.getId()) &&
-              ObjectsCompat.equals(getKey(), metadata.getKey()) &&
-              ObjectsCompat.equals(getUid(), metadata.getUid()) &&
               ObjectsCompat.equals(getUrl(), metadata.getUrl()) &&
               ObjectsCompat.equals(getTitle(), metadata.getTitle()) &&
-              ObjectsCompat.equals(getDescription(), metadata.getDescription()) &&
               ObjectsCompat.equals(getTimeInMillis(), metadata.getTimeInMillis()) &&
               ObjectsCompat.equals(getViews(), metadata.getViews()) &&
               ObjectsCompat.equals(getLikes(), metadata.getLikes()) &&
+              ObjectsCompat.equals(getUid(), metadata.getUid()) &&
               ObjectsCompat.equals(getCreatedAt(), metadata.getCreatedAt()) &&
               ObjectsCompat.equals(getUpdatedAt(), metadata.getUpdatedAt());
       }
@@ -122,14 +112,12 @@ public final class Metadata implements Model {
    public int hashCode() {
     return new StringBuilder()
       .append(getId())
-      .append(getKey())
-      .append(getUid())
       .append(getUrl())
       .append(getTitle())
-      .append(getDescription())
       .append(getTimeInMillis())
       .append(getViews())
       .append(getLikes())
+      .append(getUid())
       .append(getCreatedAt())
       .append(getUpdatedAt())
       .toString()
@@ -141,21 +129,19 @@ public final class Metadata implements Model {
     return new StringBuilder()
       .append("Metadata {")
       .append("id=" + String.valueOf(getId()) + ", ")
-      .append("key=" + String.valueOf(getKey()) + ", ")
-      .append("uid=" + String.valueOf(getUid()) + ", ")
       .append("url=" + String.valueOf(getUrl()) + ", ")
       .append("title=" + String.valueOf(getTitle()) + ", ")
-      .append("description=" + String.valueOf(getDescription()) + ", ")
       .append("timeInMillis=" + String.valueOf(getTimeInMillis()) + ", ")
       .append("views=" + String.valueOf(getViews()) + ", ")
       .append("likes=" + String.valueOf(getLikes()) + ", ")
+      .append("uid=" + String.valueOf(getUid()) + ", ")
       .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
       .append("updatedAt=" + String.valueOf(getUpdatedAt()))
       .append("}")
       .toString();
   }
   
-  public static KeyStep builder() {
+  public static UrlStep builder() {
       return new Builder();
   }
   
@@ -175,33 +161,19 @@ public final class Metadata implements Model {
       null,
       null,
       null,
-      null,
-      null,
       null
     );
   }
   
   public CopyOfBuilder copyOfBuilder() {
     return new CopyOfBuilder(id,
-      key,
-      uid,
       url,
       title,
-      description,
       timeInMillis,
       views,
-      likes);
+      likes,
+      uid);
   }
-  public interface KeyStep {
-    UidStep key(String key);
-  }
-  
-
-  public interface UidStep {
-    UrlStep uid(String uid);
-  }
-  
-
   public interface UrlStep {
     TitleStep url(String url);
   }
@@ -223,55 +195,41 @@ public final class Metadata implements Model {
   
 
   public interface LikesStep {
-    BuildStep likes(Integer likes);
+    UidStep likes(Integer likes);
+  }
+  
+
+  public interface UidStep {
+    BuildStep uid(String uid);
   }
   
 
   public interface BuildStep {
     Metadata build();
     BuildStep id(String id);
-    BuildStep description(String description);
   }
   
 
-  public static class Builder implements KeyStep, UidStep, UrlStep, TitleStep, TimeInMillisStep, ViewsStep, LikesStep, BuildStep {
+  public static class Builder implements UrlStep, TitleStep, TimeInMillisStep, ViewsStep, LikesStep, UidStep, BuildStep {
     private String id;
-    private String key;
-    private String uid;
     private String url;
     private String title;
     private String timeInMillis;
     private Integer views;
     private Integer likes;
-    private String description;
+    private String uid;
     @Override
      public Metadata build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
         
         return new Metadata(
           id,
-          key,
-          uid,
           url,
           title,
-          description,
           timeInMillis,
           views,
-          likes);
-    }
-    
-    @Override
-     public UidStep key(String key) {
-        Objects.requireNonNull(key);
-        this.key = key;
-        return this;
-    }
-    
-    @Override
-     public UrlStep uid(String uid) {
-        Objects.requireNonNull(uid);
-        this.uid = uid;
-        return this;
+          likes,
+          uid);
     }
     
     @Override
@@ -303,15 +261,16 @@ public final class Metadata implements Model {
     }
     
     @Override
-     public BuildStep likes(Integer likes) {
+     public UidStep likes(Integer likes) {
         Objects.requireNonNull(likes);
         this.likes = likes;
         return this;
     }
     
     @Override
-     public BuildStep description(String description) {
-        this.description = description;
+     public BuildStep uid(String uid) {
+        Objects.requireNonNull(uid);
+        this.uid = uid;
         return this;
     }
     
@@ -327,26 +286,14 @@ public final class Metadata implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String key, String uid, String url, String title, String description, String timeInMillis, Integer views, Integer likes) {
+    private CopyOfBuilder(String id, String url, String title, String timeInMillis, Integer views, Integer likes, String uid) {
       super.id(id);
-      super.key(key)
-        .uid(uid)
-        .url(url)
+      super.url(url)
         .title(title)
         .timeInMillis(timeInMillis)
         .views(views)
         .likes(likes)
-        .description(description);
-    }
-    
-    @Override
-     public CopyOfBuilder key(String key) {
-      return (CopyOfBuilder) super.key(key);
-    }
-    
-    @Override
-     public CopyOfBuilder uid(String uid) {
-      return (CopyOfBuilder) super.uid(uid);
+        .uid(uid);
     }
     
     @Override
@@ -375,8 +322,8 @@ public final class Metadata implements Model {
     }
     
     @Override
-     public CopyOfBuilder description(String description) {
-      return (CopyOfBuilder) super.description(description);
+     public CopyOfBuilder uid(String uid) {
+      return (CopyOfBuilder) super.uid(uid);
     }
   }
   

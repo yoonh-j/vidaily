@@ -1,21 +1,25 @@
 package com.yoond.vidaily.adapters
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.amplifyframework.api.graphql.model.ModelQuery
+import com.amplifyframework.core.Amplify
+import com.amplifyframework.datastore.generated.model.Metadata
+import com.amplifyframework.datastore.generated.model.User
 import com.bumptech.glide.Glide
 import com.yoond.vidaily.R
-import com.yoond.vidaily.data.VideoMinimal
 import com.yoond.vidaily.databinding.ItemVideoLargeBinding
 import com.yoond.vidaily.interfaces.OnVideoItemClickListener
 
 class LargeVideoListAdapter(
     val context: Context,
     val onVideoItemClickListener: OnVideoItemClickListener
-): ListAdapter<VideoMinimal, RecyclerView.ViewHolder>(LargeVideoDiffCallback()) {
+): ListAdapter<Metadata, RecyclerView.ViewHolder>(LargeVideoDiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         VideoViewHolder(
             ItemVideoLargeBinding.inflate(
@@ -35,33 +39,46 @@ class LargeVideoListAdapter(
     ): RecyclerView.ViewHolder(binding.root) {
         init {
             binding.setClickListener {
-                val item = binding.video
+                val item = binding.metadata
                 if (item != null) {
-                    onVideoItemClickListener.onItemClick(item.key)
+                    onVideoItemClickListener.onItemClick(item.id)
                 }
             }
         }
 
-        fun bind(item: VideoMinimal) {
-            binding.video = item
+        fun bind(item: Metadata) {
+            binding.metadata = item
+            // user profile image
+//            Amplify.API.query(ModelQuery.get(User::class.java, item.uid),
+//                { user ->
+//                    Log.d("LARGE_VIDEO_LIST_ADAPTER", user.toString())
+//                    if (user.hasData() && user.data != null) {
+//                        Glide.with(context)
+//                            .load(user.data.profileUrl)
+//                            .placeholder(R.color.black)
+//                            .into(binding.itemVideoLargeProfile)
+//                    }
+//                },
+//                { Log.e("LARGE_VIDEO_LIST_ADAPTER", "user query failed: ", it) }
+//            )
             // video thumbnail
             Glide.with(context)
-                .load(item.videoUrl)
+                .load(item.url)
                 .placeholder(R.color.black)
                 .into(binding.itemVideoLargeThumbnail)
-            // user profile image
             Glide.with(context)
-                .load(item.profileUrl)
+                .load(item.user.profileUrl)
                 .placeholder(R.color.black)
                 .into(binding.itemVideoLargeProfile)
+            Log.d("LARGE_VIDEO_LIST_ADAPTER", item.user.profileUrl)
         }
     }
 }
 
-private class LargeVideoDiffCallback: DiffUtil.ItemCallback<VideoMinimal>() {
-    override fun areItemsTheSame(oldItem: VideoMinimal, newItem: VideoMinimal) =
-        oldItem.key == newItem.key
+private class LargeVideoDiffCallback: DiffUtil.ItemCallback<Metadata>() {
+    override fun areItemsTheSame(oldItem: Metadata, newItem: Metadata) =
+        oldItem.id == newItem.id
 
-    override fun areContentsTheSame(oldItem: VideoMinimal, newItem: VideoMinimal) =
+    override fun areContentsTheSame(oldItem: Metadata, newItem: Metadata) =
         oldItem == newItem
 }

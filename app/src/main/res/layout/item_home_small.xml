@@ -4,8 +4,8 @@
 
     <data>
         <variable
-            name="video"
-            type="com.yoond.vidaily.data.VideoMinimal" />
+            name="metadata"
+            type="com.amplifyframework.datastore.generated.model.Metadata" />
         <variable
             name="clickListener"
             type="android.view.View.OnClickListener" />
@@ -28,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/video_metadata_margin"
-            android:text="@{video.title}"
+            android:text="@{metadata.title}"
             android:ellipsize="end"
             android:maxLines="2"
             app:layout_constraintTop_toBottomOf="@id/item_home_thumbnail"/>
@@ -38,7 +38,7 @@
             android:id="@+id/item_home_user"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{video.username}"
+            android:text="@{metadata.user.username}"
             android:ellipsize="end"
             android:maxLines="1"
             app:layout_constraintTop_toBottomOf="@id/item_home_title"/>
@@ -48,7 +48,7 @@
             android:id="@+id/item_home_views"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{@string/video_views(video.views)}"
+            android:text="@{@string/video_views(metadata.views)}"
             app:layout_constraintTop_toBottomOf="@id/item_home_user"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

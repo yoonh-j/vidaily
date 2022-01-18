@@ -2,6 +2,7 @@ package com.yoond.vidaily.views
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,15 +10,17 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
+import com.amplifyframework.api.graphql.model.ModelQuery
+import com.amplifyframework.core.Amplify
+import com.amplifyframework.datastore.generated.model.Metadata
 import com.yoond.vidaily.MainActivity
 import com.yoond.vidaily.R
 import com.yoond.vidaily.adapters.HomeHorizontalListAdapter
 import com.yoond.vidaily.adapters.LargeVideoListAdapter
-import com.yoond.vidaily.data.VideoMinimal
 import com.yoond.vidaily.databinding.FragmentHomeBinding
 import com.yoond.vidaily.decorators.ListDecoration
 import com.yoond.vidaily.interfaces.OnVideoItemClickListener
-import com.yoond.vidaily.viewmodels.StorageViewModel
+import com.yoond.vidaily.viewmodels.VideoViewModel
 
 /**
  * Shows today's videos, popular videos, subscribing videos
@@ -25,12 +28,13 @@ import com.yoond.vidaily.viewmodels.StorageViewModel
 class HomeFragment : Fragment(), OnVideoItemClickListener {
 
     private lateinit var binding: FragmentHomeBinding
-    private val storageViewModel: StorageViewModel by viewModels()
+    private var metadataList = mutableListOf<Metadata>()
+    private val videoViewModel: VideoViewModel by viewModels()
     private var pressedTimeInMillis: Long = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        storageViewModel.getAllMetaData()
+        Log.d("HOME_FRAGMENT", metadataList.toString())
     }
 
     override fun onCreateView(
@@ -59,11 +63,11 @@ class HomeFragment : Fragment(), OnVideoItemClickListener {
     }
 
     private fun init() {
-        val todayList = dummyData()
+        val todayList = metadataList
         val popularList = todayList.sortedBy { it.views }.reversed()
 
         val todayAdapter = HomeHorizontalListAdapter(requireContext(), this)
-        todayAdapter.submitList(todayList)
+//        todayAdapter.submitList(todayList)
         binding.homeRecyclerToday.adapter = todayAdapter
 
         val popularAdapter = HomeHorizontalListAdapter(requireContext(), this)
@@ -73,6 +77,8 @@ class HomeFragment : Fragment(), OnVideoItemClickListener {
         val followAdapter = LargeVideoListAdapter(requireContext(), this)
         followAdapter.submitList(todayList)
         binding.homeRecyclerFollow.adapter = followAdapter
+
+        subscribeUi(todayAdapter, popularAdapter, followAdapter)
 
         val margin = resources.getDimension(R.dimen.video_small_margin).toInt()
         val decoration = ListDecoration(margin, false)
@@ -93,7 +99,40 @@ class HomeFragment : Fragment(), OnVideoItemClickListener {
         }
     }
 
+    private fun subscribeUi(
+        todayAdapter: HomeHorizontalListAdapter,
+        popularAdapter: HomeHorizontalListAdapter,
+        followAdapter: LargeVideoListAdapter
+    ){
+        videoViewModel.getAllMetaData().observe(viewLifecycleOwner) { metadataList ->
+            todayAdapter.submitList(metadataList) {
+                binding.homeRecyclerToday.invalidateItemDecorations()
+            }
+            popularAdapter.submitList(metadataList) {
+                binding.homeRecyclerPopular.invalidateItemDecorations()
+            }
+            followAdapter.submitList(metadataList) {
+                binding.homeRecyclerFollow.invalidateItemDecorations()
+            }
+        }
+    }
+
     override fun onItemClick(key: String) {
+    }
+
+    private fun getMetadata() {
+        Amplify.API.query(
+            ModelQuery.list(Metadata::class.java),
+            { response ->
+                if (response.hasData()) {
+                    response.data.forEach { metadata ->
+                        metadataList.add(metadata)
+                        Log.i("METADATA_LIST", metadata.title)
+                    }
+                }
+            },
+            { Log.e("METADATA_LIST", "failed: ", it) }
+        )
     }
 
     private fun setBackPressed() {
@@ -104,47 +143,4 @@ class HomeFragment : Fragment(), OnVideoItemClickListener {
             activity?.finish()
         }
     }
-
-    private fun dummyData() = listOf<VideoMinimal>(
-        VideoMinimal(
-            "1",
-            "제목 1",
-            "사용자 1",
-            100,
-            "https://storage.googleapis.com/openimages/web/images/oid_thumbnail.png",
-            "https://storage.googleapis.com/gvabox/media/samples/stock.mp4"
-        ),
-        VideoMinimal(
-            "2",
-            "제목 2",
-            "사용자 2",
-            10000,
-            "https://storage.googleapis.com/openimages/web/images/loc_narr_thumbnail.png",
-            "https://storage.googleapis.com/coverr-main/mp4%2Fcoverr-sandboarding-in-desert-1585557594519.mp4"
-        ),
-        VideoMinimal(
-            "3",
-            "아주아주아주아주아주아주아주아주아주 긴 제목을 가진 영상 3",
-            "사용자 3",
-            50000,
-            "https://storage.googleapis.com/openimages/web/images/loc_narr_thumbnail.png",
-            "https://storage.googleapis.com/coverr-main/mp4%2Fcoverr-sandboarding-in-desert-1585557594519.mp4"
-        ),
-        VideoMinimal(
-            "4",
-            "제목 4",
-            "사용자 4",
-            100,
-            "https://storage.googleapis.com/openimages/web/images/oid_thumbnail.png",
-            "https://storage.googleapis.com/gvabox/media/samples/stock.mp4"
-        ),
-        VideoMinimal(
-            "5",
-            "제목 5",
-            "상당히 기이이이이이이인 이름을 가진 사용자 5",
-            1500,
-            "https://storage.googleapis.com/openimages/web/images/loc_narr_thumbnail.png",
-            "https://storage.googleapis.com/coverr-main/mp4%2Fcoverr-sandboarding-in-desert-1585557594519.mp4"
-        )
-    )
 }

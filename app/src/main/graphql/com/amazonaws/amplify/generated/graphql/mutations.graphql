@@ -4,12 +4,11 @@ mutation CreateUser(
   $condition: ModelUserConditionInput
 ) {
   createUser(input: $input, condition: $condition) {
-    uid
+    id
     username
+    profileUrl
     following
     follower
-    videoUrls
-    id
     createdAt
     updatedAt
   }
@@ -19,12 +18,11 @@ mutation UpdateUser(
   $condition: ModelUserConditionInput
 ) {
   updateUser(input: $input, condition: $condition) {
-    uid
+    id
     username
+    profileUrl
     following
     follower
-    videoUrls
-    id
     createdAt
     updatedAt
   }
@@ -34,12 +32,11 @@ mutation DeleteUser(
   $condition: ModelUserConditionInput
 ) {
   deleteUser(input: $input, condition: $condition) {
-    uid
+    id
     username
+    profileUrl
     following
     follower
-    videoUrls
-    id
     createdAt
     updatedAt
   }
@@ -49,15 +46,22 @@ mutation CreateMetadata(
   $condition: ModelMetadataConditionInput
 ) {
   createMetadata(input: $input, condition: $condition) {
-    key
-    uid
+    id
     url
     title
-    description
     timeInMillis
     views
     likes
-    id
+    uid
+    user {
+      id
+      username
+      profileUrl
+      following
+      follower
+      createdAt
+      updatedAt
+    }
     createdAt
     updatedAt
   }
@@ -67,15 +71,22 @@ mutation UpdateMetadata(
   $condition: ModelMetadataConditionInput
 ) {
   updateMetadata(input: $input, condition: $condition) {
-    key
-    uid
+    id
     url
     title
-    description
     timeInMillis
     views
     likes
-    id
+    uid
+    user {
+      id
+      username
+      profileUrl
+      following
+      follower
+      createdAt
+      updatedAt
+    }
     createdAt
     updatedAt
   }
@@ -85,16 +96,215 @@ mutation DeleteMetadata(
   $condition: ModelMetadataConditionInput
 ) {
   deleteMetadata(input: $input, condition: $condition) {
-    key
-    uid
+    id
     url
     title
-    description
     timeInMillis
     views
     likes
-    id
+    uid
+    user {
+      id
+      username
+      profileUrl
+      following
+      follower
+      createdAt
+      updatedAt
+    }
     createdAt
     updatedAt
+  }
+}
+mutation CreateVideo(
+  $input: CreateVideoInput!
+  $condition: ModelVideoConditionInput
+) {
+  createVideo(input: $input, condition: $condition) {
+    id
+    description
+    metadata {
+      id
+      url
+      title
+      timeInMillis
+      views
+      likes
+      uid
+      user {
+        id
+        username
+        profileUrl
+        following
+        follower
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+    comments {
+      items {
+        id
+        content
+        uid
+        createdAt
+        updatedAt
+        videoCommentsId
+      }
+      nextToken
+    }
+    createdAt
+    updatedAt
+  }
+}
+mutation UpdateVideo(
+  $input: UpdateVideoInput!
+  $condition: ModelVideoConditionInput
+) {
+  updateVideo(input: $input, condition: $condition) {
+    id
+    description
+    metadata {
+      id
+      url
+      title
+      timeInMillis
+      views
+      likes
+      uid
+      user {
+        id
+        username
+        profileUrl
+        following
+        follower
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+    comments {
+      items {
+        id
+        content
+        uid
+        createdAt
+        updatedAt
+        videoCommentsId
+      }
+      nextToken
+    }
+    createdAt
+    updatedAt
+  }
+}
+mutation DeleteVideo(
+  $input: DeleteVideoInput!
+  $condition: ModelVideoConditionInput
+) {
+  deleteVideo(input: $input, condition: $condition) {
+    id
+    description
+    metadata {
+      id
+      url
+      title
+      timeInMillis
+      views
+      likes
+      uid
+      user {
+        id
+        username
+        profileUrl
+        following
+        follower
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+    comments {
+      items {
+        id
+        content
+        uid
+        createdAt
+        updatedAt
+        videoCommentsId
+      }
+      nextToken
+    }
+    createdAt
+    updatedAt
+  }
+}
+mutation CreateComment(
+  $input: CreateCommentInput!
+  $condition: ModelCommentConditionInput
+) {
+  createComment(input: $input, condition: $condition) {
+    id
+    content
+    uid
+    user {
+      id
+      username
+      profileUrl
+      following
+      follower
+      createdAt
+      updatedAt
+    }
+    createdAt
+    updatedAt
+    videoCommentsId
+  }
+}
+mutation UpdateComment(
+  $input: UpdateCommentInput!
+  $condition: ModelCommentConditionInput
+) {
+  updateComment(input: $input, condition: $condition) {
+    id
+    content
+    uid
+    user {
+      id
+      username
+      profileUrl
+      following
+      follower
+      createdAt
+      updatedAt
+    }
+    createdAt
+    updatedAt
+    videoCommentsId
+  }
+}
+mutation DeleteComment(
+  $input: DeleteCommentInput!
+  $condition: ModelCommentConditionInput
+) {
+  deleteComment(input: $input, condition: $condition) {
+    id
+    content
+    uid
+    user {
+      id
+      username
+      profileUrl
+      following
+      follower
+      createdAt
+      updatedAt
+    }
+    createdAt
+    updatedAt
+    videoCommentsId
   }
 }

@@ -1,82 +1,274 @@
 # this is an auto generated file. This will be overwritten
 subscription OnCreateUser {
   onCreateUser {
-    uid
+    id
     username
+    profileUrl
     following
     follower
-    videoUrls
-    id
     createdAt
     updatedAt
   }
 }
 subscription OnUpdateUser {
   onUpdateUser {
-    uid
+    id
     username
+    profileUrl
     following
     follower
-    videoUrls
-    id
     createdAt
     updatedAt
   }
 }
 subscription OnDeleteUser {
   onDeleteUser {
-    uid
+    id
     username
+    profileUrl
     following
     follower
-    videoUrls
-    id
     createdAt
     updatedAt
   }
 }
 subscription OnCreateMetadata {
   onCreateMetadata {
-    key
-    uid
+    id
     url
     title
-    description
     timeInMillis
     views
     likes
-    id
+    uid
+    user {
+      id
+      username
+      profileUrl
+      following
+      follower
+      createdAt
+      updatedAt
+    }
     createdAt
     updatedAt
   }
 }
 subscription OnUpdateMetadata {
   onUpdateMetadata {
-    key
-    uid
+    id
     url
     title
-    description
     timeInMillis
     views
     likes
-    id
+    uid
+    user {
+      id
+      username
+      profileUrl
+      following
+      follower
+      createdAt
+      updatedAt
+    }
     createdAt
     updatedAt
   }
 }
 subscription OnDeleteMetadata {
   onDeleteMetadata {
-    key
-    uid
+    id
     url
     title
-    description
     timeInMillis
     views
     likes
-    id
+    uid
+    user {
+      id
+      username
+      profileUrl
+      following
+      follower
+      createdAt
+      updatedAt
+    }
     createdAt
     updatedAt
+  }
+}
+subscription OnCreateVideo {
+  onCreateVideo {
+    id
+    description
+    metadata {
+      id
+      url
+      title
+      timeInMillis
+      views
+      likes
+      uid
+      user {
+        id
+        username
+        profileUrl
+        following
+        follower
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+    comments {
+      items {
+        id
+        content
+        uid
+        createdAt
+        updatedAt
+        videoCommentsId
+      }
+      nextToken
+    }
+    createdAt
+    updatedAt
+  }
+}
+subscription OnUpdateVideo {
+  onUpdateVideo {
+    id
+    description
+    metadata {
+      id
+      url
+      title
+      timeInMillis
+      views
+      likes
+      uid
+      user {
+        id
+        username
+        profileUrl
+        following
+        follower
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+    comments {
+      items {
+        id
+        content
+        uid
+        createdAt
+        updatedAt
+        videoCommentsId
+      }
+      nextToken
+    }
+    createdAt
+    updatedAt
+  }
+}
+subscription OnDeleteVideo {
+  onDeleteVideo {
+    id
+    description
+    metadata {
+      id
+      url
+      title
+      timeInMillis
+      views
+      likes
+      uid
+      user {
+        id
+        username
+        profileUrl
+        following
+        follower
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+    comments {
+      items {
+        id
+        content
+        uid
+        createdAt
+        updatedAt
+        videoCommentsId
+      }
+      nextToken
+    }
+    createdAt
+    updatedAt
+  }
+}
+subscription OnCreateComment {
+  onCreateComment {
+    id
+    content
+    uid
+    user {
+      id
+      username
+      profileUrl
+      following
+      follower
+      createdAt
+      updatedAt
+    }
+    createdAt
+    updatedAt
+    videoCommentsId
+  }
+}
+subscription OnUpdateComment {
+  onUpdateComment {
+    id
+    content
+    uid
+    user {
+      id
+      username
+      profileUrl
+      following
+      follower
+      createdAt
+      updatedAt
+    }
+    createdAt
+    updatedAt
+    videoCommentsId
+  }
+}
+subscription OnDeleteComment {
+  onDeleteComment {
+    id
+    content
+    uid
+    user {
+      id
+      username
+      profileUrl
+      following
+      follower
+      createdAt
+      updatedAt
+    }
+    createdAt
+    updatedAt
+    videoCommentsId
   }
 }

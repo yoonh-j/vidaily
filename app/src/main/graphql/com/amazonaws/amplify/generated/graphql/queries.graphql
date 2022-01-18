@@ -1,12 +1,11 @@
 # this is an auto generated file. This will be overwritten
 query GetUser($id: ID!) {
   getUser(id: $id) {
-    uid
+    id
     username
+    profileUrl
     following
     follower
-    videoUrls
-    id
     createdAt
     updatedAt
   }
@@ -18,12 +17,11 @@ query ListUsers(
 ) {
   listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
     items {
-      uid
+      id
       username
+      profileUrl
       following
       follower
-      videoUrls
-      id
       createdAt
       updatedAt
     }
@@ -32,15 +30,22 @@ query ListUsers(
 }
 query GetMetadata($id: ID!) {
   getMetadata(id: $id) {
-    key
-    uid
+    id
     url
     title
-    description
     timeInMillis
     views
     likes
-    id
+    uid
+    user {
+      id
+      username
+      profileUrl
+      following
+      follower
+      createdAt
+      updatedAt
+    }
     createdAt
     updatedAt
   }
@@ -52,17 +57,137 @@ query ListMetadata(
 ) {
   listMetadata(filter: $filter, limit: $limit, nextToken: $nextToken) {
     items {
-      key
-      uid
+      id
       url
       title
-      description
       timeInMillis
       views
       likes
-      id
+      uid
+      user {
+        id
+        username
+        profileUrl
+        following
+        follower
+        createdAt
+        updatedAt
+      }
       createdAt
       updatedAt
+    }
+    nextToken
+  }
+}
+query GetVideo($id: ID!) {
+  getVideo(id: $id) {
+    id
+    description
+    metadata {
+      id
+      url
+      title
+      timeInMillis
+      views
+      likes
+      uid
+      user {
+        id
+        username
+        profileUrl
+        following
+        follower
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+    comments {
+      items {
+        id
+        content
+        uid
+        createdAt
+        updatedAt
+        videoCommentsId
+      }
+      nextToken
+    }
+    createdAt
+    updatedAt
+  }
+}
+query ListVideos(
+  $filter: ModelVideoFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listVideos(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      description
+      metadata {
+        id
+        url
+        title
+        timeInMillis
+        views
+        likes
+        uid
+        createdAt
+        updatedAt
+      }
+      comments {
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    nextToken
+  }
+}
+query GetComment($id: ID!) {
+  getComment(id: $id) {
+    id
+    content
+    uid
+    user {
+      id
+      username
+      profileUrl
+      following
+      follower
+      createdAt
+      updatedAt
+    }
+    createdAt
+    updatedAt
+    videoCommentsId
+  }
+}
+query ListComments(
+  $filter: ModelCommentFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listComments(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      content
+      uid
+      user {
+        id
+        username
+        profileUrl
+        following
+        follower
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+      videoCommentsId
     }
     nextToken
   }
