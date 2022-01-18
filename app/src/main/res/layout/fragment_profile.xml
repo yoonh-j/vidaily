@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/base_layout_margin">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_image"
+            android:layout_width="@dimen/profile_profile_size"
+            android:layout_height="@dimen/profile_profile_size"
+            android:src="@drawable/ic_baseline_profile_24"
+            app:civ_border_color="@color/gray_500"
+            app:civ_border_overlay="true"
+            app:civ_border_width="@dimen/border_height"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/profile_layout"/>
+
+        <LinearLayout
+            android:id="@+id/profile_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/profile_image"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <EditText
+                style="@style/Theme.Vidaily.EditText"
+                android:id="@+id/profile_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_username"
+                android:inputType="text"
+                android:imeOptions="actionDone"/>
+
+            <include layout="@layout/divider"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                style="@style/Theme.Vidaily.Button"
+                android:id="@+id/profile_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/base_layout_margin"
+                android:text="@string/profile_confirm"/>
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

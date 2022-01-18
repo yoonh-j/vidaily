@@ -86,12 +86,16 @@ class SignupFragment : Fragment() {
             { result ->
                 if (result.isSignInComplete) {
                     activity?.runOnUiThread {
-                        findNavController().navigate(SignupFragmentDirections.actionNavSignupToNavHome())
+                        navigateToProfile()
                     }
                     Log.i("LOGIN", "로그인 성공")
                 }
             },
             { Log.i("LOGIN", "로그인 실패: $it") }
         )
+    }
+
+    private fun navigateToProfile() {
+        findNavController().navigate(SignupFragmentDirections.actionNavSignupToNavProfile())
     }
 }

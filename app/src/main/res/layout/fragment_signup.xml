@@ -50,6 +50,7 @@
                 android:layout_marginTop="@dimen/base_layout_margin"
                 android:hint="@string/hint_pwd"
                 android:inputType="textPassword"
+                android:imeOptions="actionDone"
                 app:layout_constraintTop_toBottomOf="@id/signup_email"/>
 
             <include layout="@layout/divider"/>
