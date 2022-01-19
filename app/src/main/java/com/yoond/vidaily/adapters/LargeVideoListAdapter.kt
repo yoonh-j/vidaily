@@ -1,16 +1,12 @@
 package com.yoond.vidaily.adapters
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.amplifyframework.api.graphql.model.ModelQuery
-import com.amplifyframework.core.Amplify
 import com.amplifyframework.datastore.generated.model.Metadata
-import com.amplifyframework.datastore.generated.model.User
 import com.bumptech.glide.Glide
 import com.yoond.vidaily.R
 import com.yoond.vidaily.databinding.ItemVideoLargeBinding
@@ -48,29 +44,17 @@ class LargeVideoListAdapter(
 
         fun bind(item: Metadata) {
             binding.metadata = item
-            // user profile image
-//            Amplify.API.query(ModelQuery.get(User::class.java, item.uid),
-//                { user ->
-//                    Log.d("LARGE_VIDEO_LIST_ADAPTER", user.toString())
-//                    if (user.hasData() && user.data != null) {
-//                        Glide.with(context)
-//                            .load(user.data.profileUrl)
-//                            .placeholder(R.color.black)
-//                            .into(binding.itemVideoLargeProfile)
-//                    }
-//                },
-//                { Log.e("LARGE_VIDEO_LIST_ADAPTER", "user query failed: ", it) }
-//            )
+
             // video thumbnail
             Glide.with(context)
                 .load(item.url)
                 .placeholder(R.color.black)
                 .into(binding.itemVideoLargeThumbnail)
+            // user profile image
             Glide.with(context)
                 .load(item.user.profileUrl)
                 .placeholder(R.color.black)
                 .into(binding.itemVideoLargeProfile)
-            Log.d("LARGE_VIDEO_LIST_ADAPTER", item.user.profileUrl)
         }
     }
 }

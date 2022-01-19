@@ -1,16 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="video"
+            type="com.amplifyframework.datastore.generated.model.Video" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.google.android.exoplayer2.ui.PlayerView
+        <com.google.android.exoplayer2.ui.StyledPlayerView
             android:id="@+id/video_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             app:use_artwork="true"
-            app:layout_constraintTop_toTopOf="parent"/>
+            android:background="@color/black"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintDimensionRatio="16:9"/>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/video_view">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="@dimen/base_layout_margin">
+
+                <TextView
+                    android:id="@+id/video_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{video.metadata.title}"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <TextView
+                    android:id="@+id/video_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/video_metadata_margin"
+                    android:text="@{video.description}"
+                    app:layout_constraintTop_toBottomOf="@id/video_title"/>
+
+                <TextView
+                    style="@style/Theme.Vidaily.VideoMetadata"
+                    android:id="@+id/video_views"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/video_metadata_margin"
+                    app:layout_constraintTop_toBottomOf="@id/video_description"/>
+
+                <TextView
+                    style="@style/Theme.Vidaily.VideoMetadata"
+                    android:id="@+id/video_createdAt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/video_views"/>
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/video_profile"
+                    android:layout_width="@dimen/item_video_profile_size"
+                    android:layout_height="@dimen/item_video_profile_size"
+                    android:layout_marginTop="@dimen/video_comment_margin"
+                    app:layout_constraintTop_toBottomOf="@id/video_createdAt"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/video_username"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/video_comment_margin"
+                    android:text="@{video.metadata.user.username}"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                    app:layout_constraintTop_toTopOf="@id/video_profile"
+                    app:layout_constraintBottom_toBottomOf="@id/video_profile"
+                    app:layout_constraintStart_toEndOf="@id/video_profile"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <EditText
+                    style="@style/Theme.Vidaily.EditText"
+                    android:id="@+id/video_comment_input"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/video_comment_margin"
+                    android:hint="@string/hint_comment"
+                    android:inputType="textMultiLine"
+                    app:layout_constraintTop_toBottomOf="@id/video_profile"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/video_comment_done"/>
+
+                <ImageView
+                    android:id="@+id/video_comment_done"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/edittext_padding"
+                    android:src="@drawable/ic_baseline_done_24"
+                    app:layout_constraintTop_toTopOf="@id/video_comment_input"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@id/video_comment_input"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/video_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/video_comment_margin"
+                    android:nestedScrollingEnabled="false"
+                    tools:listitem="@layout/item_comment"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintTop_toBottomOf="@id/video_comment_input"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

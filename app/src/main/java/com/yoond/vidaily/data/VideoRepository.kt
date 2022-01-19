@@ -132,6 +132,24 @@ class VideoRepository {
     }
 
     /**
+     * gets video by vId
+     */
+    fun getVideo(vId: String): LiveData<Video> {
+        val video = MutableLiveData<Video>()
+
+        Amplify.API.query(ModelQuery.get(Video::class.java, vId),
+            { response ->
+                if (response.hasData()) {
+                    Log.i("VIDEO_REPOSITORY", "getVideo succeeded, $response")
+                    video.postValue(response.data)
+                }
+            },
+            { Log.e("VIDEO_REPOSITORY", "getVideo failed", it)}
+        )
+        return video
+    }
+
+    /**
      * uploads video in storage
      * if succeeded, creates metadata and video in db
      */
@@ -149,7 +167,7 @@ class VideoRepository {
             {
                 createMetadata(vid, title, timeInMillis)
                 createVideo(vid, description)
-                Log.d("VIDEO_REPOSITORY", "uploadVideo success: ${it.key}")
+                Log.i("VIDEO_REPOSITORY", "uploadVideo success: ${it.key}")
             },
             { Log.e("VIDEO_REPOSITORY", "uploadVideo failed", it)}
         )

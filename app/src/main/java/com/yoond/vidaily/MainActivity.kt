@@ -24,6 +24,10 @@ class MainActivity : AppCompatActivity() {
         setStartDestination()
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp()
+    }
+
     private fun initNavigation() {
         navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
@@ -45,5 +49,14 @@ class MainActivity : AppCompatActivity() {
     fun setToolbarVisible(visible: Boolean) {
         if (visible) supportActionBar?.show()
         else supportActionBar?.hide()
+    }
+
+    fun setBackButtonVisible(visible: Boolean) {
+        supportActionBar?.setDisplayHomeAsUpEnabled(visible)
+        supportActionBar?.setDisplayShowHomeEnabled(visible)
+
+        binding.toolbarLogo.visibility =
+            if (visible) View.GONE
+            else View.VISIBLE
     }
 }

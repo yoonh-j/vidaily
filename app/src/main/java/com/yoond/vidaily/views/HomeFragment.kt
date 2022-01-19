@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
-import com.amplifyframework.api.graphql.model.ModelQuery
+import androidx.navigation.fragment.findNavController
 import com.amplifyframework.core.Amplify
 import com.amplifyframework.datastore.generated.model.Metadata
 import com.yoond.vidaily.MainActivity
@@ -76,13 +76,13 @@ class HomeFragment : Fragment(), OnVideoItemClickListener {
 
         subscribeUi(todayAdapter, popularAdapter, followAdapter)
 
-        val margin = resources.getDimension(R.dimen.video_small_margin).toInt()
+        val margin = resources.getDimension(R.dimen.item_video_small_margin).toInt()
         val decoration = ListDecoration(margin, false)
 
         binding.homeRecyclerToday.addItemDecoration(decoration)
         binding.homeRecyclerPopular.addItemDecoration(decoration)
 
-        val largeMargin = resources.getDimension(R.dimen.video_large_margin).toInt()
+        val largeMargin = resources.getDimension(R.dimen.item_video_large_margin).toInt()
         binding.homeRecyclerFollow.addItemDecoration(ListDecoration(largeMargin, true))
 
         binding.homeMoreToday.setOnClickListener {
@@ -121,7 +121,12 @@ class HomeFragment : Fragment(), OnVideoItemClickListener {
         }
     }
 
-    override fun onItemClick(key: String) {
+    override fun onItemClick(vId: String) {
+        navigateToVideo(vId)
+    }
+
+    private fun navigateToVideo(vId: String) {
+        findNavController().navigate(HomeFragmentDirections.actionNavHomeToNavVideo(vId))
     }
 
     private fun setBackPressed() {

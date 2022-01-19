@@ -24,6 +24,9 @@ class VideoViewModel: ViewModel() {
     fun getMetadataByFollowing(fIds: List<String>): LiveData<MutableList<Metadata>> =
         repository.getMetadataByFollowing(fIds)
 
+    fun getVideo(vId: String) =
+        repository.getVideo(vId)
+
     fun uploadVideo(
         video: File,
         title: String,

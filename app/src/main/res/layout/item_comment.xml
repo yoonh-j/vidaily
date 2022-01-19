@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="comment"
+            type="com.amplifyframework.datastore.generated.model.Comment" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/base_layout_margin">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/item_comment_profile"
+            android:layout_width="@dimen/item_comment_profile_size"
+            android:layout_height="@dimen/item_comment_profile_size"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <TextView
+            android:id="@+id/item_comment_username"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/item_comment_layout_margin"
+            android:text="@{comment.user.username}"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="@id/item_comment_profile"
+            app:layout_constraintStart_toEndOf="@id/item_comment_profile"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/item_comment_content"/>
+
+        <TextView
+            android:id="@+id/item_comment_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{comment.content}"
+            app:layout_constraintTop_toBottomOf="@id/item_comment_username"
+            app:layout_constraintStart_toStartOf="@id/item_comment_username"
+            app:layout_constraintEnd_toEndOf="@id/item_comment_username"
+            app:layout_constraintBottom_toBottomOf="@id/item_comment_profile"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
