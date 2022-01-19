@@ -28,8 +28,8 @@ public final class User implements Model {
   private final @ModelField(targetType="ID", isRequired = true) String id;
   private final @ModelField(targetType="String", isRequired = true) String username;
   private final @ModelField(targetType="String", isRequired = true) String profileUrl;
-  private final @ModelField(targetType="Int", isRequired = true) Integer following;
-  private final @ModelField(targetType="Int", isRequired = true) Integer follower;
+  private final @ModelField(targetType="String") List<String> following;
+  private final @ModelField(targetType="String") List<String> follower;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
@@ -44,11 +44,11 @@ public final class User implements Model {
       return profileUrl;
   }
   
-  public Integer getFollowing() {
+  public List<String> getFollowing() {
       return following;
   }
   
-  public Integer getFollower() {
+  public List<String> getFollower() {
       return follower;
   }
   
@@ -60,7 +60,7 @@ public final class User implements Model {
       return updatedAt;
   }
   
-  private User(String id, String username, String profileUrl, Integer following, Integer follower) {
+  private User(String id, String username, String profileUrl, List<String> following, List<String> follower) {
     this.id = id;
     this.username = username;
     this.profileUrl = profileUrl;
@@ -150,32 +150,24 @@ public final class User implements Model {
   
 
   public interface ProfileUrlStep {
-    FollowingStep profileUrl(String profileUrl);
-  }
-  
-
-  public interface FollowingStep {
-    FollowerStep following(Integer following);
-  }
-  
-
-  public interface FollowerStep {
-    BuildStep follower(Integer follower);
+    BuildStep profileUrl(String profileUrl);
   }
   
 
   public interface BuildStep {
     User build();
     BuildStep id(String id);
+    BuildStep following(List<String> following);
+    BuildStep follower(List<String> follower);
   }
   
 
-  public static class Builder implements UsernameStep, ProfileUrlStep, FollowingStep, FollowerStep, BuildStep {
+  public static class Builder implements UsernameStep, ProfileUrlStep, BuildStep {
     private String id;
     private String username;
     private String profileUrl;
-    private Integer following;
-    private Integer follower;
+    private List<String> following;
+    private List<String> follower;
     @Override
      public User build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
@@ -196,22 +188,20 @@ public final class User implements Model {
     }
     
     @Override
-     public FollowingStep profileUrl(String profileUrl) {
+     public BuildStep profileUrl(String profileUrl) {
         Objects.requireNonNull(profileUrl);
         this.profileUrl = profileUrl;
         return this;
     }
     
     @Override
-     public FollowerStep following(Integer following) {
-        Objects.requireNonNull(following);
+     public BuildStep following(List<String> following) {
         this.following = following;
         return this;
     }
     
     @Override
-     public BuildStep follower(Integer follower) {
-        Objects.requireNonNull(follower);
+     public BuildStep follower(List<String> follower) {
         this.follower = follower;
         return this;
     }
@@ -228,7 +218,7 @@ public final class User implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String username, String profileUrl, Integer following, Integer follower) {
+    private CopyOfBuilder(String id, String username, String profileUrl, List<String> following, List<String> follower) {
       super.id(id);
       super.username(username)
         .profileUrl(profileUrl)
@@ -247,12 +237,12 @@ public final class User implements Model {
     }
     
     @Override
-     public CopyOfBuilder following(Integer following) {
+     public CopyOfBuilder following(List<String> following) {
       return (CopyOfBuilder) super.following(following);
     }
     
     @Override
-     public CopyOfBuilder follower(Integer follower) {
+     public CopyOfBuilder follower(List<String> follower) {
       return (CopyOfBuilder) super.follower(follower);
     }
   }

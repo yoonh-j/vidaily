@@ -6,17 +6,17 @@ type User @model {
   id: ID!
   username: String!
   profileUrl: String!
-  following: Int!
-  follower: Int!
+  following: [String]
+  follower: [String]
 }
 
 type Metadata @model {
   id: ID!
   url: String!
   title: String!
-  timeInMillis: String!
   views: Int!
   likes: Int!
+  createdAt: String!
   uid: ID!
   user: User @hasOne(fields: ["uid"])
 }
@@ -25,12 +25,13 @@ type Video @model {
   id: ID!
   description: String
   metadata: Metadata @hasOne(fields: ["id"])
-  comments: [Comment] @hasMany
+  comments: [Comment] @hasMany(indexName: "byVideo", fields: ["id"])
 }
 
 type Comment @model {
-  id: ID!
+  id: ID! @index(name: "byVideo", sortKeyFields: ["createdAt"])
   content: String!
+  createdAt: String!
   uid: ID!
   user: User @hasOne(fields: ["uid"])
 }

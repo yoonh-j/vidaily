@@ -5,10 +5,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.amplifyframework.api.graphql.model.ModelMutation
 import com.amplifyframework.api.graphql.model.ModelQuery
-import com.amplifyframework.api.graphql.model.ModelSubscription
 import com.amplifyframework.core.Amplify
 import com.amplifyframework.datastore.generated.model.Metadata
 import com.amplifyframework.datastore.generated.model.Video
+import com.yoond.vidaily.utils.DAY_IN_MILLIS
+import com.yoond.vidaily.utils.getTodayStartInMillis
 import java.io.File
 
 class VideoRepository {
@@ -49,6 +50,87 @@ class VideoRepository {
         return allMetadata
     }
 
+    fun getMetadataByDate(): LiveData<MutableList<Metadata>> {
+        val todayStart = getTodayStartInMillis()
+        val metadataList = MutableLiveData<MutableList<Metadata>>()
+
+        Amplify.API.query(
+            ModelQuery.list(
+                Metadata::class.java,
+                Metadata.CREATED_AT.between(
+                    todayStart.toString(),
+                    todayStart.plus(DAY_IN_MILLIS).toString()
+                )
+            ),
+            { response ->
+                Log.i("METADATA_TODAY_LIST", response.toString())
+
+                if (response.hasData()) {
+                    val list = mutableListOf<Metadata>()
+
+                    response.data.items.forEach { metadata ->
+                        if (metadata != null) {
+                            list.add(metadata)
+                            Log.i("METADATA_TODAY_LIST", metadata.title)
+                        }
+                    }
+                    metadataList.postValue(list) // background thread이기 때문에 postValue
+                }
+            },
+            { Log.e("METADATA_TODAY_LIST", "failed: ", it) }
+        )
+        return metadataList
+    }
+
+    fun getMetadataByViews(): LiveData<MutableList<Metadata>> {
+        val metadataList = MutableLiveData<MutableList<Metadata>>()
+
+        Amplify.API.query(
+            ModelQuery.list(Metadata::class.java),
+            { response ->
+                Log.i("VIDEO_REPOSITORY", "getMetadataByViews succeeded: $response")
+
+                if (response.hasData()) {
+                    val list = mutableListOf<Metadata>()
+
+                    response.data.items.forEach { metadata ->
+                        if (metadata != null) {
+                            list.add(metadata)
+                        }
+                    }
+                    metadataList.postValue(list) // background thread이기 때문에 postValue
+                }
+            },
+            { Log.e("VIDEO_REPOSITORY", "getMetadataByViews failed: ", it) }
+        )
+        return metadataList
+    }
+
+    fun getMetadataByFollowing(fIds: List<String>): LiveData<MutableList<Metadata>> {
+        val metadataList = MutableLiveData<MutableList<Metadata>>()
+
+        fIds.forEach { fId ->
+            Amplify.API.query(ModelQuery.list(Metadata::class.java, Metadata.UID.contains(fId)),
+                { response ->
+                    if (response.hasData()) {
+                        Log.i("VIDEO_REPOSITORY", "getMetadataByFollowing succeeded, $response")
+
+                        val list = mutableListOf<Metadata>()
+                        response.data.items.forEach { metadata ->
+                            if (metadata != null) {
+                                list.add(metadata)
+                            }
+                        }
+                        metadataList.postValue(list)
+                    }
+                },
+                { Log.e("VIDEO_REPOSITORY", "getMetadataByFollowing failed", it) }
+            )
+        }
+
+        return metadataList
+    }
+
     /**
      * uploads video in storage
      * if succeeded, creates metadata and video in db
@@ -87,9 +169,9 @@ class VideoRepository {
                 val metadata = Metadata.builder()
                     .url(url)
                     .title(title)
-                    .timeInMillis(timeInMillis.toString())
                     .views(0)
                     .likes(0)
+                    .createdAt(timeInMillis.toString())
                     .uid(uid)
                     .id(vid)
                     .build()

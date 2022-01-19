@@ -20,6 +20,7 @@ import com.yoond.vidaily.adapters.LargeVideoListAdapter
 import com.yoond.vidaily.databinding.FragmentHomeBinding
 import com.yoond.vidaily.decorators.ListDecoration
 import com.yoond.vidaily.interfaces.OnVideoItemClickListener
+import com.yoond.vidaily.viewmodels.UserViewModel
 import com.yoond.vidaily.viewmodels.VideoViewModel
 
 /**
@@ -30,6 +31,7 @@ class HomeFragment : Fragment(), OnVideoItemClickListener {
     private lateinit var binding: FragmentHomeBinding
     private var metadataList = mutableListOf<Metadata>()
     private val videoViewModel: VideoViewModel by viewModels()
+    private val userViewModel: UserViewModel by viewModels()
     private var pressedTimeInMillis: Long = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,19 +65,13 @@ class HomeFragment : Fragment(), OnVideoItemClickListener {
     }
 
     private fun init() {
-        val todayList = metadataList
-        val popularList = todayList.sortedBy { it.views }.reversed()
-
         val todayAdapter = HomeHorizontalListAdapter(requireContext(), this)
-//        todayAdapter.submitList(todayList)
         binding.homeRecyclerToday.adapter = todayAdapter
 
         val popularAdapter = HomeHorizontalListAdapter(requireContext(), this)
-        popularAdapter.submitList(popularList)
         binding.homeRecyclerPopular.adapter = popularAdapter
 
         val followAdapter = LargeVideoListAdapter(requireContext(), this)
-        followAdapter.submitList(todayList)
         binding.homeRecyclerFollow.adapter = followAdapter
 
         subscribeUi(todayAdapter, popularAdapter, followAdapter)
@@ -90,10 +86,6 @@ class HomeFragment : Fragment(), OnVideoItemClickListener {
         binding.homeRecyclerFollow.addItemDecoration(ListDecoration(largeMargin, true))
 
         binding.homeMoreToday.setOnClickListener {
-//            Amplify.Auth.signOut(
-//                { Log.i("AMPLIFY_SIGNOUT", "successed") },
-//                { Log.e("AMPLIFY_SIGNOUT", "failed") }
-//            )
         }
         binding.homeMorePopular.setOnClickListener {
         }
@@ -104,35 +96,32 @@ class HomeFragment : Fragment(), OnVideoItemClickListener {
         popularAdapter: HomeHorizontalListAdapter,
         followAdapter: LargeVideoListAdapter
     ){
-        videoViewModel.getAllMetaData().observe(viewLifecycleOwner) { metadataList ->
+        videoViewModel.getMetadataByDate().observe(viewLifecycleOwner) { metadataList ->
+            metadataList.shuffle()  // 리스트 랜덤으로 섞음
             todayAdapter.submitList(metadataList) {
                 binding.homeRecyclerToday.invalidateItemDecorations()
             }
+        }
+        videoViewModel.getMetadataByViews().observe(viewLifecycleOwner) { metadataList ->
+            metadataList.sortByDescending { it.views } // 조회수 내림차순으로 정렬
             popularAdapter.submitList(metadataList) {
                 binding.homeRecyclerPopular.invalidateItemDecorations()
             }
-            followAdapter.submitList(metadataList) {
-                binding.homeRecyclerFollow.invalidateItemDecorations()
+        }
+        if (Amplify.Auth.currentUser != null) {
+            val uid = Amplify.Auth.currentUser.userId
+
+            userViewModel.getUser(uid).observe(viewLifecycleOwner) { user ->
+                videoViewModel.getMetadataByFollowing(user.following).observe(viewLifecycleOwner) { metadataList ->
+                    followAdapter.submitList(metadataList) {
+                        binding.homeRecyclerFollow.invalidateItemDecorations()
+                    }
+                }
             }
         }
     }
 
     override fun onItemClick(key: String) {
-    }
-
-    private fun getMetadata() {
-        Amplify.API.query(
-            ModelQuery.list(Metadata::class.java),
-            { response ->
-                if (response.hasData()) {
-                    response.data.forEach { metadata ->
-                        metadataList.add(metadata)
-                        Log.i("METADATA_LIST", metadata.title)
-                    }
-                }
-            },
-            { Log.e("METADATA_LIST", "failed: ", it) }
-        )
     }
 
     private fun setBackPressed() {

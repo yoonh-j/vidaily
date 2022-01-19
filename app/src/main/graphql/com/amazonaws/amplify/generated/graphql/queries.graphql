@@ -33,9 +33,9 @@ query GetMetadata($id: ID!) {
     id
     url
     title
-    timeInMillis
     views
     likes
+    createdAt
     uid
     user {
       id
@@ -46,7 +46,6 @@ query GetMetadata($id: ID!) {
       createdAt
       updatedAt
     }
-    createdAt
     updatedAt
   }
 }
@@ -60,9 +59,9 @@ query ListMetadata(
       id
       url
       title
-      timeInMillis
       views
       likes
+      createdAt
       uid
       user {
         id
@@ -73,7 +72,6 @@ query ListMetadata(
         createdAt
         updatedAt
       }
-      createdAt
       updatedAt
     }
     nextToken
@@ -87,9 +85,9 @@ query GetVideo($id: ID!) {
       id
       url
       title
-      timeInMillis
       views
       likes
+      createdAt
       uid
       user {
         id
@@ -100,17 +98,15 @@ query GetVideo($id: ID!) {
         createdAt
         updatedAt
       }
-      createdAt
       updatedAt
     }
     comments {
       items {
         id
         content
-        uid
         createdAt
+        uid
         updatedAt
-        videoCommentsId
       }
       nextToken
     }
@@ -131,11 +127,10 @@ query ListVideos(
         id
         url
         title
-        timeInMillis
         views
         likes
-        uid
         createdAt
+        uid
         updatedAt
       }
       comments {
@@ -151,6 +146,7 @@ query GetComment($id: ID!) {
   getComment(id: $id) {
     id
     content
+    createdAt
     uid
     user {
       id
@@ -161,9 +157,7 @@ query GetComment($id: ID!) {
       createdAt
       updatedAt
     }
-    createdAt
     updatedAt
-    videoCommentsId
   }
 }
 query ListComments(
@@ -175,6 +169,7 @@ query ListComments(
     items {
       id
       content
+      createdAt
       uid
       user {
         id
@@ -185,9 +180,7 @@ query ListComments(
         createdAt
         updatedAt
       }
-      createdAt
       updatedAt
-      videoCommentsId
     }
     nextToken
   }

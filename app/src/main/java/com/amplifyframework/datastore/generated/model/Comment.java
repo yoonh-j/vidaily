@@ -20,24 +20,28 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 /** This is an auto generated class representing the Comment type in your schema. */
 @SuppressWarnings("all")
 @ModelConfig(pluralName = "Comments")
+@Index(name = "byVideo", fields = {"id","createdAt"})
 public final class Comment implements Model {
   public static final QueryField ID = field("Comment", "id");
   public static final QueryField CONTENT = field("Comment", "content");
+  public static final QueryField CREATED_AT = field("Comment", "createdAt");
   public static final QueryField UID = field("Comment", "uid");
-  public static final QueryField VIDEO_COMMENTS_ID = field("Comment", "videoCommentsId");
   private final @ModelField(targetType="ID", isRequired = true) String id;
   private final @ModelField(targetType="String", isRequired = true) String content;
+  private final @ModelField(targetType="String", isRequired = true) String createdAt;
   private final @ModelField(targetType="ID", isRequired = true) String uid;
   private final @ModelField(targetType="User") @HasOne(associatedWith = "id", type = User.class) User user = null;
-  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
-  private final @ModelField(targetType="ID") String videoCommentsId;
   public String getId() {
       return id;
   }
   
   public String getContent() {
       return content;
+  }
+  
+  public String getCreatedAt() {
+      return createdAt;
   }
   
   public String getUid() {
@@ -48,23 +52,15 @@ public final class Comment implements Model {
       return user;
   }
   
-  public Temporal.DateTime getCreatedAt() {
-      return createdAt;
-  }
-  
   public Temporal.DateTime getUpdatedAt() {
       return updatedAt;
   }
   
-  public String getVideoCommentsId() {
-      return videoCommentsId;
-  }
-  
-  private Comment(String id, String content, String uid, String videoCommentsId) {
+  private Comment(String id, String content, String createdAt, String uid) {
     this.id = id;
     this.content = content;
+    this.createdAt = createdAt;
     this.uid = uid;
-    this.videoCommentsId = videoCommentsId;
   }
   
   @Override
@@ -77,10 +73,9 @@ public final class Comment implements Model {
       Comment comment = (Comment) obj;
       return ObjectsCompat.equals(getId(), comment.getId()) &&
               ObjectsCompat.equals(getContent(), comment.getContent()) &&
-              ObjectsCompat.equals(getUid(), comment.getUid()) &&
               ObjectsCompat.equals(getCreatedAt(), comment.getCreatedAt()) &&
-              ObjectsCompat.equals(getUpdatedAt(), comment.getUpdatedAt()) &&
-              ObjectsCompat.equals(getVideoCommentsId(), comment.getVideoCommentsId());
+              ObjectsCompat.equals(getUid(), comment.getUid()) &&
+              ObjectsCompat.equals(getUpdatedAt(), comment.getUpdatedAt());
       }
   }
   
@@ -89,10 +84,9 @@ public final class Comment implements Model {
     return new StringBuilder()
       .append(getId())
       .append(getContent())
-      .append(getUid())
       .append(getCreatedAt())
+      .append(getUid())
       .append(getUpdatedAt())
-      .append(getVideoCommentsId())
       .toString()
       .hashCode();
   }
@@ -103,10 +97,9 @@ public final class Comment implements Model {
       .append("Comment {")
       .append("id=" + String.valueOf(getId()) + ", ")
       .append("content=" + String.valueOf(getContent()) + ", ")
-      .append("uid=" + String.valueOf(getUid()) + ", ")
       .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
-      .append("updatedAt=" + String.valueOf(getUpdatedAt()) + ", ")
-      .append("videoCommentsId=" + String.valueOf(getVideoCommentsId()))
+      .append("uid=" + String.valueOf(getUid()) + ", ")
+      .append("updatedAt=" + String.valueOf(getUpdatedAt()))
       .append("}")
       .toString();
   }
@@ -135,11 +128,16 @@ public final class Comment implements Model {
   public CopyOfBuilder copyOfBuilder() {
     return new CopyOfBuilder(id,
       content,
-      uid,
-      videoCommentsId);
+      createdAt,
+      uid);
   }
   public interface ContentStep {
-    UidStep content(String content);
+    CreatedAtStep content(String content);
+  }
+  
+
+  public interface CreatedAtStep {
+    UidStep createdAt(String createdAt);
   }
   
 
@@ -151,15 +149,14 @@ public final class Comment implements Model {
   public interface BuildStep {
     Comment build();
     BuildStep id(String id);
-    BuildStep videoCommentsId(String videoCommentsId);
   }
   
 
-  public static class Builder implements ContentStep, UidStep, BuildStep {
+  public static class Builder implements ContentStep, CreatedAtStep, UidStep, BuildStep {
     private String id;
     private String content;
+    private String createdAt;
     private String uid;
-    private String videoCommentsId;
     @Override
      public Comment build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
@@ -167,14 +164,21 @@ public final class Comment implements Model {
         return new Comment(
           id,
           content,
-          uid,
-          videoCommentsId);
+          createdAt,
+          uid);
     }
     
     @Override
-     public UidStep content(String content) {
+     public CreatedAtStep content(String content) {
         Objects.requireNonNull(content);
         this.content = content;
+        return this;
+    }
+    
+    @Override
+     public UidStep createdAt(String createdAt) {
+        Objects.requireNonNull(createdAt);
+        this.createdAt = createdAt;
         return this;
     }
     
@@ -182,12 +186,6 @@ public final class Comment implements Model {
      public BuildStep uid(String uid) {
         Objects.requireNonNull(uid);
         this.uid = uid;
-        return this;
-    }
-    
-    @Override
-     public BuildStep videoCommentsId(String videoCommentsId) {
-        this.videoCommentsId = videoCommentsId;
         return this;
     }
     
@@ -203,11 +201,11 @@ public final class Comment implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String content, String uid, String videoCommentsId) {
+    private CopyOfBuilder(String id, String content, String createdAt, String uid) {
       super.id(id);
       super.content(content)
-        .uid(uid)
-        .videoCommentsId(videoCommentsId);
+        .createdAt(createdAt)
+        .uid(uid);
     }
     
     @Override
@@ -216,13 +214,13 @@ public final class Comment implements Model {
     }
     
     @Override
-     public CopyOfBuilder uid(String uid) {
-      return (CopyOfBuilder) super.uid(uid);
+     public CopyOfBuilder createdAt(String createdAt) {
+      return (CopyOfBuilder) super.createdAt(createdAt);
     }
     
     @Override
-     public CopyOfBuilder videoCommentsId(String videoCommentsId) {
-      return (CopyOfBuilder) super.videoCommentsId(videoCommentsId);
+     public CopyOfBuilder uid(String uid) {
+      return (CopyOfBuilder) super.uid(uid);
     }
   }
   

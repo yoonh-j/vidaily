@@ -49,9 +49,9 @@ mutation CreateMetadata(
     id
     url
     title
-    timeInMillis
     views
     likes
+    createdAt
     uid
     user {
       id
@@ -62,7 +62,6 @@ mutation CreateMetadata(
       createdAt
       updatedAt
     }
-    createdAt
     updatedAt
   }
 }
@@ -74,9 +73,9 @@ mutation UpdateMetadata(
     id
     url
     title
-    timeInMillis
     views
     likes
+    createdAt
     uid
     user {
       id
@@ -87,7 +86,6 @@ mutation UpdateMetadata(
       createdAt
       updatedAt
     }
-    createdAt
     updatedAt
   }
 }
@@ -99,9 +97,9 @@ mutation DeleteMetadata(
     id
     url
     title
-    timeInMillis
     views
     likes
+    createdAt
     uid
     user {
       id
@@ -112,7 +110,6 @@ mutation DeleteMetadata(
       createdAt
       updatedAt
     }
-    createdAt
     updatedAt
   }
 }
@@ -127,9 +124,9 @@ mutation CreateVideo(
       id
       url
       title
-      timeInMillis
       views
       likes
+      createdAt
       uid
       user {
         id
@@ -140,17 +137,15 @@ mutation CreateVideo(
         createdAt
         updatedAt
       }
-      createdAt
       updatedAt
     }
     comments {
       items {
         id
         content
-        uid
         createdAt
+        uid
         updatedAt
-        videoCommentsId
       }
       nextToken
     }
@@ -169,9 +164,9 @@ mutation UpdateVideo(
       id
       url
       title
-      timeInMillis
       views
       likes
+      createdAt
       uid
       user {
         id
@@ -182,17 +177,15 @@ mutation UpdateVideo(
         createdAt
         updatedAt
       }
-      createdAt
       updatedAt
     }
     comments {
       items {
         id
         content
-        uid
         createdAt
+        uid
         updatedAt
-        videoCommentsId
       }
       nextToken
     }
@@ -211,9 +204,9 @@ mutation DeleteVideo(
       id
       url
       title
-      timeInMillis
       views
       likes
+      createdAt
       uid
       user {
         id
@@ -224,17 +217,15 @@ mutation DeleteVideo(
         createdAt
         updatedAt
       }
-      createdAt
       updatedAt
     }
     comments {
       items {
         id
         content
-        uid
         createdAt
+        uid
         updatedAt
-        videoCommentsId
       }
       nextToken
     }
@@ -249,6 +240,7 @@ mutation CreateComment(
   createComment(input: $input, condition: $condition) {
     id
     content
+    createdAt
     uid
     user {
       id
@@ -259,9 +251,7 @@ mutation CreateComment(
       createdAt
       updatedAt
     }
-    createdAt
     updatedAt
-    videoCommentsId
   }
 }
 mutation UpdateComment(
@@ -271,6 +261,7 @@ mutation UpdateComment(
   updateComment(input: $input, condition: $condition) {
     id
     content
+    createdAt
     uid
     user {
       id
@@ -281,9 +272,7 @@ mutation UpdateComment(
       createdAt
       updatedAt
     }
-    createdAt
     updatedAt
-    videoCommentsId
   }
 }
 mutation DeleteComment(
@@ -293,6 +282,7 @@ mutation DeleteComment(
   deleteComment(input: $input, condition: $condition) {
     id
     content
+    createdAt
     uid
     user {
       id
@@ -303,8 +293,6 @@ mutation DeleteComment(
       createdAt
       updatedAt
     }
-    createdAt
     updatedAt
-    videoCommentsId
   }
 }

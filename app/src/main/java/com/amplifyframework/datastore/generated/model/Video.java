@@ -27,7 +27,7 @@ public final class Video implements Model {
   private final @ModelField(targetType="ID", isRequired = true) String id;
   private final @ModelField(targetType="String") String description;
   private final @ModelField(targetType="Metadata") @HasOne(associatedWith = "id", type = Metadata.class) Metadata metadata = null;
-  private final @ModelField(targetType="Comment") @HasMany(associatedWith = "videoCommentsId", type = Comment.class) List<Comment> comments = null;
+  private final @ModelField(targetType="Comment") @HasMany(associatedWith = "id", type = Comment.class) List<Comment> comments = null;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {

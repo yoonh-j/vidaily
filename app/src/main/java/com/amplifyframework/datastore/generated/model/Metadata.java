@@ -24,19 +24,18 @@ public final class Metadata implements Model {
   public static final QueryField ID = field("Metadata", "id");
   public static final QueryField URL = field("Metadata", "url");
   public static final QueryField TITLE = field("Metadata", "title");
-  public static final QueryField TIME_IN_MILLIS = field("Metadata", "timeInMillis");
   public static final QueryField VIEWS = field("Metadata", "views");
   public static final QueryField LIKES = field("Metadata", "likes");
+  public static final QueryField CREATED_AT = field("Metadata", "createdAt");
   public static final QueryField UID = field("Metadata", "uid");
   private final @ModelField(targetType="ID", isRequired = true) String id;
   private final @ModelField(targetType="String", isRequired = true) String url;
   private final @ModelField(targetType="String", isRequired = true) String title;
-  private final @ModelField(targetType="String", isRequired = true) String timeInMillis;
   private final @ModelField(targetType="Int", isRequired = true) Integer views;
   private final @ModelField(targetType="Int", isRequired = true) Integer likes;
+  private final @ModelField(targetType="String", isRequired = true) String createdAt;
   private final @ModelField(targetType="ID", isRequired = true) String uid;
   private final @ModelField(targetType="User") @HasOne(associatedWith = "id", type = User.class) User user = null;
-  private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
       return id;
@@ -50,16 +49,16 @@ public final class Metadata implements Model {
       return title;
   }
   
-  public String getTimeInMillis() {
-      return timeInMillis;
-  }
-  
   public Integer getViews() {
       return views;
   }
   
   public Integer getLikes() {
       return likes;
+  }
+  
+  public String getCreatedAt() {
+      return createdAt;
   }
   
   public String getUid() {
@@ -70,21 +69,17 @@ public final class Metadata implements Model {
       return user;
   }
   
-  public Temporal.DateTime getCreatedAt() {
-      return createdAt;
-  }
-  
   public Temporal.DateTime getUpdatedAt() {
       return updatedAt;
   }
   
-  private Metadata(String id, String url, String title, String timeInMillis, Integer views, Integer likes, String uid) {
+  private Metadata(String id, String url, String title, Integer views, Integer likes, String createdAt, String uid) {
     this.id = id;
     this.url = url;
     this.title = title;
-    this.timeInMillis = timeInMillis;
     this.views = views;
     this.likes = likes;
+    this.createdAt = createdAt;
     this.uid = uid;
   }
   
@@ -99,11 +94,10 @@ public final class Metadata implements Model {
       return ObjectsCompat.equals(getId(), metadata.getId()) &&
               ObjectsCompat.equals(getUrl(), metadata.getUrl()) &&
               ObjectsCompat.equals(getTitle(), metadata.getTitle()) &&
-              ObjectsCompat.equals(getTimeInMillis(), metadata.getTimeInMillis()) &&
               ObjectsCompat.equals(getViews(), metadata.getViews()) &&
               ObjectsCompat.equals(getLikes(), metadata.getLikes()) &&
-              ObjectsCompat.equals(getUid(), metadata.getUid()) &&
               ObjectsCompat.equals(getCreatedAt(), metadata.getCreatedAt()) &&
+              ObjectsCompat.equals(getUid(), metadata.getUid()) &&
               ObjectsCompat.equals(getUpdatedAt(), metadata.getUpdatedAt());
       }
   }
@@ -114,11 +108,10 @@ public final class Metadata implements Model {
       .append(getId())
       .append(getUrl())
       .append(getTitle())
-      .append(getTimeInMillis())
       .append(getViews())
       .append(getLikes())
-      .append(getUid())
       .append(getCreatedAt())
+      .append(getUid())
       .append(getUpdatedAt())
       .toString()
       .hashCode();
@@ -131,11 +124,10 @@ public final class Metadata implements Model {
       .append("id=" + String.valueOf(getId()) + ", ")
       .append("url=" + String.valueOf(getUrl()) + ", ")
       .append("title=" + String.valueOf(getTitle()) + ", ")
-      .append("timeInMillis=" + String.valueOf(getTimeInMillis()) + ", ")
       .append("views=" + String.valueOf(getViews()) + ", ")
       .append("likes=" + String.valueOf(getLikes()) + ", ")
-      .append("uid=" + String.valueOf(getUid()) + ", ")
       .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
+      .append("uid=" + String.valueOf(getUid()) + ", ")
       .append("updatedAt=" + String.valueOf(getUpdatedAt()))
       .append("}")
       .toString();
@@ -169,9 +161,9 @@ public final class Metadata implements Model {
     return new CopyOfBuilder(id,
       url,
       title,
-      timeInMillis,
       views,
       likes,
+      createdAt,
       uid);
   }
   public interface UrlStep {
@@ -180,12 +172,7 @@ public final class Metadata implements Model {
   
 
   public interface TitleStep {
-    TimeInMillisStep title(String title);
-  }
-  
-
-  public interface TimeInMillisStep {
-    ViewsStep timeInMillis(String timeInMillis);
+    ViewsStep title(String title);
   }
   
 
@@ -195,7 +182,12 @@ public final class Metadata implements Model {
   
 
   public interface LikesStep {
-    UidStep likes(Integer likes);
+    CreatedAtStep likes(Integer likes);
+  }
+  
+
+  public interface CreatedAtStep {
+    UidStep createdAt(String createdAt);
   }
   
 
@@ -210,13 +202,13 @@ public final class Metadata implements Model {
   }
   
 
-  public static class Builder implements UrlStep, TitleStep, TimeInMillisStep, ViewsStep, LikesStep, UidStep, BuildStep {
+  public static class Builder implements UrlStep, TitleStep, ViewsStep, LikesStep, CreatedAtStep, UidStep, BuildStep {
     private String id;
     private String url;
     private String title;
-    private String timeInMillis;
     private Integer views;
     private Integer likes;
+    private String createdAt;
     private String uid;
     @Override
      public Metadata build() {
@@ -226,9 +218,9 @@ public final class Metadata implements Model {
           id,
           url,
           title,
-          timeInMillis,
           views,
           likes,
+          createdAt,
           uid);
     }
     
@@ -240,16 +232,9 @@ public final class Metadata implements Model {
     }
     
     @Override
-     public TimeInMillisStep title(String title) {
+     public ViewsStep title(String title) {
         Objects.requireNonNull(title);
         this.title = title;
-        return this;
-    }
-    
-    @Override
-     public ViewsStep timeInMillis(String timeInMillis) {
-        Objects.requireNonNull(timeInMillis);
-        this.timeInMillis = timeInMillis;
         return this;
     }
     
@@ -261,9 +246,16 @@ public final class Metadata implements Model {
     }
     
     @Override
-     public UidStep likes(Integer likes) {
+     public CreatedAtStep likes(Integer likes) {
         Objects.requireNonNull(likes);
         this.likes = likes;
+        return this;
+    }
+    
+    @Override
+     public UidStep createdAt(String createdAt) {
+        Objects.requireNonNull(createdAt);
+        this.createdAt = createdAt;
         return this;
     }
     
@@ -286,13 +278,13 @@ public final class Metadata implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String url, String title, String timeInMillis, Integer views, Integer likes, String uid) {
+    private CopyOfBuilder(String id, String url, String title, Integer views, Integer likes, String createdAt, String uid) {
       super.id(id);
       super.url(url)
         .title(title)
-        .timeInMillis(timeInMillis)
         .views(views)
         .likes(likes)
+        .createdAt(createdAt)
         .uid(uid);
     }
     
@@ -307,11 +299,6 @@ public final class Metadata implements Model {
     }
     
     @Override
-     public CopyOfBuilder timeInMillis(String timeInMillis) {
-      return (CopyOfBuilder) super.timeInMillis(timeInMillis);
-    }
-    
-    @Override
      public CopyOfBuilder views(Integer views) {
       return (CopyOfBuilder) super.views(views);
     }
@@ -319,6 +306,11 @@ public final class Metadata implements Model {
     @Override
      public CopyOfBuilder likes(Integer likes) {
       return (CopyOfBuilder) super.likes(likes);
+    }
+    
+    @Override
+     public CopyOfBuilder createdAt(String createdAt) {
+      return (CopyOfBuilder) super.createdAt(createdAt);
     }
     
     @Override

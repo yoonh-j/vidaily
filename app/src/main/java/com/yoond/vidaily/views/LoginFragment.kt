@@ -2,18 +2,18 @@ package com.yoond.vidaily.views
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.amplifyframework.core.Amplify
 import com.yoond.vidaily.MainActivity
 import com.yoond.vidaily.R
 import com.yoond.vidaily.databinding.FragmentLoginBinding
+import com.yoond.vidaily.viewmodels.AuthViewModel
 
 /**
  * Login if the user hasn't signed in yet
@@ -21,6 +21,7 @@ import com.yoond.vidaily.databinding.FragmentLoginBinding
 class LoginFragment : Fragment() {
 
     private lateinit var binding: FragmentLoginBinding
+    private val authViewModel: AuthViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -62,19 +63,17 @@ class LoginFragment : Fragment() {
                 Toast.makeText(requireContext(), resources.getString(R.string.toast_no_pwd), Toast.LENGTH_SHORT).show()
             } // 몇 자 이상인지 등등 조건 추가
             else {
-                Amplify.Auth.signIn(email, pwd,
-                    { result ->
-                        if (result.isSignInComplete) {
-                            Log.i("AMPLIFY_LOGIN", "로그인 성공")
-                            activity?.runOnUiThread {
-                                findNavController().navigate(LoginFragmentDirections.actionNavLoginToNavHome())
-                            }
-                        }
-                    },
-                    { Log.e("AMPLIFY_LOGIN", "로그인 실패:", it) }
-                )
+                authViewModel.login(email ,pwd).observe(viewLifecycleOwner) { isLoggedIn ->
+                    if (isLoggedIn) {
+                        navigateToHome()
+                    }
+                }
             }
         }
+    }
+
+    private fun navigateToHome() {
+        findNavController().navigate(LoginFragmentDirections.actionNavLoginToNavHome())
     }
 
     private fun setBackPressed() {
