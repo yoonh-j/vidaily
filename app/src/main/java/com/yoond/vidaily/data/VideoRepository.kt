@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.amplifyframework.api.graphql.model.ModelMutation
 import com.amplifyframework.api.graphql.model.ModelQuery
+import com.amplifyframework.api.graphql.model.ModelSubscription
 import com.amplifyframework.core.Amplify
 import com.amplifyframework.datastore.generated.model.Comment
 import com.amplifyframework.datastore.generated.model.Video
@@ -143,6 +144,22 @@ class VideoRepository {
         return commentList
     }
 
+    fun subscribeComments(vId: String): LiveData<Comment> {
+        val comment = MutableLiveData<Comment>()
+
+        Amplify.API.subscribe(ModelSubscription.onCreate(Comment::class.java),
+            { Log.i("VIDEO_REPOSITORY", "subscribeComments established") },
+            { response ->
+                if (response.data.vid == vId) {
+                    comment.postValue((response.data as Comment))
+                }
+            },
+            { Log.e("VIDEO_REPOSITORY", "subscribeComments failed", it) },
+            { Log.i("VIDEO_REPOSITORY", "subscribeComments completed") }
+        )
+        return comment
+    }
+
     /**
      * uploads video in storage
      * if succeeded, creates metadata and video in db
@@ -163,6 +180,20 @@ class VideoRepository {
                 Log.i("VIDEO_REPOSITORY", "uploadVideo success: ${it.key}")
             },
             { Log.e("VIDEO_REPOSITORY", "uploadVideo failed", it)}
+        )
+    }
+
+    fun createComment(content: String, createdAt: String, vId: String) {
+        val uid = Amplify.Auth.currentUser.userId
+        val comment = Comment.builder()
+            .content(content)
+            .createdAt(createdAt)
+            .vid(vId)
+            .uid(uid)
+            .build()
+        Amplify.API.mutate(ModelMutation.create(comment),
+            { Log.i("VIDEO_REPOSITORY", "createComment succeeded: $it") },
+            { Log.e("VIDEO_REPOSITORY", "createComment failed", it) }
         )
     }
 

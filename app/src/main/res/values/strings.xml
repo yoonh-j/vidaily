@@ -16,7 +16,8 @@
 
     <!-- Video Metadata -->
     <string name="video_views">조회수 %1d회</string>
-    <string name="video_createdAt">%1$tY년 %1$tb %1$te일</string>
+    <string name="createdDate">%1$tY년 %1$tb %1$te일</string>
+    <string name="createdTime">%1$tY.%1$tm.%1$td %1$tH:%1$tM</string>
 
     <!-- Sign in/up -->
     <string name="hint_email">이메일</string>
@@ -54,6 +55,7 @@
 
     <!-- Video Fragment -->
     <string name="hint_comment">댓글</string>
+    <string name="toast_no_comment">댓글을 입력하세요.</string>
 
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>

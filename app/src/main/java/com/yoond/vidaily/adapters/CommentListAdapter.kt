@@ -7,13 +7,16 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.amplifyframework.core.Amplify
 import com.amplifyframework.datastore.generated.model.Comment
 import com.bumptech.glide.Glide
+import com.yoond.vidaily.MainActivity
 import com.yoond.vidaily.R
 import com.yoond.vidaily.databinding.ItemCommentBinding
 import com.yoond.vidaily.interfaces.OnProfileItemClickListener
 
 class CommentListAdapter(
+    val activity: MainActivity,
     val context: Context,
     val onProfileItemClickListener: OnProfileItemClickListener
 ): ListAdapter<Comment, RecyclerView.ViewHolder>(CommentDiffCallback()) {
@@ -44,12 +47,23 @@ class CommentListAdapter(
         }
         fun bind(item: Comment) {
             binding.comment = item
+            binding.itemCommentCreatedAt.text =
+                context.resources.getString(R.string.createdTime, item.createdAt.toLong())
 
-            // user profile image
-//            Glide.with(context)
-//                .load(item.user.)
-//                .placeholder(R.color.black)
-//                .into(binding.itemCommentProfile)
+
+            // get profile url
+            Amplify.Storage.getUrl("profiles/${item.uid}",
+                { result ->
+                    // user profile image
+                    activity.runOnUiThread {
+                        Glide.with(context)
+                            .load(result.url.toString())
+                            .placeholder(R.color.black)
+                            .into(binding.itemCommentProfile)
+                    }
+                },
+                { Log.e("VIDEO_REPOSITORY", "getVideoUrl failed", it) }
+            )
         }
     }
 }

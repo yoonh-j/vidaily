@@ -25,6 +25,9 @@ class VideoViewModel: ViewModel() {
     fun getComments(vId: String): LiveData<MutableList<Comment>> =
         repository.getComments(vId)
 
+    fun subscribeComments(vId: String): LiveData<Comment> =
+        repository.subscribeComments(vId)
+
     fun getVideo(vId: String) =
         repository.getVideo(vId)
 
@@ -34,4 +37,7 @@ class VideoViewModel: ViewModel() {
         description: String,
         timeInMillis: Long
     ) = repository.uploadVideo(video, title, description, timeInMillis)
+
+    fun uploadComment(content: String, createdAt: String, vId: String) =
+        repository.createComment(content, createdAt, vId)
 }

@@ -6,8 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
+import com.amplifyframework.datastore.generated.model.Comment
 import com.amplifyframework.datastore.generated.model.Video
 import com.bumptech.glide.Glide
 import com.google.android.exoplayer2.ExoPlayer
@@ -27,6 +29,7 @@ class VideoFragment : Fragment(), OnProfileItemClickListener {
     private val args: VideoFragmentArgs by navArgs()
     private val videoViewModel: VideoViewModel by viewModels()
     private var exoPlayer: ExoPlayer? = null
+    private var comments: MutableList<Comment> = mutableListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,21 +62,27 @@ class VideoFragment : Fragment(), OnProfileItemClickListener {
 
     private fun init() {
         initPlayer()
+        subscribeUi()
 
-        val commentAdapter = CommentListAdapter(requireContext(), this)
-        binding.videoRecycler.adapter = commentAdapter
-
-        subscribeUi(commentAdapter)
+        binding.videoCommentDone.setOnClickListener {
+            uploadComment()
+            (activity as MainActivity).hideKeyboard()
+        }
     }
 
-    private fun subscribeUi(commentAdapter: CommentListAdapter) {
+    private fun subscribeUi() {
         videoViewModel.getVideo(args.vId).observe(viewLifecycleOwner) { video ->
             setMetadata(video)
         }
         videoViewModel.getComments(args.vId).observe(viewLifecycleOwner) { commentList ->
-            commentAdapter.submitList(commentList) {
-                binding.videoRecycler.invalidateItemDecorations()
-            }
+            commentList.sortByDescending { it.createdAt } // 작성 시간 내림차순 정렬
+            comments = commentList
+            setAdapter(comments)
+        }
+        videoViewModel.subscribeComments(args.vId).observe(viewLifecycleOwner) { comment ->
+            comments.add(comment)
+            comments.sortByDescending { it.createdAt }
+            setAdapter(comments)
         }
     }
 
@@ -95,12 +104,37 @@ class VideoFragment : Fragment(), OnProfileItemClickListener {
         binding.videoViews.text =
             resources.getString(R.string.video_views, video.views)
         binding.videoCreatedAt.text =
-            resources.getString(R.string.video_createdAt, video.createdAt.toLong())
+            resources.getString(R.string.createdDate, video.createdAt.toLong())
 
         Glide.with(this)
             .load(args.profileUrl)
             .placeholder(R.color.black)
             .into(binding.videoProfile)
+    }
+
+    private fun setAdapter(comments: MutableList<Comment>) {
+        val commentAdapter = CommentListAdapter(
+            (activity as MainActivity),
+            requireContext(),
+            this
+        )
+        binding.videoRecycler.adapter = commentAdapter
+        commentAdapter.submitList(comments)
+    }
+
+    private fun uploadComment() {
+        val content = binding.videoCommentInput.text.toString()
+        if (content == "") {
+            Toast.makeText(requireContext(), resources.getString(R.string.toast_no_comment), Toast.LENGTH_LONG).show()
+        } else {
+            if (binding.video != null) {
+                val vId = binding.video!!.id
+                val createdAt = System.currentTimeMillis().toString()
+
+                videoViewModel.uploadComment(content, createdAt, vId)
+                binding.videoCommentInput.setText("")
+            }
+        }
     }
 
     override fun onItemClick(pId: String) {
