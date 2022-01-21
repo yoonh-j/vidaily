@@ -2,7 +2,6 @@ package com.yoond.vidaily.views
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +11,6 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.amplifyframework.core.Amplify
-import com.amplifyframework.datastore.generated.model.Metadata
 import com.yoond.vidaily.MainActivity
 import com.yoond.vidaily.R
 import com.yoond.vidaily.adapters.HomeHorizontalListAdapter
@@ -29,15 +27,9 @@ import com.yoond.vidaily.viewmodels.VideoViewModel
 class HomeFragment : Fragment(), OnVideoItemClickListener {
 
     private lateinit var binding: FragmentHomeBinding
-    private var metadataList = mutableListOf<Metadata>()
     private val videoViewModel: VideoViewModel by viewModels()
     private val userViewModel: UserViewModel by viewModels()
     private var pressedTimeInMillis: Long = 0L
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        Log.d("HOME_FRAGMENT", metadataList.toString())
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -96,15 +88,15 @@ class HomeFragment : Fragment(), OnVideoItemClickListener {
         popularAdapter: HomeHorizontalListAdapter,
         followAdapter: LargeVideoListAdapter
     ){
-        videoViewModel.getMetadataByDate().observe(viewLifecycleOwner) { metadataList ->
-            metadataList.shuffle()  // 리스트 랜덤으로 섞음
-            todayAdapter.submitList(metadataList) {
+        videoViewModel.getVideosByDate().observe(viewLifecycleOwner) { videoList ->
+            videoList.shuffle()  // 리스트 랜덤으로 섞음
+            todayAdapter.submitList(videoList) {
                 binding.homeRecyclerToday.invalidateItemDecorations()
             }
         }
-        videoViewModel.getMetadataByViews().observe(viewLifecycleOwner) { metadataList ->
-            metadataList.sortByDescending { it.views } // 조회수 내림차순으로 정렬
-            popularAdapter.submitList(metadataList) {
+        videoViewModel.getVideosByViews().observe(viewLifecycleOwner) { videoList ->
+            videoList.sortByDescending { it.video.views } // 조회수 내림차순으로 정렬
+            popularAdapter.submitList(videoList) {
                 binding.homeRecyclerPopular.invalidateItemDecorations()
             }
         }
@@ -112,7 +104,7 @@ class HomeFragment : Fragment(), OnVideoItemClickListener {
             val uid = Amplify.Auth.currentUser.userId
 
             userViewModel.getUser(uid).observe(viewLifecycleOwner) { user ->
-                videoViewModel.getMetadataByFollowing(user.following).observe(viewLifecycleOwner) { metadataList ->
+                videoViewModel.getVideosByFollowing(user.following).observe(viewLifecycleOwner) { metadataList ->
                     followAdapter.submitList(metadataList) {
                         binding.homeRecyclerFollow.invalidateItemDecorations()
                     }
@@ -121,12 +113,12 @@ class HomeFragment : Fragment(), OnVideoItemClickListener {
         }
     }
 
-    override fun onItemClick(vId: String) {
-        navigateToVideo(vId)
+    override fun onVideoItemClick(vId: String, videoUrl: String, profileUrl: String) {
+        navigateToVideo(vId, videoUrl, profileUrl)
     }
 
-    private fun navigateToVideo(vId: String) {
-        findNavController().navigate(HomeFragmentDirections.actionNavHomeToNavVideo(vId))
+    private fun navigateToVideo(vId: String, videoUrl: String, profileUrl: String) {
+        findNavController().navigate(HomeFragmentDirections.actionNavHomeToNavVideo(vId, videoUrl, profileUrl))
     }
 
     private fun setBackPressed() {

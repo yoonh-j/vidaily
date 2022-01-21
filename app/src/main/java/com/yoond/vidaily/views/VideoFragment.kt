@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
-import com.amplifyframework.datastore.generated.model.Comment
 import com.amplifyframework.datastore.generated.model.Video
 import com.bumptech.glide.Glide
 import com.google.android.exoplayer2.ExoPlayer
@@ -59,6 +58,8 @@ class VideoFragment : Fragment(), OnProfileItemClickListener {
     }
 
     private fun init() {
+        initPlayer()
+
         val commentAdapter = CommentListAdapter(requireContext(), this)
         binding.videoRecycler.adapter = commentAdapter
 
@@ -67,17 +68,17 @@ class VideoFragment : Fragment(), OnProfileItemClickListener {
 
     private fun subscribeUi(commentAdapter: CommentListAdapter) {
         videoViewModel.getVideo(args.vId).observe(viewLifecycleOwner) { video ->
-            initPlayer(video)
-            setVideo(video)
-            commentAdapter.submitList(video.comments) {
+            setMetadata(video)
+        }
+        videoViewModel.getComments(args.vId).observe(viewLifecycleOwner) { commentList ->
+            commentAdapter.submitList(commentList) {
                 binding.videoRecycler.invalidateItemDecorations()
             }
         }
     }
 
-    private fun initPlayer(video: Video) {
-        Log.d("VIDEO_FRAGMENT", "${video.metadata}")
-        val mediaItem = MediaItem.fromUri(video.metadata.url)
+    private fun initPlayer() {
+        val mediaItem = MediaItem.fromUri(args.videoUrl)
 
         exoPlayer = ExoPlayer.Builder(requireContext())
             .build()
@@ -89,15 +90,15 @@ class VideoFragment : Fragment(), OnProfileItemClickListener {
             }
     }
 
-    private fun setVideo(video: Video) {
+    private fun setMetadata(video: Video) {
         binding.video = video
         binding.videoViews.text =
-            resources.getString(R.string.video_views, video.metadata.views.toInt())
+            resources.getString(R.string.video_views, video.views)
         binding.videoCreatedAt.text =
-            resources.getString(R.string.video_createdAt, video.metadata.createdAt.toLong())
+            resources.getString(R.string.video_createdAt, video.createdAt.toLong())
 
         Glide.with(this)
-            .load(video.metadata.user.profileUrl)
+            .load(args.profileUrl)
             .placeholder(R.color.black)
             .into(binding.videoProfile)
     }

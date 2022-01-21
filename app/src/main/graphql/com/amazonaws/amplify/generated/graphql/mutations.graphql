@@ -6,7 +6,6 @@ mutation CreateUser(
   createUser(input: $input, condition: $condition) {
     id
     username
-    profileUrl
     following
     follower
     createdAt
@@ -20,7 +19,6 @@ mutation UpdateUser(
   updateUser(input: $input, condition: $condition) {
     id
     username
-    profileUrl
     following
     follower
     createdAt
@@ -34,82 +32,9 @@ mutation DeleteUser(
   deleteUser(input: $input, condition: $condition) {
     id
     username
-    profileUrl
     following
     follower
     createdAt
-    updatedAt
-  }
-}
-mutation CreateMetadata(
-  $input: CreateMetadataInput!
-  $condition: ModelMetadataConditionInput
-) {
-  createMetadata(input: $input, condition: $condition) {
-    id
-    url
-    title
-    views
-    likes
-    createdAt
-    uid
-    user {
-      id
-      username
-      profileUrl
-      following
-      follower
-      createdAt
-      updatedAt
-    }
-    updatedAt
-  }
-}
-mutation UpdateMetadata(
-  $input: UpdateMetadataInput!
-  $condition: ModelMetadataConditionInput
-) {
-  updateMetadata(input: $input, condition: $condition) {
-    id
-    url
-    title
-    views
-    likes
-    createdAt
-    uid
-    user {
-      id
-      username
-      profileUrl
-      following
-      follower
-      createdAt
-      updatedAt
-    }
-    updatedAt
-  }
-}
-mutation DeleteMetadata(
-  $input: DeleteMetadataInput!
-  $condition: ModelMetadataConditionInput
-) {
-  deleteMetadata(input: $input, condition: $condition) {
-    id
-    url
-    title
-    views
-    likes
-    createdAt
-    uid
-    user {
-      id
-      username
-      profileUrl
-      following
-      follower
-      createdAt
-      updatedAt
-    }
     updatedAt
   }
 }
@@ -119,37 +44,20 @@ mutation CreateVideo(
 ) {
   createVideo(input: $input, condition: $condition) {
     id
+    title
     description
-    metadata {
+    views
+    likes
+    createdAt
+    uid
+    user {
       id
-      url
-      title
-      views
-      likes
+      username
+      following
+      follower
       createdAt
-      uid
-      user {
-        id
-        username
-        profileUrl
-        following
-        follower
-        createdAt
-        updatedAt
-      }
       updatedAt
     }
-    comments {
-      items {
-        id
-        content
-        createdAt
-        uid
-        updatedAt
-      }
-      nextToken
-    }
-    createdAt
     updatedAt
   }
 }
@@ -159,37 +67,20 @@ mutation UpdateVideo(
 ) {
   updateVideo(input: $input, condition: $condition) {
     id
+    title
     description
-    metadata {
+    views
+    likes
+    createdAt
+    uid
+    user {
       id
-      url
-      title
-      views
-      likes
+      username
+      following
+      follower
       createdAt
-      uid
-      user {
-        id
-        username
-        profileUrl
-        following
-        follower
-        createdAt
-        updatedAt
-      }
       updatedAt
     }
-    comments {
-      items {
-        id
-        content
-        createdAt
-        uid
-        updatedAt
-      }
-      nextToken
-    }
-    createdAt
     updatedAt
   }
 }
@@ -199,37 +90,20 @@ mutation DeleteVideo(
 ) {
   deleteVideo(input: $input, condition: $condition) {
     id
+    title
     description
-    metadata {
+    views
+    likes
+    createdAt
+    uid
+    user {
       id
-      url
-      title
-      views
-      likes
+      username
+      following
+      follower
       createdAt
-      uid
-      user {
-        id
-        username
-        profileUrl
-        following
-        follower
-        createdAt
-        updatedAt
-      }
       updatedAt
     }
-    comments {
-      items {
-        id
-        content
-        createdAt
-        uid
-        updatedAt
-      }
-      nextToken
-    }
-    createdAt
     updatedAt
   }
 }
@@ -241,11 +115,11 @@ mutation CreateComment(
     id
     content
     createdAt
+    vid
     uid
     user {
       id
       username
-      profileUrl
       following
       follower
       createdAt
@@ -262,11 +136,11 @@ mutation UpdateComment(
     id
     content
     createdAt
+    vid
     uid
     user {
       id
       username
-      profileUrl
       following
       follower
       createdAt
@@ -283,11 +157,11 @@ mutation DeleteComment(
     id
     content
     createdAt
+    vid
     uid
     user {
       id
       username
-      profileUrl
       following
       follower
       createdAt

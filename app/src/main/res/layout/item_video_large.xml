@@ -4,8 +4,8 @@
 
     <data>
         <variable
-            name="metadata"
-            type="com.amplifyframework.datastore.generated.model.Metadata" />
+            name="videoItem"
+            type="com.yoond.vidaily.data.VideoItem" />
         <variable
             name="clickListener"
             type="android.view.View.OnClickListener" />
@@ -47,7 +47,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/item_video_metadata_margin"
-                android:text="@{metadata.title}"
+                android:text="@{videoItem.video.title}"
                 android:ellipsize="end"
                 android:maxLines="2"
                 app:layout_constraintTop_toTopOf="parent"
@@ -59,7 +59,7 @@
                 android:id="@+id/item_video_large_username"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@{metadata.user.username}"
+                android:text="@{videoItem.video.user.username}"
                 android:ellipsize="end"
                 android:maxLines="1"
                 app:layout_constraintTop_toBottomOf="@id/item_video_large_title"
@@ -71,7 +71,7 @@
                 android:id="@+id/item_video_large_views"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@{@string/video_views(metadata.views)}"
+                android:text="@{@string/video_views(videoItem.video.views)}"
                 app:layout_constraintTop_toBottomOf="@id/item_video_large_username"
                 app:layout_constraintStart_toStartOf="@id/item_video_large_username"
                 app:layout_constraintEnd_toEndOf="@id/item_video_large_username"/>

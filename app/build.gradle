@@ -2,6 +2,8 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 // data binding
 apply plugin: 'kotlin-kapt'
+// parcelize
+apply plugin: 'kotlin-parcelize'
 // navigation
 apply plugin: 'androidx.navigation.safeargs.kotlin'
 

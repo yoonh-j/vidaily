@@ -46,10 +46,10 @@ class CommentListAdapter(
             binding.comment = item
 
             // user profile image
-            Glide.with(context)
-                .load(item.user.profileUrl)
-                .placeholder(R.color.black)
-                .into(binding.itemCommentProfile)
+//            Glide.with(context)
+//                .load(item.user.)
+//                .placeholder(R.color.black)
+//                .into(binding.itemCommentProfile)
         }
     }
 }

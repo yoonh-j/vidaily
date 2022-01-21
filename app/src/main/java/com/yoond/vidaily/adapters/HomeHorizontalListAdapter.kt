@@ -1,14 +1,15 @@
 package com.yoond.vidaily.adapters
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.amplifyframework.datastore.generated.model.Metadata
 import com.bumptech.glide.Glide
 import com.yoond.vidaily.R
+import com.yoond.vidaily.data.VideoItem
 import com.yoond.vidaily.databinding.ItemHomeSmallBinding
 import com.yoond.vidaily.interfaces.OnVideoItemClickListener
 
@@ -16,7 +17,7 @@ import com.yoond.vidaily.interfaces.OnVideoItemClickListener
 class HomeHorizontalListAdapter(
     val context: Context,
     val onVideoItemClickListener: OnVideoItemClickListener
-): ListAdapter<Metadata, RecyclerView.ViewHolder>(HomeTodayDiffCallback()) {
+): ListAdapter<VideoItem, RecyclerView.ViewHolder>(HomeTodayDiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
         HomeTodayViewHolder(
             ItemHomeSmallBinding.inflate(
@@ -27,8 +28,8 @@ class HomeHorizontalListAdapter(
         )
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val metadata = getItem(position)
-        (holder as HomeTodayViewHolder).bind(metadata)
+        val item = getItem(position)
+        (holder as HomeTodayViewHolder).bind(item)
     }
 
     inner class HomeTodayViewHolder(
@@ -36,27 +37,32 @@ class HomeHorizontalListAdapter(
     ): RecyclerView.ViewHolder(binding.root) {
         init {
             binding.setClickListener {
-                val item = binding.metadata
+                val item = binding.videoItem
                 if (item != null) {
-                    onVideoItemClickListener.onItemClick(item.id)
+                    onVideoItemClickListener.onVideoItemClick(
+                        item.video.id,
+                        item.videoUrl,
+                        item.profileUrl
+                    )
                 }
             }
         }
 
-        fun bind(item: Metadata) {
-            binding.metadata = item
+        fun bind(item: VideoItem) {
+            Log.d("HOME_ADAPTER", "onBind: ${item.videoUrl}")
+            binding.videoItem = item
             Glide.with(context)
-                .load(item.url)
+                .load(item.videoUrl)
                 .placeholder(R.color.black)
                 .into(binding.itemHomeThumbnail)
         }
     }
 }
 
-private class HomeTodayDiffCallback: DiffUtil.ItemCallback<Metadata>() {
-    override fun areItemsTheSame(oldItem: Metadata, newItem: Metadata) =
-        oldItem.id == newItem.id
+private class HomeTodayDiffCallback: DiffUtil.ItemCallback<VideoItem>() {
+    override fun areItemsTheSame(oldItem: VideoItem, newItem: VideoItem): Boolean =
+        oldItem.video.id == newItem.video.id
 
-    override fun areContentsTheSame(oldItem: Metadata, newItem: Metadata) =
+    override fun areContentsTheSame(oldItem: VideoItem, newItem: VideoItem): Boolean =
         oldItem == newItem
 }

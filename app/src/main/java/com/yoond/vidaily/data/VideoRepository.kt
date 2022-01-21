@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.amplifyframework.api.graphql.model.ModelMutation
 import com.amplifyframework.api.graphql.model.ModelQuery
 import com.amplifyframework.core.Amplify
-import com.amplifyframework.datastore.generated.model.Metadata
+import com.amplifyframework.datastore.generated.model.Comment
 import com.amplifyframework.datastore.generated.model.Video
 import com.yoond.vidaily.utils.DAY_IN_MILLIS
 import com.yoond.vidaily.utils.getTodayStartInMillis
@@ -25,110 +25,142 @@ class VideoRepository {
         )
     }
 
-    fun getAllMetaData(): LiveData<MutableList<Metadata>> {
-        val allMetadata = MutableLiveData<MutableList<Metadata>>()
-
-        Amplify.API.query(
-            ModelQuery.list(Metadata::class.java),
-            { response ->
-                Log.i("METADATA_LIST", response.toString())
-
-                if (response.hasData()) {
-                    val list = mutableListOf<Metadata>()
-
-                    response.data.items.forEach { metadata ->
-                        if (metadata != null) {
-                            list.add(metadata)
-                            Log.i("METADATA_LIST", metadata.title)
-                        }
-                    }
-                    allMetadata.postValue(list) // background thread이기 때문에 postValue
-                }
-            },
-            { Log.e("METADATA_LIST", "failed: ", it) }
-        )
-        return allMetadata
-    }
-
-    fun getMetadataByDate(): LiveData<MutableList<Metadata>> {
+    fun getVideosByDate(): LiveData<MutableList<VideoItem>> {
         val todayStart = getTodayStartInMillis()
-        val metadataList = MutableLiveData<MutableList<Metadata>>()
+        val videoList = MutableLiveData<MutableList<VideoItem>>()
 
         Amplify.API.query(
             ModelQuery.list(
-                Metadata::class.java,
-                Metadata.CREATED_AT.between(
+                Video::class.java,
+                Video.CREATED_AT.between(
                     todayStart.toString(),
                     todayStart.plus(DAY_IN_MILLIS).toString()
                 )
             ),
             { response ->
-                Log.i("METADATA_TODAY_LIST", response.toString())
+                Log.i("VIDEO_REPOSITORY", "getVideosByDate succeeded: $response")
 
                 if (response.hasData()) {
-                    val list = mutableListOf<Metadata>()
+                    val list = mutableListOf<VideoItem>()
 
-                    response.data.items.forEach { metadata ->
-                        if (metadata != null) {
-                            list.add(metadata)
-                            Log.i("METADATA_TODAY_LIST", metadata.title)
+                    response.data.items.forEach { video ->
+                        if (video != null) {
+                            val item = VideoItem(video, "", "")
+
+                            // get video url
+                            Amplify.Storage.getUrl("videos/${video.id}",
+                                { item.videoUrl = it.url.toString() },
+                                { Log.i("VIDEO_REPOSITORY", "getVideoUrl failed", it) }
+                            )
+                            // get profile url
+                            Amplify.Storage.getUrl("profiles/${video.uid}",
+                                { item.profileUrl = it.url.toString() },
+                                { Log.i("VIDEO_REPOSITORY", "getProfileUrl failed", it) }
+                            )
+                            list.add(item)
                         }
                     }
-                    metadataList.postValue(list) // background thread이기 때문에 postValue
+                    videoList.postValue(list) // background thread이기 때문에 postValue
                 }
             },
-            { Log.e("METADATA_TODAY_LIST", "failed: ", it) }
+            { Log.e("VIDEO_REPOSITORY", "getVideosByDate failed: ", it) }
         )
-        return metadataList
+        return videoList
     }
 
-    fun getMetadataByViews(): LiveData<MutableList<Metadata>> {
-        val metadataList = MutableLiveData<MutableList<Metadata>>()
+    fun getVideosByViews(): LiveData<MutableList<VideoItem>> {
+        val videoList = MutableLiveData<MutableList<VideoItem>>()
 
         Amplify.API.query(
-            ModelQuery.list(Metadata::class.java),
+            ModelQuery.list(Video::class.java),
             { response ->
-                Log.i("VIDEO_REPOSITORY", "getMetadataByViews succeeded: $response")
+                Log.i("VIDEO_REPOSITORY", "getVideosByViews succeeded: $response")
 
                 if (response.hasData()) {
-                    val list = mutableListOf<Metadata>()
+                    val list = mutableListOf<VideoItem>()
 
-                    response.data.items.forEach { metadata ->
-                        if (metadata != null) {
-                            list.add(metadata)
+                    response.data.items.forEach { video ->
+                        if (video != null) {
+                            val item = VideoItem(video, "", "")
+
+                            // get video url
+                            Amplify.Storage.getUrl("videos/${video.id}",
+                                { item.videoUrl = it.url.toString()
+                                    Log.i("VIDEO_REPOSITORY", it.url.toString())
+                                },
+                                { Log.e("VIDEO_REPOSITORY", "getVideoUrl failed", it) }
+                            )
+                            // get profile url
+                            Amplify.Storage.getUrl("profiles/${video.uid}",
+                                { item.profileUrl = it.url.toString() },
+                                { Log.e("VIDEO_REPOSITORY", "getProfileUrl failed", it) }
+                            )
+                            list.add(item)
                         }
                     }
-                    metadataList.postValue(list) // background thread이기 때문에 postValue
+                    videoList.postValue(list) // background thread이기 때문에 postValue
                 }
             },
-            { Log.e("VIDEO_REPOSITORY", "getMetadataByViews failed: ", it) }
+            { Log.e("VIDEO_REPOSITORY", "getVideosByViews failed: ", it) }
         )
-        return metadataList
+        return videoList
     }
 
-    fun getMetadataByFollowing(fIds: List<String>): LiveData<MutableList<Metadata>> {
-        val metadataList = MutableLiveData<MutableList<Metadata>>()
+    fun getVideosByFollowing(fIds: List<String>): LiveData<MutableList<VideoItem>> {
+        val videoList = MutableLiveData<MutableList<VideoItem>>()
 
         fIds.forEach { fId ->
-            Amplify.API.query(ModelQuery.list(Metadata::class.java, Metadata.UID.contains(fId)),
+            Amplify.API.query(ModelQuery.list(Video::class.java, Video.UID.contains(fId)),
                 { response ->
                     if (response.hasData()) {
-                        Log.i("VIDEO_REPOSITORY", "getMetadataByFollowing succeeded, $response")
+                        val list = mutableListOf<VideoItem>()
 
-                        val list = mutableListOf<Metadata>()
-                        response.data.items.forEach { metadata ->
-                            if (metadata != null) {
-                                list.add(metadata)
+                        response.data.items.forEach { video ->
+                            if (video != null) {
+                                val item = VideoItem(video, "", "")
+
+                                // get video url
+                                Amplify.Storage.getUrl("videos/${video.id}",
+                                    { item.videoUrl = it.url.toString() },
+                                    { Log.e("VIDEO_REPOSITORY", "getVideoUrl failed", it) }
+                                )
+                                // get profile url
+                                Amplify.Storage.getUrl("profiles/${video.uid}",
+                                    { item.profileUrl = it.url.toString() },
+                                    { Log.e("VIDEO_REPOSITORY", "getProfileUrl failed", it) }
+                                )
+                                list.add(item)
                             }
                         }
-                        metadataList.postValue(list)
+                        videoList.postValue(list) // background thread이기 때문에 postValue
                     }
                 },
-                { Log.e("VIDEO_REPOSITORY", "getMetadataByFollowing failed", it) }
+                { Log.e("VIDEO_REPOSITORY", "getVideosByFollowing failed", it) }
             )
         }
 
-        return metadataList
+        return videoList
+    }
+
+    fun getComments(vid: String): LiveData<MutableList<Comment>> {
+        val commentList = MutableLiveData<MutableList<Comment>>()
+
+        Amplify.API.query(ModelQuery.list(Comment::class.java, Comment.VID.contains(vid)),
+            { result ->
+                if (result.hasData()) {
+                    val list = mutableListOf<Comment>()
+
+                    result.data.items.forEach { comment ->
+                        if (comment != null) {
+                            list.add(comment)
+                        }
+                    }
+                    commentList.postValue(list)
+                }
+            },
+            { Log.e("VIDEO_REPOSITORY", "getComments failed", it) }
+        )
+        return commentList
     }
 
     /**
@@ -165,48 +197,28 @@ class VideoRepository {
             "videos/$vid",
             video,
             {
-                createMetadata(vid, title, timeInMillis)
-                createVideo(vid, description)
+                createVideo(vid, title,timeInMillis, description)
                 Log.i("VIDEO_REPOSITORY", "uploadVideo success: ${it.key}")
             },
             { Log.e("VIDEO_REPOSITORY", "uploadVideo failed", it)}
         )
     }
 
-    private fun createMetadata(
+    private fun createVideo(
         vid: String,
         title: String,
-        timeInMillis: Long
+        timeInMillis: Long,
+        description: String
     ) {
-        // get a url of the uploaded video
-        Amplify.Storage.getUrl(
-            "videos/$vid",
-            { result ->
-                val uid = Amplify.Auth.currentUser.userId
-                val url = result.url.toString()
-                val metadata = Metadata.builder()
-                    .url(url)
-                    .title(title)
-                    .views(0)
-                    .likes(0)
-                    .createdAt(timeInMillis.toString())
-                    .uid(uid)
-                    .id(vid)
-                    .build()
-
-                Amplify.API.mutate(ModelMutation.create(metadata),
-                    { Log.i("VIDEO_REPOSITORY", "createMetadata success: $it") },
-                    { Log.e("VIDEO_REPOSITORY", "createMetadata failed", it) }
-                )
-            },
-            { Log.e("VIDEO_REPOSITORY", "createMetadata getUrl failed", it) }
-        )
-    }
-
-    private fun createVideo(vid: String, description: String) {
+        val uid = Amplify.Auth.currentUser.userId
         val video = Video.builder()
-            .id(vid)
+            .title(title)
+            .views(0)
+            .likes(0)
+            .createdAt(timeInMillis.toString())
+            .uid(uid)
             .description(description)
+            .id(vid)
             .build()
 
         Amplify.API.mutate(ModelMutation.create(video),

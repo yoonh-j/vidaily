@@ -79,6 +79,12 @@
         <argument
             android:name="vId"
             app:argType="string"/>
+        <argument
+            android:name="videoUrl"
+            app:argType="string"/>
+        <argument
+            android:name="profileUrl"
+            app:argType="string"/>
         <action
             android:id="@+id/action_nav_video_to_nav_user"
             app:destination="@id/nav_user" />

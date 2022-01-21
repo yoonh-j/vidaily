@@ -38,7 +38,7 @@
                     android:id="@+id/video_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{video.metadata.title}"
+                    android:text="@{video.title}"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
                     app:layout_constraintTop_toTopOf="parent"/>
 
@@ -78,7 +78,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/video_comment_margin"
-                    android:text="@{video.metadata.user.username}"
+                    android:text="@{video.user.username}"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
                     app:layout_constraintTop_toTopOf="@id/video_profile"
                     app:layout_constraintBottom_toBottomOf="@id/video_profile"

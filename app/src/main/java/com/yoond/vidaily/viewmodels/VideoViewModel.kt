@@ -2,7 +2,8 @@ package com.yoond.vidaily.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.amplifyframework.datastore.generated.model.Metadata
+import com.amplifyframework.datastore.generated.model.Comment
+import com.yoond.vidaily.data.VideoItem
 import com.yoond.vidaily.data.VideoRepository
 import java.io.File
 
@@ -12,17 +13,17 @@ class VideoViewModel: ViewModel() {
     fun getAllVideos() =
         repository.getAllVideos()
 
-    fun getAllMetaData(): LiveData<MutableList<Metadata>> =
-        repository.getAllMetaData()
+    fun getVideosByDate(): LiveData<MutableList<VideoItem>> =
+        repository.getVideosByDate()
 
-    fun getMetadataByDate(): LiveData<MutableList<Metadata>> =
-        repository.getMetadataByDate()
+    fun getVideosByViews(): LiveData<MutableList<VideoItem>> =
+        repository.getVideosByViews()
 
-    fun getMetadataByViews(): LiveData<MutableList<Metadata>> =
-        repository.getMetadataByViews()
+    fun getVideosByFollowing(fIds: List<String>): LiveData<MutableList<VideoItem>> =
+        repository.getVideosByFollowing(fIds)
 
-    fun getMetadataByFollowing(fIds: List<String>): LiveData<MutableList<Metadata>> =
-        repository.getMetadataByFollowing(fIds)
+    fun getComments(vId: String): LiveData<MutableList<Comment>> =
+        repository.getComments(vId)
 
     fun getVideo(vId: String) =
         repository.getVideo(vId)

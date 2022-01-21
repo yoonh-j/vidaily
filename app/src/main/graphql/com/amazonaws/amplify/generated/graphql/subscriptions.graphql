@@ -3,7 +3,6 @@ subscription OnCreateUser {
   onCreateUser {
     id
     username
-    profileUrl
     following
     follower
     createdAt
@@ -14,7 +13,6 @@ subscription OnUpdateUser {
   onUpdateUser {
     id
     username
-    profileUrl
     following
     follower
     createdAt
@@ -25,184 +23,69 @@ subscription OnDeleteUser {
   onDeleteUser {
     id
     username
-    profileUrl
     following
     follower
     createdAt
     updatedAt
   }
 }
-subscription OnCreateMetadata {
-  onCreateMetadata {
-    id
-    url
-    title
-    views
-    likes
-    createdAt
-    uid
-    user {
-      id
-      username
-      profileUrl
-      following
-      follower
-      createdAt
-      updatedAt
-    }
-    updatedAt
-  }
-}
-subscription OnUpdateMetadata {
-  onUpdateMetadata {
-    id
-    url
-    title
-    views
-    likes
-    createdAt
-    uid
-    user {
-      id
-      username
-      profileUrl
-      following
-      follower
-      createdAt
-      updatedAt
-    }
-    updatedAt
-  }
-}
-subscription OnDeleteMetadata {
-  onDeleteMetadata {
-    id
-    url
-    title
-    views
-    likes
-    createdAt
-    uid
-    user {
-      id
-      username
-      profileUrl
-      following
-      follower
-      createdAt
-      updatedAt
-    }
-    updatedAt
-  }
-}
 subscription OnCreateVideo {
   onCreateVideo {
     id
+    title
     description
-    metadata {
+    views
+    likes
+    createdAt
+    uid
+    user {
       id
-      url
-      title
-      views
-      likes
+      username
+      following
+      follower
       createdAt
-      uid
-      user {
-        id
-        username
-        profileUrl
-        following
-        follower
-        createdAt
-        updatedAt
-      }
       updatedAt
     }
-    comments {
-      items {
-        id
-        content
-        createdAt
-        uid
-        updatedAt
-      }
-      nextToken
-    }
-    createdAt
     updatedAt
   }
 }
 subscription OnUpdateVideo {
   onUpdateVideo {
     id
+    title
     description
-    metadata {
+    views
+    likes
+    createdAt
+    uid
+    user {
       id
-      url
-      title
-      views
-      likes
+      username
+      following
+      follower
       createdAt
-      uid
-      user {
-        id
-        username
-        profileUrl
-        following
-        follower
-        createdAt
-        updatedAt
-      }
       updatedAt
     }
-    comments {
-      items {
-        id
-        content
-        createdAt
-        uid
-        updatedAt
-      }
-      nextToken
-    }
-    createdAt
     updatedAt
   }
 }
 subscription OnDeleteVideo {
   onDeleteVideo {
     id
+    title
     description
-    metadata {
+    views
+    likes
+    createdAt
+    uid
+    user {
       id
-      url
-      title
-      views
-      likes
+      username
+      following
+      follower
       createdAt
-      uid
-      user {
-        id
-        username
-        profileUrl
-        following
-        follower
-        createdAt
-        updatedAt
-      }
       updatedAt
     }
-    comments {
-      items {
-        id
-        content
-        createdAt
-        uid
-        updatedAt
-      }
-      nextToken
-    }
-    createdAt
     updatedAt
   }
 }
@@ -211,11 +94,11 @@ subscription OnCreateComment {
     id
     content
     createdAt
+    vid
     uid
     user {
       id
       username
-      profileUrl
       following
       follower
       createdAt
@@ -229,11 +112,11 @@ subscription OnUpdateComment {
     id
     content
     createdAt
+    vid
     uid
     user {
       id
       username
-      profileUrl
       following
       follower
       createdAt
@@ -247,11 +130,11 @@ subscription OnDeleteComment {
     id
     content
     createdAt
+    vid
     uid
     user {
       id
       username
-      profileUrl
       following
       follower
       createdAt

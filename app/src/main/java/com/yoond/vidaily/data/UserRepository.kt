@@ -41,24 +41,17 @@ class UserRepository {
     private fun createUser(username: String) {
         val uid = Amplify.Auth.currentUser.userId
 
-        Amplify.Storage.getUrl("profiles/$uid",
-            { result ->
-                val url = result.url.toString()
-                val user = User.builder()
-                    .username(username)
-                    .profileUrl(url)
-                    .follower(mutableListOf<String>())
-                    .following(mutableListOf<String>())
-                    .id(uid)
-                    .build()
+        val user = User.builder()
+            .username(username)
+            .follower(mutableListOf<String>())
+            .following(mutableListOf<String>())
+            .id(uid)
+            .build()
 
-                Amplify.API.mutate(
-                    ModelMutation.create(user),
-                    { Log.i("USER_REPOSITORY", "createUser success: $it") },
-                    { Log.e("USER_REPOSITORY", "createUser failed: ", it) }
-                )
-            },
-            { Log.e("USER_REPOSITORY", "createUser, getUrl failed", it) }
+        Amplify.API.mutate(
+            ModelMutation.create(user),
+            { Log.i("USER_REPOSITORY", "createUser success: $it") },
+            { Log.e("USER_REPOSITORY", "createUser failed: ", it) }
         )
     }
 

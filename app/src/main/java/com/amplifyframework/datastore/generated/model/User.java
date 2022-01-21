@@ -22,12 +22,10 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 public final class User implements Model {
   public static final QueryField ID = field("User", "id");
   public static final QueryField USERNAME = field("User", "username");
-  public static final QueryField PROFILE_URL = field("User", "profileUrl");
   public static final QueryField FOLLOWING = field("User", "following");
   public static final QueryField FOLLOWER = field("User", "follower");
   private final @ModelField(targetType="ID", isRequired = true) String id;
   private final @ModelField(targetType="String", isRequired = true) String username;
-  private final @ModelField(targetType="String", isRequired = true) String profileUrl;
   private final @ModelField(targetType="String") List<String> following;
   private final @ModelField(targetType="String") List<String> follower;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
@@ -38,10 +36,6 @@ public final class User implements Model {
   
   public String getUsername() {
       return username;
-  }
-  
-  public String getProfileUrl() {
-      return profileUrl;
   }
   
   public List<String> getFollowing() {
@@ -60,10 +54,9 @@ public final class User implements Model {
       return updatedAt;
   }
   
-  private User(String id, String username, String profileUrl, List<String> following, List<String> follower) {
+  private User(String id, String username, List<String> following, List<String> follower) {
     this.id = id;
     this.username = username;
-    this.profileUrl = profileUrl;
     this.following = following;
     this.follower = follower;
   }
@@ -78,7 +71,6 @@ public final class User implements Model {
       User user = (User) obj;
       return ObjectsCompat.equals(getId(), user.getId()) &&
               ObjectsCompat.equals(getUsername(), user.getUsername()) &&
-              ObjectsCompat.equals(getProfileUrl(), user.getProfileUrl()) &&
               ObjectsCompat.equals(getFollowing(), user.getFollowing()) &&
               ObjectsCompat.equals(getFollower(), user.getFollower()) &&
               ObjectsCompat.equals(getCreatedAt(), user.getCreatedAt()) &&
@@ -91,7 +83,6 @@ public final class User implements Model {
     return new StringBuilder()
       .append(getId())
       .append(getUsername())
-      .append(getProfileUrl())
       .append(getFollowing())
       .append(getFollower())
       .append(getCreatedAt())
@@ -106,7 +97,6 @@ public final class User implements Model {
       .append("User {")
       .append("id=" + String.valueOf(getId()) + ", ")
       .append("username=" + String.valueOf(getUsername()) + ", ")
-      .append("profileUrl=" + String.valueOf(getProfileUrl()) + ", ")
       .append("following=" + String.valueOf(getFollowing()) + ", ")
       .append("follower=" + String.valueOf(getFollower()) + ", ")
       .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
@@ -132,7 +122,6 @@ public final class User implements Model {
       id,
       null,
       null,
-      null,
       null
     );
   }
@@ -140,17 +129,11 @@ public final class User implements Model {
   public CopyOfBuilder copyOfBuilder() {
     return new CopyOfBuilder(id,
       username,
-      profileUrl,
       following,
       follower);
   }
   public interface UsernameStep {
-    ProfileUrlStep username(String username);
-  }
-  
-
-  public interface ProfileUrlStep {
-    BuildStep profileUrl(String profileUrl);
+    BuildStep username(String username);
   }
   
 
@@ -162,10 +145,9 @@ public final class User implements Model {
   }
   
 
-  public static class Builder implements UsernameStep, ProfileUrlStep, BuildStep {
+  public static class Builder implements UsernameStep, BuildStep {
     private String id;
     private String username;
-    private String profileUrl;
     private List<String> following;
     private List<String> follower;
     @Override
@@ -175,22 +157,14 @@ public final class User implements Model {
         return new User(
           id,
           username,
-          profileUrl,
           following,
           follower);
     }
     
     @Override
-     public ProfileUrlStep username(String username) {
+     public BuildStep username(String username) {
         Objects.requireNonNull(username);
         this.username = username;
-        return this;
-    }
-    
-    @Override
-     public BuildStep profileUrl(String profileUrl) {
-        Objects.requireNonNull(profileUrl);
-        this.profileUrl = profileUrl;
         return this;
     }
     
@@ -218,10 +192,9 @@ public final class User implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String username, String profileUrl, List<String> following, List<String> follower) {
+    private CopyOfBuilder(String id, String username, List<String> following, List<String> follower) {
       super.id(id);
       super.username(username)
-        .profileUrl(profileUrl)
         .following(following)
         .follower(follower);
     }
@@ -229,11 +202,6 @@ public final class User implements Model {
     @Override
      public CopyOfBuilder username(String username) {
       return (CopyOfBuilder) super.username(username);
-    }
-    
-    @Override
-     public CopyOfBuilder profileUrl(String profileUrl) {
-      return (CopyOfBuilder) super.profileUrl(profileUrl);
     }
     
     @Override

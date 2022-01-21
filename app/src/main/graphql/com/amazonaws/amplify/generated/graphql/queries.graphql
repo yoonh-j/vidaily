@@ -3,7 +3,6 @@ query GetUser($id: ID!) {
   getUser(id: $id) {
     id
     username
-    profileUrl
     following
     follower
     createdAt
@@ -19,59 +18,9 @@ query ListUsers(
     items {
       id
       username
-      profileUrl
       following
       follower
       createdAt
-      updatedAt
-    }
-    nextToken
-  }
-}
-query GetMetadata($id: ID!) {
-  getMetadata(id: $id) {
-    id
-    url
-    title
-    views
-    likes
-    createdAt
-    uid
-    user {
-      id
-      username
-      profileUrl
-      following
-      follower
-      createdAt
-      updatedAt
-    }
-    updatedAt
-  }
-}
-query ListMetadata(
-  $filter: ModelMetadataFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listMetadata(filter: $filter, limit: $limit, nextToken: $nextToken) {
-    items {
-      id
-      url
-      title
-      views
-      likes
-      createdAt
-      uid
-      user {
-        id
-        username
-        profileUrl
-        following
-        follower
-        createdAt
-        updatedAt
-      }
       updatedAt
     }
     nextToken
@@ -80,37 +29,20 @@ query ListMetadata(
 query GetVideo($id: ID!) {
   getVideo(id: $id) {
     id
+    title
     description
-    metadata {
+    views
+    likes
+    createdAt
+    uid
+    user {
       id
-      url
-      title
-      views
-      likes
+      username
+      following
+      follower
       createdAt
-      uid
-      user {
-        id
-        username
-        profileUrl
-        following
-        follower
-        createdAt
-        updatedAt
-      }
       updatedAt
     }
-    comments {
-      items {
-        id
-        content
-        createdAt
-        uid
-        updatedAt
-      }
-      nextToken
-    }
-    createdAt
     updatedAt
   }
 }
@@ -122,21 +54,20 @@ query ListVideos(
   listVideos(filter: $filter, limit: $limit, nextToken: $nextToken) {
     items {
       id
+      title
       description
-      metadata {
+      views
+      likes
+      createdAt
+      uid
+      user {
         id
-        url
-        title
-        views
-        likes
+        username
+        following
+        follower
         createdAt
-        uid
         updatedAt
       }
-      comments {
-        nextToken
-      }
-      createdAt
       updatedAt
     }
     nextToken
@@ -147,11 +78,11 @@ query GetComment($id: ID!) {
     id
     content
     createdAt
+    vid
     uid
     user {
       id
       username
-      profileUrl
       following
       follower
       createdAt
@@ -170,11 +101,11 @@ query ListComments(
       id
       content
       createdAt
+      vid
       uid
       user {
         id
         username
-        profileUrl
         following
         follower
         createdAt
