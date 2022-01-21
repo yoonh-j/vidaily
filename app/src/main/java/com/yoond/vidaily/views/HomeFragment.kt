@@ -2,6 +2,7 @@ package com.yoond.vidaily.views
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -57,13 +58,13 @@ class HomeFragment : Fragment(), OnVideoItemClickListener {
     }
 
     private fun init() {
-        val todayAdapter = HomeHorizontalListAdapter(requireContext(), this)
+        val todayAdapter = HomeHorizontalListAdapter((activity as MainActivity), requireContext(), this)
         binding.homeRecyclerToday.adapter = todayAdapter
 
-        val popularAdapter = HomeHorizontalListAdapter(requireContext(), this)
+        val popularAdapter = HomeHorizontalListAdapter((activity as MainActivity), requireContext(), this)
         binding.homeRecyclerPopular.adapter = popularAdapter
 
-        val followAdapter = LargeVideoListAdapter(requireContext(), this)
+        val followAdapter = LargeVideoListAdapter((activity as MainActivity), requireContext(), this)
         binding.homeRecyclerFollow.adapter = followAdapter
 
         subscribeUi(todayAdapter, popularAdapter, followAdapter)
@@ -89,6 +90,7 @@ class HomeFragment : Fragment(), OnVideoItemClickListener {
         followAdapter: LargeVideoListAdapter
     ){
         videoViewModel.getVideosByDate().observe(viewLifecycleOwner) { videoList ->
+            Log.d("HOME_FRAGMENT", "date videos: $videoList")
             videoList.shuffle()  // 리스트 랜덤으로 섞음
             todayAdapter.submitList(videoList) {
                 binding.homeRecyclerToday.invalidateItemDecorations()

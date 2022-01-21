@@ -45,19 +45,7 @@ class VideoRepository {
 
                     response.data.items.forEach { video ->
                         if (video != null) {
-                            val item = VideoItem(video, "", "")
-
-                            // get video url
-                            Amplify.Storage.getUrl("videos/${video.id}",
-                                { item.videoUrl = it.url.toString() },
-                                { Log.i("VIDEO_REPOSITORY", "getVideoUrl failed", it) }
-                            )
-                            // get profile url
-                            Amplify.Storage.getUrl("profiles/${video.uid}",
-                                { item.profileUrl = it.url.toString() },
-                                { Log.i("VIDEO_REPOSITORY", "getProfileUrl failed", it) }
-                            )
-                            list.add(item)
+                            list.add(VideoItem(video, "", ""))
                         }
                     }
                     videoList.postValue(list) // background thread이기 때문에 postValue
@@ -81,21 +69,7 @@ class VideoRepository {
 
                     response.data.items.forEach { video ->
                         if (video != null) {
-                            val item = VideoItem(video, "", "")
-
-                            // get video url
-                            Amplify.Storage.getUrl("videos/${video.id}",
-                                { item.videoUrl = it.url.toString()
-                                    Log.i("VIDEO_REPOSITORY", it.url.toString())
-                                },
-                                { Log.e("VIDEO_REPOSITORY", "getVideoUrl failed", it) }
-                            )
-                            // get profile url
-                            Amplify.Storage.getUrl("profiles/${video.uid}",
-                                { item.profileUrl = it.url.toString() },
-                                { Log.e("VIDEO_REPOSITORY", "getProfileUrl failed", it) }
-                            )
-                            list.add(item)
+                            list.add(VideoItem(video, "", ""))
                         }
                     }
                     videoList.postValue(list) // background thread이기 때문에 postValue
@@ -117,19 +91,7 @@ class VideoRepository {
 
                         response.data.items.forEach { video ->
                             if (video != null) {
-                                val item = VideoItem(video, "", "")
-
-                                // get video url
-                                Amplify.Storage.getUrl("videos/${video.id}",
-                                    { item.videoUrl = it.url.toString() },
-                                    { Log.e("VIDEO_REPOSITORY", "getVideoUrl failed", it) }
-                                )
-                                // get profile url
-                                Amplify.Storage.getUrl("profiles/${video.uid}",
-                                    { item.profileUrl = it.url.toString() },
-                                    { Log.e("VIDEO_REPOSITORY", "getProfileUrl failed", it) }
-                                )
-                                list.add(item)
+                                list.add(VideoItem(video, "", ""))
                             }
                         }
                         videoList.postValue(list) // background thread이기 때문에 postValue
@@ -140,6 +102,24 @@ class VideoRepository {
         }
 
         return videoList
+    }
+
+    /**
+     * gets video by vId
+     */
+    fun getVideo(vId: String): LiveData<Video> {
+        val video = MutableLiveData<Video>()
+
+        Amplify.API.query(ModelQuery.get(Video::class.java, vId),
+            { response ->
+                if (response.hasData()) {
+                    Log.i("VIDEO_REPOSITORY", "getVideo succeeded, $response")
+                    video.postValue(response.data)
+                }
+            },
+            { Log.e("VIDEO_REPOSITORY", "getVideo failed", it)}
+        )
+        return video
     }
 
     fun getComments(vid: String): LiveData<MutableList<Comment>> {
@@ -161,24 +141,6 @@ class VideoRepository {
             { Log.e("VIDEO_REPOSITORY", "getComments failed", it) }
         )
         return commentList
-    }
-
-    /**
-     * gets video by vId
-     */
-    fun getVideo(vId: String): LiveData<Video> {
-        val video = MutableLiveData<Video>()
-
-        Amplify.API.query(ModelQuery.get(Video::class.java, vId),
-            { response ->
-                if (response.hasData()) {
-                    Log.i("VIDEO_REPOSITORY", "getVideo succeeded, $response")
-                    video.postValue(response.data)
-                }
-            },
-            { Log.e("VIDEO_REPOSITORY", "getVideo failed", it)}
-        )
-        return video
     }
 
     /**
