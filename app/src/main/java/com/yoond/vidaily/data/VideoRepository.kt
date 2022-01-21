@@ -219,4 +219,20 @@ class VideoRepository {
             { Log.e("VIDEO_REPOSITORY", "createVideo failed", it) }
         )
     }
+
+    fun updateVideoViews(video: Video) {
+        val item = Video.builder()
+            .title(video.title)
+            .views(video.views + 1)
+            .likes(video.likes)
+            .createdAt(video.createdAt)
+            .uid(video.uid)
+            .description(video.description)
+            .id(video.id)
+            .build()
+        Amplify.API.mutate(ModelMutation.update(item),
+            { Log.i("VIDEO_REPOSITORY", "updateVideoViews success: $it")} ,
+            { Log.e("VIDEO_REPOSITORY", "updateVideoViews failed", it) }
+        )
+    }
 }

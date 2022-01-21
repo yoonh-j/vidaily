@@ -42,11 +42,7 @@ class HomeHorizontalListAdapter(
             binding.setClickListener {
                 val item = binding.videoItem
                 if (item != null) {
-                    onVideoItemClickListener.onVideoItemClick(
-                        item.video.id,
-                        item.videoUrl,
-                        item.profileUrl
-                    )
+                    onVideoItemClickListener.onVideoItemClick(item)
                 }
             }
         }

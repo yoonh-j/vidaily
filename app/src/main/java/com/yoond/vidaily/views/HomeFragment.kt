@@ -16,6 +16,7 @@ import com.yoond.vidaily.MainActivity
 import com.yoond.vidaily.R
 import com.yoond.vidaily.adapters.HomeHorizontalListAdapter
 import com.yoond.vidaily.adapters.LargeVideoListAdapter
+import com.yoond.vidaily.data.VideoItem
 import com.yoond.vidaily.databinding.FragmentHomeBinding
 import com.yoond.vidaily.decorators.ListDecoration
 import com.yoond.vidaily.interfaces.OnVideoItemClickListener
@@ -115,8 +116,9 @@ class HomeFragment : Fragment(), OnVideoItemClickListener {
         }
     }
 
-    override fun onVideoItemClick(vId: String, videoUrl: String, profileUrl: String) {
-        navigateToVideo(vId, videoUrl, profileUrl)
+    override fun onVideoItemClick(videoItem: VideoItem) {
+        navigateToVideo(videoItem.video.id, videoItem.videoUrl, videoItem.profileUrl)
+        videoViewModel.updateVideoViews(videoItem.video)
     }
 
     private fun navigateToVideo(vId: String, videoUrl: String, profileUrl: String) {

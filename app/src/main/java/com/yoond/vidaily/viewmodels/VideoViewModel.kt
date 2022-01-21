@@ -3,6 +3,7 @@ package com.yoond.vidaily.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.amplifyframework.datastore.generated.model.Comment
+import com.amplifyframework.datastore.generated.model.Video
 import com.yoond.vidaily.data.VideoItem
 import com.yoond.vidaily.data.VideoRepository
 import java.io.File
@@ -30,6 +31,9 @@ class VideoViewModel: ViewModel() {
 
     fun getVideo(vId: String) =
         repository.getVideo(vId)
+
+    fun updateVideoViews(video: Video) =
+        repository.updateVideoViews(video)
 
     fun uploadVideo(
         video: File,

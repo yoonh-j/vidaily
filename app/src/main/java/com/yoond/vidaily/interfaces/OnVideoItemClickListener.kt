@@ -1,5 +1,7 @@
 package com.yoond.vidaily.interfaces
 
+import com.yoond.vidaily.data.VideoItem
+
 interface OnVideoItemClickListener {
-    fun onVideoItemClick(vId: String, videoUrl: String, profileUrl: String)
+    fun onVideoItemClick(videoItem: VideoItem)
 }
