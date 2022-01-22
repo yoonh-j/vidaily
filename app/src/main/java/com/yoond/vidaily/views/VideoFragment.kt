@@ -10,7 +10,6 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.amplifyframework.datastore.generated.model.Comment
-import com.amplifyframework.datastore.generated.model.Video
 import com.bumptech.glide.Glide
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
@@ -72,9 +71,6 @@ class VideoFragment : Fragment(), OnProfileItemClickListener {
     }
 
     private fun subscribeUi() {
-//        videoViewModel.getVideo(args.vId).observe(viewLifecycleOwner) { video ->
-//            setMetadata(video)
-//        }
         videoViewModel.getComments(args.videoItem.id).observe(viewLifecycleOwner) { commentList ->
             commentList.sortByDescending { it.createdAt } // 작성 시간 내림차순 정렬
             comments = commentList

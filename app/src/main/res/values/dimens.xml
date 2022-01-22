@@ -7,9 +7,11 @@
     <dimen name="edittext_padding">10dp</dimen>
 
     <!-- Video Item -->
-    <dimen name="item_video_small_width">160dp</dimen>
-    <dimen name="item_video_small_height">90dp</dimen>
-    <dimen name="item_video_small_margin">10dp</dimen>
+    <dimen name="item_video_small_width">96dp</dimen>
+    <dimen name="item_video_small_height">54dp</dimen>
+    <dimen name="item_video_mid_width">160dp</dimen>
+    <dimen name="item_video_mid_height">90dp</dimen>
+    <dimen name="item_video_mid_margin">10dp</dimen>
     <dimen name="item_video_large_margin">30dp</dimen>
     <dimen name="item_video_metadata_margin">10dp</dimen>
     <dimen name="item_video_profile_size">50dp</dimen>

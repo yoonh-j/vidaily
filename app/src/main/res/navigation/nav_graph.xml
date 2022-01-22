@@ -43,7 +43,9 @@
         android:name="com.yoond.vidaily.views.HomeFragment"
         android:label=""
         tools:layout="@layout/fragment_home">
-
+        <action
+            android:id="@+id/action_nav_home_to_nav_home_list"
+            app:destination="@id/nav_home_list"/>
         <action
             android:id="@+id/action_nav_home_to_nav_search"
             app:destination="@id/nav_search" />
@@ -53,6 +55,19 @@
         <action
             android:id="@+id/action_nav_home_to_nav_user"
             app:destination="@id/nav_user" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_home_list"
+        android:name="com.yoond.vidaily.views.HomeListFragment"
+        android:label=""
+        tools:layout="@layout/fragment_home_list">
+        <argument
+            android:name="videoItems"
+            app:argType="com.yoond.vidaily.data.VideoItem[]"/>
+        <action
+            android:id="@+id/action_nav_home_list_to_nav_video"
+            app:destination="@id/nav_video"/>
     </fragment>
 
     <fragment android:id="@+id/nav_upload"

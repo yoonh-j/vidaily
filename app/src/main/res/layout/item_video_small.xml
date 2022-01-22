@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="videoItem"
+            type="com.yoond.vidaily.data.VideoItem" />
+        <variable
+            name="clickListener"
+            type="android.view.View.OnClickListener" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/base_layout_margin"
+        android:onClick="@{clickListener}">
+
+        <ImageView
+            android:id="@+id/item_video_small_thumbnail"
+            android:layout_width="@dimen/item_video_small_width"
+            android:layout_height="@dimen/item_video_small_height"
+            android:background="@color/black"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <TextView
+            android:id="@+id/item_video_small_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/item_video_metadata_margin"
+            android:text="@{videoItem.title}"
+            android:maxLines="2"
+            android:ellipsize="end"
+            app:layout_constraintTop_toTopOf="@id/item_video_small_thumbnail"
+            app:layout_constraintStart_toEndOf="@id/item_video_small_thumbnail"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/item_video_small_username"/>
+
+        <TextView
+            style="@style/Theme.Vidaily.VideoMetadata"
+            android:id="@+id/item_video_small_username"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{videoItem.username}"
+            android:maxLines="1"
+            android:ellipsize="end"
+            app:layout_constraintTop_toBottomOf="@id/item_video_small_title"
+            app:layout_constraintStart_toStartOf="@id/item_video_small_title"
+            app:layout_constraintEnd_toEndOf="@id/item_video_small_title"
+            app:layout_constraintBottom_toTopOf="@id/item_video_small_views"/>
+
+        <TextView
+            style="@style/Theme.Vidaily.VideoMetadata"
+            android:id="@+id/item_video_small_views"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{@string/video_views(videoItem.views)}"
+            android:maxLines="1"
+            android:ellipsize="end"
+            app:layout_constraintTop_toBottomOf="@id/item_video_small_username"
+            app:layout_constraintStart_toStartOf="@id/item_video_small_username"
+            app:layout_constraintEnd_toEndOf="@id/item_video_small_username"
+            app:layout_constraintBottom_toBottomOf="@id/item_video_small_thumbnail"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

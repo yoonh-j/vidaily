@@ -70,7 +70,7 @@ class HomeFragment : Fragment(), OnVideoItemClickListener {
 
         subscribeUi(todayAdapter, popularAdapter, followAdapter)
 
-        val margin = resources.getDimension(R.dimen.item_video_small_margin).toInt()
+        val margin = resources.getDimension(R.dimen.item_video_mid_margin).toInt()
         val decoration = ListDecoration(margin, false)
 
         binding.homeRecyclerToday.addItemDecoration(decoration)
@@ -80,8 +80,12 @@ class HomeFragment : Fragment(), OnVideoItemClickListener {
         binding.homeRecyclerFollow.addItemDecoration(ListDecoration(largeMargin, true))
 
         binding.homeMoreToday.setOnClickListener {
+            Log.d("HOME_FRAGMENT", "${todayAdapter.currentList}")
+            navigateToHomeList(todayAdapter.currentList.toTypedArray())
         }
         binding.homeMorePopular.setOnClickListener {
+            Log.d("HOME_FRAGMENT", "${popularAdapter.currentList}")
+            navigateToHomeList(popularAdapter.currentList.toTypedArray())
         }
     }
 
@@ -123,6 +127,11 @@ class HomeFragment : Fragment(), OnVideoItemClickListener {
 
     private fun navigateToVideo(videoItem: VideoItem) {
         findNavController().navigate(HomeFragmentDirections.actionNavHomeToNavVideo(videoItem))
+    }
+
+    private fun navigateToHomeList(videoItems: Array<VideoItem>) {
+
+        findNavController().navigate(HomeFragmentDirections.actionNavHomeToNavHomeList(videoItems))
     }
 
     private fun setBackPressed() {

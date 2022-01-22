@@ -3,15 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-        <variable
-            name="todayListener"
-            type="android.view.View.OnClickListener" />
-        <variable
-            name="popularListener"
-            type="android.view.View.OnClickListener" />
-    </data>
-
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -36,7 +27,6 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:text="@string/home_more"
-                android:onClick="@{todayListener}"
                 app:layout_constraintTop_toTopOf="@id/home_label_today"
                 app:layout_constraintBottom_toBottomOf="@id/home_label_today"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -58,7 +48,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/home_layout_margin"
                 android:text="@string/home_label_popular"
-                android:onClick="@{popularListener}"
                 app:layout_constraintTop_toBottomOf="@id/home_recycler_today"
                 app:layout_constraintStart_toStartOf="@id/home_label_today"/>
 

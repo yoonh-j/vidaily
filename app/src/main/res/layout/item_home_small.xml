@@ -12,14 +12,14 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="@dimen/item_video_small_width"
+        android:layout_width="@dimen/item_video_mid_width"
         android:layout_height="wrap_content"
         android:onClick="@{clickListener}">
 
         <ImageView
             android:id="@+id/item_home_thumbnail"
-            android:layout_width="@dimen/item_video_small_width"
-            android:layout_height="@dimen/item_video_small_height"
+            android:layout_width="@dimen/item_video_mid_width"
+            android:layout_height="@dimen/item_video_mid_height"
             android:background="@color/black"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
