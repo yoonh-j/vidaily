@@ -77,14 +77,8 @@
         android:label=""
         tools:layout="@layout/fragment_video">
         <argument
-            android:name="vId"
-            app:argType="string"/>
-        <argument
-            android:name="videoUrl"
-            app:argType="string"/>
-        <argument
-            android:name="profileUrl"
-            app:argType="string"/>
+            android:name="videoItem"
+            app:argType="com.yoond.vidaily.data.VideoItem"/>
         <action
             android:id="@+id/action_nav_video_to_nav_user"
             app:destination="@id/nav_user" />

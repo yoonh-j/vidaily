@@ -62,6 +62,7 @@ class VideoFragment : Fragment(), OnProfileItemClickListener {
 
     private fun init() {
         initPlayer()
+        setMetadata()
         subscribeUi()
 
         binding.videoCommentDone.setOnClickListener {
@@ -71,15 +72,15 @@ class VideoFragment : Fragment(), OnProfileItemClickListener {
     }
 
     private fun subscribeUi() {
-        videoViewModel.getVideo(args.vId).observe(viewLifecycleOwner) { video ->
-            setMetadata(video)
-        }
-        videoViewModel.getComments(args.vId).observe(viewLifecycleOwner) { commentList ->
+//        videoViewModel.getVideo(args.vId).observe(viewLifecycleOwner) { video ->
+//            setMetadata(video)
+//        }
+        videoViewModel.getComments(args.videoItem.id).observe(viewLifecycleOwner) { commentList ->
             commentList.sortByDescending { it.createdAt } // 작성 시간 내림차순 정렬
             comments = commentList
             setAdapter(comments)
         }
-        videoViewModel.subscribeComments(args.vId).observe(viewLifecycleOwner) { comment ->
+        videoViewModel.subscribeComments(args.videoItem.id).observe(viewLifecycleOwner) { comment ->
             comments.add(comment)
             comments.sortByDescending { it.createdAt }
             setAdapter(comments)
@@ -87,7 +88,7 @@ class VideoFragment : Fragment(), OnProfileItemClickListener {
     }
 
     private fun initPlayer() {
-        val mediaItem = MediaItem.fromUri(args.videoUrl)
+        val mediaItem = MediaItem.fromUri(args.videoItem.videoUrl)
 
         exoPlayer = ExoPlayer.Builder(requireContext())
             .build()
@@ -99,15 +100,15 @@ class VideoFragment : Fragment(), OnProfileItemClickListener {
             }
     }
 
-    private fun setMetadata(video: Video) {
-        binding.video = video
+    private fun setMetadata() {
+        binding.videoItem = args.videoItem
         binding.videoViews.text =
-            resources.getString(R.string.video_views, video.views)
+            resources.getString(R.string.video_views, args.videoItem.views)
         binding.videoCreatedAt.text =
-            resources.getString(R.string.createdDate, video.createdAt.toLong())
+            resources.getString(R.string.createdDate, args.videoItem.createdAt.toLong())
 
         Glide.with(this)
-            .load(args.profileUrl)
+            .load(args.videoItem.profileUrl)
             .placeholder(R.color.black)
             .into(binding.videoProfile)
     }
@@ -127,8 +128,8 @@ class VideoFragment : Fragment(), OnProfileItemClickListener {
         if (content == "") {
             Toast.makeText(requireContext(), resources.getString(R.string.toast_no_comment), Toast.LENGTH_LONG).show()
         } else {
-            if (binding.video != null) {
-                val vId = binding.video!!.id
+            if (binding.videoItem != null) {
+                val vId = binding.videoItem!!.id
                 val createdAt = System.currentTimeMillis().toString()
 
                 videoViewModel.uploadComment(content, createdAt, vId)

@@ -1,13 +1,22 @@
 package com.yoond.vidaily.data
 
-import com.amplifyframework.datastore.generated.model.Video
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class VideoItem (
-    val video: Video,
+    val id: String,
+    val title: String,
+    val description: String,
+    val views: Int,
+    val likes: Int,
+    val createdAt: String,
+    val uid: String,
+    val username: String,
     var videoUrl: String,
     var profileUrl: String
-) {
+) : Parcelable {
     override fun toString(): String =
-        "${video.title} \nvideoUrl: $videoUrl\nprofileUrl: $profileUrl"
+        "$title \nvideoUrl: $videoUrl\nprofileUrl: $profileUrl"
 }
 

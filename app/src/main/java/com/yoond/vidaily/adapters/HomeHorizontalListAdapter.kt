@@ -52,7 +52,7 @@ class HomeHorizontalListAdapter(
             binding.videoItem = item
 
             // get video url
-            Amplify.Storage.getUrl("videos/${item.video.id}",
+            Amplify.Storage.getUrl("videos/${item.id}",
                 { item.videoUrl = it.url.toString()
                     activity.runOnUiThread {
                         Glide.with(context)
@@ -67,7 +67,7 @@ class HomeHorizontalListAdapter(
             )
 
             // get profile url
-            Amplify.Storage.getUrl("profiles/${item.video.uid}",
+            Amplify.Storage.getUrl("profiles/${item.uid}",
                 { item.profileUrl = it.url.toString() },
                 { Log.e("VIDEO_REPOSITORY", "getProfileUrl failed", it) }
             )
@@ -77,7 +77,7 @@ class HomeHorizontalListAdapter(
 
 private class HomeTodayDiffCallback: DiffUtil.ItemCallback<VideoItem>() {
     override fun areItemsTheSame(oldItem: VideoItem, newItem: VideoItem): Boolean =
-        oldItem.video.id == oldItem.video.id
+        oldItem.id == oldItem.id
 
     override fun areContentsTheSame(oldItem: VideoItem, newItem: VideoItem): Boolean =
         oldItem == newItem

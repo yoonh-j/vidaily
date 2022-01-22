@@ -46,7 +46,18 @@ class VideoRepository {
 
                     response.data.items.forEach { video ->
                         if (video != null) {
-                            list.add(VideoItem(video, "", ""))
+                            list.add(VideoItem(
+                                video.id,
+                                video.title,
+                                video.description,
+                                video.views,
+                                video.likes,
+                                video.createdAt,
+                                video.uid,
+                                video.user.username,
+                                "",
+                                ""
+                            ))
                         }
                     }
                     videoList.postValue(list) // background thread이기 때문에 postValue
@@ -70,7 +81,18 @@ class VideoRepository {
 
                     response.data.items.forEach { video ->
                         if (video != null) {
-                            list.add(VideoItem(video, "", ""))
+                            list.add(VideoItem(
+                                video.id,
+                                video.title,
+                                video.description,
+                                video.views,
+                                video.likes,
+                                video.createdAt,
+                                video.uid,
+                                video.user.username,
+                                "",
+                                ""
+                            ))
                         }
                     }
                     videoList.postValue(list) // background thread이기 때문에 postValue
@@ -92,7 +114,18 @@ class VideoRepository {
 
                         response.data.items.forEach { video ->
                             if (video != null) {
-                                list.add(VideoItem(video, "", ""))
+                                list.add(VideoItem(
+                                    video.id,
+                                    video.title,
+                                    video.description,
+                                    video.views,
+                                    video.likes,
+                                    video.createdAt,
+                                    video.uid,
+                                    video.user.username,
+                                    "",
+                                    ""
+                                ))
                             }
                         }
                         videoList.postValue(list) // background thread이기 때문에 postValue
@@ -220,15 +253,15 @@ class VideoRepository {
         )
     }
 
-    fun updateVideoViews(video: Video) {
+    fun updateVideoViews(videoItem: VideoItem) {
         val item = Video.builder()
-            .title(video.title)
-            .views(video.views + 1)
-            .likes(video.likes)
-            .createdAt(video.createdAt)
-            .uid(video.uid)
-            .description(video.description)
-            .id(video.id)
+            .title(videoItem.title)
+            .views(videoItem.views + 1)
+            .likes(videoItem.likes)
+            .createdAt(videoItem.createdAt)
+            .uid(videoItem.uid)
+            .description(videoItem.description)
+            .id(videoItem.id)
             .build()
         Amplify.API.mutate(ModelMutation.update(item),
             { Log.i("VIDEO_REPOSITORY", "updateVideoViews success: $it")} ,

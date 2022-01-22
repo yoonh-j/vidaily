@@ -98,7 +98,7 @@ class HomeFragment : Fragment(), OnVideoItemClickListener {
             }
         }
         videoViewModel.getVideosByViews().observe(viewLifecycleOwner) { videoList ->
-            videoList.sortByDescending { it.video.views } // 조회수 내림차순으로 정렬
+            videoList.sortByDescending { it.views } // 조회수 내림차순으로 정렬
             popularAdapter.submitList(videoList) {
                 binding.homeRecyclerPopular.invalidateItemDecorations()
             }
@@ -117,12 +117,12 @@ class HomeFragment : Fragment(), OnVideoItemClickListener {
     }
 
     override fun onVideoItemClick(videoItem: VideoItem) {
-        navigateToVideo(videoItem.video.id, videoItem.videoUrl, videoItem.profileUrl)
-        videoViewModel.updateVideoViews(videoItem.video)
+        navigateToVideo(videoItem)
+        videoViewModel.updateVideoViews(videoItem)
     }
 
-    private fun navigateToVideo(vId: String, videoUrl: String, profileUrl: String) {
-        findNavController().navigate(HomeFragmentDirections.actionNavHomeToNavVideo(vId, videoUrl, profileUrl))
+    private fun navigateToVideo(videoItem: VideoItem) {
+        findNavController().navigate(HomeFragmentDirections.actionNavHomeToNavVideo(videoItem))
     }
 
     private fun setBackPressed() {

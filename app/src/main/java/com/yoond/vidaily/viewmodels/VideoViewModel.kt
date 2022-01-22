@@ -32,8 +32,8 @@ class VideoViewModel: ViewModel() {
     fun getVideo(vId: String) =
         repository.getVideo(vId)
 
-    fun updateVideoViews(video: Video) =
-        repository.updateVideoViews(video)
+    fun updateVideoViews(videoItem: VideoItem) =
+        repository.updateVideoViews(videoItem)
 
     fun uploadVideo(
         video: File,

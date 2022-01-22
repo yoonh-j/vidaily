@@ -50,7 +50,7 @@ class LargeVideoListAdapter(
             binding.videoItem = item
 
             // get video url
-            Amplify.Storage.getUrl("videos/${item.video.id}",
+            Amplify.Storage.getUrl("videos/${item.id}",
                 { item.videoUrl = it.url.toString()
 
                     activity.runOnUiThread {
@@ -67,7 +67,7 @@ class LargeVideoListAdapter(
             )
 
             // get profile url
-            Amplify.Storage.getUrl("profiles/${item.video.uid}",
+            Amplify.Storage.getUrl("profiles/${item.uid}",
                 {
                     item.profileUrl = it.url.toString()
 
@@ -87,7 +87,7 @@ class LargeVideoListAdapter(
 
 private class LargeVideoDiffCallback: DiffUtil.ItemCallback<VideoItem>() {
     override fun areItemsTheSame(oldItem: VideoItem, newItem: VideoItem) =
-        oldItem.video.id == newItem.video.id
+        oldItem.id == newItem.id
 
     override fun areContentsTheSame(oldItem: VideoItem, newItem: VideoItem) =
         oldItem == newItem
