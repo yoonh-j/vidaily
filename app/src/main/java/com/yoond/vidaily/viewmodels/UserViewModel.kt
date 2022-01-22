@@ -12,11 +12,11 @@ class UserViewModel: ViewModel() {
     fun uploadUser(profileImage: File, username: String) =
         repository.uploadUser(profileImage, username)
 
-    fun createFollowing(fId: String) =
-        repository.createFollowing(fId)
-
-    fun createFollower(fId: String) =
+    fun createFollower(fId: String): LiveData<Boolean> =
         repository.createFollower(fId)
+
+    fun deleteFollower(fId: String): LiveData<Boolean> =
+        repository.deleteFollower(fId)
 
     fun getUser(uid: String): LiveData<User> =
         repository.getUser(uid)

@@ -55,7 +55,8 @@ class UserRepository {
         )
     }
 
-    fun createFollowing(fId: String) {
+    fun createFollower(fId: String): LiveData<Boolean> {
+        val isDone = MutableLiveData<Boolean>()
         // 여기서 curUser의 following 목록 갱신
         val uid = Amplify.Auth.currentUser.userId
 
@@ -74,10 +75,7 @@ class UserRepository {
             },
             { Log.e("USER_REPOSITORY", "createFollowing failed: ", it) }
         )
-    }
 
-    fun createFollower(fId: String) {
-        val uid = Amplify.Auth.currentUser.userId
         // 여기서 fId를 가진 유저의 follower 목록 갱신
         Amplify.API.query(
             ModelQuery.get(User::class.java, fId),
@@ -87,14 +85,61 @@ class UserRepository {
 
                     Amplify.API.mutate(
                         ModelMutation.update(following.data),
-                        { Log.i("USER_REPOSITORY", "updateFollower succeeded: ${it.data.follower}") },
-                        { Log.e("USER_REPOSITORY", "updateFollower failed: ", it) }
+                        { isDone.postValue(true) },
+                        {
+                            isDone.postValue(false)
+                            Log.e("USER_REPOSITORY", "updateFollower failed: ", it)
+                        }
                     )
                 }
                 Log.i("USER_REPOSITORY", "createFollower succeeded: ${following.data.follower}")
             },
             { Log.e("USER_REPOSITORY", "getFollowing failed: ", it) }
         )
+        return isDone
+    }
+
+    fun deleteFollower(fId: String): LiveData<Boolean> {
+        val isDone = MutableLiveData<Boolean>()
+        // 여기서 curUser의 following 목록 갱신
+        val uid = Amplify.Auth.currentUser.userId
+
+        Amplify.API.query(
+            ModelQuery.get(User::class.java, uid),
+            { response ->
+                if (response.hasData() && response.data.following != null) {
+                    response.data.following.remove(fId)
+                    Amplify.API.mutate(
+                        ModelMutation.update(response.data),
+                        { Log.i("USER_REPOSITORY", "deleteFollowing succeeded: $it") },
+                        { Log.e("USER_REPOSITORY", "deleteFollowing failed: ", it) }
+                    )
+                }
+                Log.i("USER_REPOSITORY", "deleteFollowing succeeded: ${response.data.following}")
+            },
+            { Log.e("USER_REPOSITORY", "deleteFollowing failed: ", it) }
+        )
+        // fId를 가진 user의 follower 목록 갱신
+        Amplify.API.query(
+            ModelQuery.get(User::class.java, fId),
+            { following ->
+                if (following.hasData() && following.data.follower != null) {
+                    following.data.follower.remove(uid)
+
+                    Amplify.API.mutate(
+                        ModelMutation.update(following.data),
+                        { isDone.postValue(true) },
+                        {
+                            isDone.postValue(false)
+                            Log.e("USER_REPOSITORY", "deleteFollower failed: ", it)
+                        }
+                    )
+                }
+                Log.i("USER_REPOSITORY", "deleteFollower succeeded: ${following.data.follower}")
+            },
+            { Log.e("USER_REPOSITORY", "getFollowing failed: ", it) }
+        )
+        return isDone
     }
 
     fun getUser(uid: String): LiveData<User> {

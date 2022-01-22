@@ -57,6 +57,12 @@
     <string name="hint_comment">댓글</string>
     <string name="toast_no_comment">댓글을 입력하세요.</string>
 
+    <!-- User Fragment -->
+    <string name="user_btn_follow">팔로우</string>
+    <string name="user_btn_following">팔로잉</string>
+    <string name="user_follower">팔로워</string>
+    <string name="user_following">팔로잉</string>
+
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>
     <string name="sync_header">Sync</string>

@@ -46,10 +46,9 @@ class HomeListFragment : Fragment(), OnVideoItemClickListener {
 
     private fun init() {
         val items = args.videoItems
-        val adapter = SmallVideoListAdapter(requireContext(), this)
+        val adapter = SmallVideoListAdapter((activity as MainActivity), requireContext(), this)
         binding.homeListRecycler.adapter = adapter
         adapter.submitList(items.toList())
-        Log.d("HOME_LIST_FRAGMENT", "${items.toList()}")
     }
 
     override fun onVideoItemClick(videoItem: VideoItem) {

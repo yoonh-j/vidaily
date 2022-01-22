@@ -1,15 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <data>
+        <variable
+            name="user"
+            type="com.amplifyframework.datastore.generated.model.User" />
+    </data>
+
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="@string/title_user"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:padding="@dimen/base_layout_margin">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/user_profile"
+                android:layout_width="@dimen/user_profile_size"
+                android:layout_height="@dimen/user_profile_size"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <TextView
+                android:id="@+id/user_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/base_layout_margin"
+                android:gravity="center"
+                android:text="@{user.username}"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                app:layout_constraintTop_toBottomOf="@id/user_profile"/>
+
+            <TextView
+                android:id="@+id/user_label_follower"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/base_layout_margin"
+                android:text="@string/user_follower"
+                app:layout_constraintTop_toBottomOf="@id/user_username"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/user_label_following"/>
+
+            <TextView
+                android:id="@+id/user_label_following"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/user_following"
+                app:layout_constraintTop_toTopOf="@id/user_label_follower"
+                app:layout_constraintStart_toEndOf="@id/user_label_follower"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/user_label_follower"/>
+
+            <TextView
+                android:id="@+id/user_follower"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{String.valueOf(user.follower.size())}"
+                app:layout_constraintTop_toBottomOf="@id/user_label_follower"
+                app:layout_constraintStart_toStartOf="@id/user_label_follower"
+                app:layout_constraintEnd_toEndOf="@id/user_label_follower"/>
+
+            <TextView
+                android:id="@+id/user_following"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{String.valueOf(user.following.size())}"
+                app:layout_constraintTop_toTopOf="@id/user_follower"
+                app:layout_constraintStart_toStartOf="@id/user_label_following"
+                app:layout_constraintEnd_toEndOf="@id/user_label_following"
+                app:layout_constraintBottom_toBottomOf="@id/user_follower"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/user_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/base_layout_margin"
+                android:background="@drawable/bg_btn_border"
+                app:layout_constraintTop_toBottomOf="@id/user_follower"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/user_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/user_recycler_margin"
+                android:nestedScrollingEnabled="false"
+                app:layout_constraintTop_toBottomOf="@id/user_btn"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_video_small"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 </layout>

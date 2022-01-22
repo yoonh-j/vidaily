@@ -104,7 +104,12 @@
         android:name="com.yoond.vidaily.views.UserFragment"
         android:label=""
         tools:layout="@layout/fragment_user">
-
+        <argument
+            android:name="uId"
+            app:argType="string"/>
+        <argument
+            android:name="profileUrl"
+            app:argType="string"/>
         <action
             android:id="@+id/action_nav_user_to_nav_video"
             app:destination="@id/nav_video" />

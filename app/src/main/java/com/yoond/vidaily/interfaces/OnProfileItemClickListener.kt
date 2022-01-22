@@ -1,5 +1,5 @@
 package com.yoond.vidaily.interfaces
 
 interface OnProfileItemClickListener {
-    fun onItemClick(pId: String)
+    fun onProfileItemClick(uId: String,  profileUrl: String)
 }

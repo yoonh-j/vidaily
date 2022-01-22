@@ -60,10 +60,9 @@ class LargeVideoListAdapter(
                             .placeholder(R.color.black)
                             .into(binding.itemVideoLargeThumbnail)
                     }
-
-                    Log.i("VIDEO_REPOSITORY", it.url.toString())
+                    Log.i("VIDEO_LIST_ADAPTER", it.url.toString())
                 },
-                { Log.e("VIDEO_REPOSITORY", "getVideoUrl failed", it) }
+                { Log.e("VIDEO_LIST_ADAPTER", "getVideoUrl failed", it) }
             )
 
             // get profile url
@@ -79,7 +78,7 @@ class LargeVideoListAdapter(
                             .into(binding.itemVideoLargeProfile)
                     }
                 },
-                { Log.e("VIDEO_REPOSITORY", "getProfileUrl failed", it) }
+                { Log.e("VIDEO_LIST_ADAPTER", "getProfileUrl failed", it) }
             )
         }
     }

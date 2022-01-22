@@ -8,14 +8,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.amplifyframework.datastore.generated.model.Comment
 import com.bumptech.glide.Glide
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.yoond.vidaily.MainActivity
 import com.yoond.vidaily.R
 import com.yoond.vidaily.adapters.CommentListAdapter
+import com.yoond.vidaily.data.CommentItem
 import com.yoond.vidaily.databinding.FragmentVideoBinding
 import com.yoond.vidaily.interfaces.OnProfileItemClickListener
 import com.yoond.vidaily.viewmodels.VideoViewModel
@@ -28,7 +29,7 @@ class VideoFragment : Fragment(), OnProfileItemClickListener {
     private val args: VideoFragmentArgs by navArgs()
     private val videoViewModel: VideoViewModel by viewModels()
     private var exoPlayer: ExoPlayer? = null
-    private var comments: MutableList<Comment> = mutableListOf()
+    private var comments: MutableList<CommentItem> = mutableListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -64,6 +65,9 @@ class VideoFragment : Fragment(), OnProfileItemClickListener {
         setMetadata()
         subscribeUi()
 
+        binding.videoProfile.setOnClickListener {
+            navigateToUser(args.videoItem.uid, args.videoItem.profileUrl)
+        }
         binding.videoCommentDone.setOnClickListener {
             uploadComment()
             (activity as MainActivity).hideKeyboard()
@@ -109,7 +113,7 @@ class VideoFragment : Fragment(), OnProfileItemClickListener {
             .into(binding.videoProfile)
     }
 
-    private fun setAdapter(comments: MutableList<Comment>) {
+    private fun setAdapter(comments: MutableList<CommentItem>) {
         val commentAdapter = CommentListAdapter(
             (activity as MainActivity),
             requireContext(),
@@ -134,7 +138,11 @@ class VideoFragment : Fragment(), OnProfileItemClickListener {
         }
     }
 
-    override fun onItemClick(pId: String) {
-        Log.d("VIDEO_FRAGMENT", pId)
+    override fun onProfileItemClick(uId: String, profileUrl: String) {
+        navigateToUser(uId, profileUrl)
+    }
+
+    private fun navigateToUser(uId: String, profileUrl: String) {
+        findNavController().navigate(VideoFragmentDirections.actionNavVideoToNavUser(uId, profileUrl))
     }
 }

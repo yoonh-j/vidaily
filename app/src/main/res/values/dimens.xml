@@ -30,4 +30,8 @@
     <dimen name="video_comment_margin">20dp</dimen>
     <dimen name="item_comment_profile_size">50dp</dimen>
     <dimen name="item_comment_layout_margin">10dp</dimen>
+
+    <!-- User fragment -->
+    <dimen name="user_profile_size">100dp</dimen>
+    <dimen name="user_recycler_margin">20dp</dimen>
 </resources>

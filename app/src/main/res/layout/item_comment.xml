@@ -4,8 +4,8 @@
 
     <data>
         <variable
-            name="comment"
-            type="com.amplifyframework.datastore.generated.model.Comment" />
+            name="commentItem"
+            type="com.yoond.vidaily.data.CommentItem" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/item_comment_layout_margin"
             android:layout_marginEnd="@dimen/item_comment_layout_margin"
-            android:text="@{comment.user.username}"
+            android:text="@{commentItem.username}"
             android:textStyle="bold"
             app:layout_constraintTop_toTopOf="@id/item_comment_profile"
             app:layout_constraintStart_toEndOf="@id/item_comment_profile"
@@ -47,7 +47,7 @@
             android:id="@+id/item_comment_content"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@{comment.content}"
+            android:text="@{commentItem.content}"
             app:layout_constraintTop_toBottomOf="@id/item_comment_username"
             app:layout_constraintStart_toStartOf="@id/item_comment_username"
             app:layout_constraintEnd_toEndOf="@id/item_comment_username"

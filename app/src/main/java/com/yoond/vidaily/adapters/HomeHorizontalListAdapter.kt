@@ -48,7 +48,6 @@ class HomeHorizontalListAdapter(
         }
 
         fun bind(item: VideoItem) {
-            Log.d("HOME_ADAPTER", "onBind: video ${item.videoUrl}")
             binding.videoItem = item
 
             // get video url
@@ -61,15 +60,15 @@ class HomeHorizontalListAdapter(
                             .into(binding.itemHomeThumbnail)
                     }
 
-                    Log.i("VIDEO_REPOSITORY", it.url.toString())
+                    Log.i("VIDEO_LIST_ADAPTER", it.url.toString())
                 },
-                { Log.e("VIDEO_REPOSITORY", "getVideoUrl failed", it) }
+                { Log.e("VIDEO_LIST_ADAPTER", "getVideoUrl failed", it) }
             )
 
             // get profile url
             Amplify.Storage.getUrl("profiles/${item.uid}",
                 { item.profileUrl = it.url.toString() },
-                { Log.e("VIDEO_REPOSITORY", "getProfileUrl failed", it) }
+                { Log.e("VIDEO_LIST_ADAPTER", "getProfileUrl failed", it) }
             )
         }
     }
