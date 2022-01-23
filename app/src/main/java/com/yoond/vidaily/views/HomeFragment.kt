@@ -30,6 +30,9 @@ class HomeFragment : Fragment(), OnVideoItemClickListener {
     private val videoViewModel: VideoViewModel by viewModels()
     private val userViewModel: UserViewModel by viewModels()
     private var pressedTimeInMillis: Long = 0L
+    private lateinit var todayAdapter: HomeHorizontalListAdapter
+    private lateinit var popularAdapter: HomeHorizontalListAdapter
+    private lateinit var followAdapter: LargeVideoListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -78,18 +81,25 @@ class HomeFragment : Fragment(), OnVideoItemClickListener {
 
     private fun init() {
         setHasOptionsMenu(true)
+        setAdapters()
+        setDecorations()
+        setListeners()
+    }
 
-        val todayAdapter = HomeHorizontalListAdapter((activity as MainActivity), requireContext(), this)
+    private fun setAdapters() {
+        todayAdapter = HomeHorizontalListAdapter((activity as MainActivity), requireContext(), this)
         binding.homeRecyclerToday.adapter = todayAdapter
 
-        val popularAdapter = HomeHorizontalListAdapter((activity as MainActivity), requireContext(), this)
+        popularAdapter = HomeHorizontalListAdapter((activity as MainActivity), requireContext(), this)
         binding.homeRecyclerPopular.adapter = popularAdapter
 
-        val followAdapter = LargeVideoListAdapter((activity as MainActivity), requireContext(), this)
+        followAdapter = LargeVideoListAdapter((activity as MainActivity), requireContext(), this)
         binding.homeRecyclerFollow.adapter = followAdapter
 
         subscribeUi(todayAdapter, popularAdapter, followAdapter)
+    }
 
+    private fun setDecorations() {
         val margin = resources.getDimension(R.dimen.item_video_mid_margin).toInt()
         val decoration = ListDecoration(margin, false)
 
@@ -98,7 +108,9 @@ class HomeFragment : Fragment(), OnVideoItemClickListener {
 
         val largeMargin = resources.getDimension(R.dimen.item_video_large_margin).toInt()
         binding.homeRecyclerFollow.addItemDecoration(ListDecoration(largeMargin, true))
+    }
 
+    private fun setListeners() {
         binding.homeMoreToday.setOnClickListener {
             Log.d("HOME_FRAGMENT", "${todayAdapter.currentList}")
             navigateToHomeList(todayAdapter.currentList.toTypedArray())
@@ -106,6 +118,12 @@ class HomeFragment : Fragment(), OnVideoItemClickListener {
         binding.homeMorePopular.setOnClickListener {
             Log.d("HOME_FRAGMENT", "${popularAdapter.currentList}")
             navigateToHomeList(popularAdapter.currentList.toTypedArray())
+        }
+
+        binding.homeRefresh.setColorSchemeResources(R.color.orange_200)
+        binding.homeRefresh.setOnRefreshListener {
+            subscribeUi(todayAdapter, popularAdapter, followAdapter)
+            binding.homeRefresh.isRefreshing = false
         }
     }
 
@@ -131,8 +149,9 @@ class HomeFragment : Fragment(), OnVideoItemClickListener {
             val uid = Amplify.Auth.currentUser.userId
 
             userViewModel.getUser(uid).observe(viewLifecycleOwner) { user ->
-                videoViewModel.getVideosByFollowing(user.following).observe(viewLifecycleOwner) { metadataList ->
-                    followAdapter.submitList(metadataList) {
+                videoViewModel.getVideosByFollowing(user.following).observe(viewLifecycleOwner) { videoList ->
+                    videoList.sortByDescending { it.createdAt } // 시간 내림차순(최근 영상이 위로 올라오도록) 정렬
+                    followAdapter.submitList(videoList) {
                         binding.homeRecyclerFollow.invalidateItemDecorations()
                     }
                 }
