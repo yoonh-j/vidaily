@@ -165,7 +165,39 @@ class VideoRepository {
                     videoList.postValue(list) // background thread이기 때문에 postValue
                 }
             },
-            { Log.e("VIDEO_REPOSITORY", "getVideosByFollowing failed", it) }
+            { Log.e("VIDEO_REPOSITORY", "getVideosByUser failed", it) }
+        )
+        return videoList
+    }
+
+    fun getVideosByQuery(query: String): LiveData<MutableList<VideoItem>> {
+        val videoList = MutableLiveData<MutableList<VideoItem>>()
+
+        Amplify.API.query(ModelQuery.list(Video::class.java, Video.TITLE.contains(query)),
+            { response ->
+                if (response.hasData()) {
+                    val list = mutableListOf<VideoItem>()
+
+                    response.data.items.forEach { video ->
+                        if (video != null) {
+                            list.add(VideoItem(
+                                video.id,
+                                video.title,
+                                video.description,
+                                video.views,
+                                video.likes,
+                                video.createdAt,
+                                video.uid,
+                                video.user.username,
+                                "",
+                                ""
+                            ))
+                        }
+                    }
+                    videoList.postValue(list) // background thread이기 때문에 postValue
+                }
+            },
+            { Log.e("VIDEO_REPOSITORY", "getVideosByQuery failed", it) }
         )
         return videoList
     }

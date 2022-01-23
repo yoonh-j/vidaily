@@ -48,8 +48,15 @@ class SmallVideoListAdapter(
 
         fun bind(item: VideoItem) {
             binding.videoItem = item
-            if (item.videoUrl == "") {
 
+            if (item.profileUrl == "") {
+                // get profile url
+                Amplify.Storage.getUrl("profiles/${item.uid}",
+                    { item.profileUrl = it.url.toString() },
+                    { Log.e("VIDEO_LIST_ADAPTER", "getVideoUrl failed", it) }
+                )
+            }
+            if (item.videoUrl == "") {
                 // get video url
                 Amplify.Storage.getUrl("videos/${item.id}",
                     { item.videoUrl = it.url.toString()

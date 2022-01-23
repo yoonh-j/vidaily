@@ -60,7 +60,6 @@ class LargeVideoListAdapter(
                             .placeholder(R.color.black)
                             .into(binding.itemVideoLargeThumbnail)
                     }
-                    Log.i("VIDEO_LIST_ADAPTER", it.url.toString())
                 },
                 { Log.e("VIDEO_LIST_ADAPTER", "getVideoUrl failed", it) }
             )

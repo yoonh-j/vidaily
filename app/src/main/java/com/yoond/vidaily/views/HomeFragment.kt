@@ -3,10 +3,8 @@ package com.yoond.vidaily.views
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
@@ -58,7 +56,29 @@ class HomeFragment : Fragment(), OnVideoItemClickListener {
         (activity as MainActivity).setBottomNavVisible(true)
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_toolbar_home, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.menu_home_search -> {
+                navigateToSearch()
+                true
+            }
+            R.id.menu_home_preference -> {
+                navigateToPreference()
+                true
+            }
+            else -> {
+                super.onOptionsItemSelected(item)
+            }
+        }
+    }
+
     private fun init() {
+        setHasOptionsMenu(true)
+
         val todayAdapter = HomeHorizontalListAdapter((activity as MainActivity), requireContext(), this)
         binding.homeRecyclerToday.adapter = todayAdapter
 
@@ -127,6 +147,13 @@ class HomeFragment : Fragment(), OnVideoItemClickListener {
 
     private fun navigateToVideo(videoItem: VideoItem) {
         findNavController().navigate(HomeFragmentDirections.actionNavHomeToNavVideo(videoItem))
+    }
+
+    private fun navigateToSearch() {
+        findNavController().navigate(HomeFragmentDirections.actionNavHomeToNavSearch())
+    }
+
+    private fun navigateToPreference() {
     }
 
     private fun navigateToHomeList(videoItems: Array<VideoItem>) {

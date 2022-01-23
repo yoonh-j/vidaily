@@ -34,4 +34,7 @@
     <!-- User fragment -->
     <dimen name="user_profile_size">100dp</dimen>
     <dimen name="user_recycler_margin">20dp</dimen>
+
+    <!-- Search fragment -->
+    <dimen name="search_label_height">300dp</dimen>
 </resources>
