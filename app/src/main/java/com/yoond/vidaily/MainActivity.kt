@@ -33,6 +33,20 @@ class MainActivity : AppCompatActivity() {
     private fun initNavigation() {
         navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            if (destination.id == R.id.nav_upload) {
+                supportActionBar?.setDisplayHomeAsUpEnabled(true)
+                supportActionBar?.setDisplayShowHomeEnabled(true)
+                supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_baseline_close_24)
+                binding.toolbarLogo.visibility = View.GONE
+            } else {
+                supportActionBar?.setDisplayHomeAsUpEnabled(false)
+                supportActionBar?.setDisplayShowHomeEnabled(false)
+                supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_24)
+                binding.toolbarLogo.visibility = View.VISIBLE
+            }
+        }
         binding.bottomNav.setupWithNavController(navController)
     }
 

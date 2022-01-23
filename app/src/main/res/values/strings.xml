@@ -17,6 +17,7 @@
     <!-- Menu -->
     <string name="menu_search">검색</string>
     <string name="menu_preference">설정</string>
+    <string name="menu_done">완료</string>
 
     <!-- Video Metadata -->
     <string name="video_views">조회수 %1d회</string>
@@ -55,6 +56,9 @@
     <string name="home_toast_back_pressed">\'뒤로가기\'를 한 번 더 누르면 종료됩니다.</string>
 
     <!-- Upload Fragment -->
+    <string name="hint_upload_title">제목</string>
+    <string name="hint_upload_description">설명</string>
+    <string name="toast_no_title">제목을 입력하세요.</string>
     <string name="toast_upload_error">동영상 업로드 중 문제가 발생했습니다.</string>
 
     <!-- Video Fragment -->
