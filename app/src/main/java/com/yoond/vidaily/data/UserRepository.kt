@@ -158,58 +158,70 @@ class UserRepository {
     }
 
     /**
-     * returns a list of follower users
-     * @param fIds: a list of the current user's follower ids
+     * returns a list of follower/following users
+     * @param uId: 팔로워 목록을 가져오고자 하는 유저
+     * @return following 목록에 uId가 있는 유저 목록
      */
-    fun getFollowers(fIds: List<String>): LiveData<MutableList<User>> {
-        val followerList = MutableLiveData<MutableList<User>>()
+    fun getFollowers(uId: String): LiveData<MutableList<UserItem>> {
+        val followerList = MutableLiveData<MutableList<UserItem>>()
 
-        fIds.forEach { fId ->
-            Amplify.API.query(ModelQuery.list(User::class.java, User.ID.contains(fId)),
-                { following ->
-                    if (following.hasData()) {
-                        Log.i("USER_REPOSITORY", "getFollowers succeeded: $following")
-                        val list = mutableListOf<User>()
+        // uId가 following 하는 유저 목록
+        Amplify.API.query(ModelQuery.list(User::class.java, User.FOLLOWING.contains(uId)),
+            { followers ->
+                if (followers.hasData()) {
+                    Log.i("USER_REPOSITORY", "getFollowers succeeded: $followers")
+                    val list = mutableListOf<UserItem>()
 
-                        following.data.items.forEach { item ->
-                            if (item != null) {
-                                list.add(item)
-                            }
+                    followers.data.items.forEach { item ->
+                        if (item != null) {
+                            list.add(UserItem(
+                                item.id,
+                                item.username,
+                                item.following,
+                                item.follower,
+                                ""
+                            ))
                         }
-                        followerList.postValue(list)
                     }
-                },
-                { Log.e("USER_REPOSITORY", "getFollowers failed", it) }
-            )
-        }
+                    followerList.postValue(list)
+                }
+            },
+            { Log.e("USER_REPOSITORY", "getFollowers failed", it) }
+        )
         return followerList
     }
 
     /**
-     * returns a list of following users
-     * @param fIds: a list of the current user's following ids
+     * returns a list of follower/following users
+     * @param uId: 팔로잉 목록을 가져오고자 하는 유저
+     * @return follower 목록에 uId가 있는 유저 목록
      */
-    fun getFollowings(fIds: List<String>): LiveData<MutableList<User>> {
-        val followingList = MutableLiveData<MutableList<User>>()
+    fun getFollowings(uId: String): LiveData<MutableList<UserItem>> {
+        val followingList = MutableLiveData<MutableList<UserItem>>()
 
-        fIds.forEach { fId ->
-            Amplify.API.query(ModelQuery.list(User::class.java, User.ID.contains(fId)),
-                { following ->
-                    if (following.hasData()) {
-                        Log.i("USER_REPOSITORY", "getFollowings succeeded: $following")
-                        val list = mutableListOf<User>()
+        // uId를 follow하는 유저 목록
+        Amplify.API.query(ModelQuery.list(User::class.java, User.FOLLOWER.contains(uId)),
+            { following ->
+                if (following.hasData()) {
+                    Log.i("USER_REPOSITORY", "getFollowings succeeded: $following")
+                    val list = mutableListOf<UserItem>()
 
-                        following.data.items.forEach { item ->
-                            if (item != null) {
-                                list.add(item)
-                            }
+                    following.data.items.forEach { item ->
+                        if (item != null) {
+                            list.add(UserItem(
+                                item.id,
+                                item.username,
+                                item.following,
+                                item.follower,
+                                ""
+                            ))
                         }
-                        followingList.postValue(list)
                     }
-                },
-                { Log.e("USER_REPOSITORY", "getFollowing failed", it) }
-            )
-        }
+                    followingList.postValue(list)
+                }
+            },
+            { Log.e("USER_REPOSITORY", "getFollowings failed", it) }
+        )
         return followingList
     }
 }

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="userItem"
+            type="com.yoond.vidaily.data.UserItem" />
+        <variable
+            name="clickListener"
+            type="android.view.View.OnClickListener" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/base_layout_margin"
+        android:onClick="@{clickListener}">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/follow_profile"
+            android:layout_width="@dimen/item_follow_profile_size"
+            android:layout_height="@dimen/item_follow_profile_size"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <TextView
+            android:id="@+id/follow_username"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/base_layout_margin"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:text="@{userItem.username}"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="@id/follow_profile"
+            app:layout_constraintStart_toEndOf="@id/follow_profile"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/follow_followers"/>
+
+        <TextView
+            style="@style/Theme.Vidaily.VideoMetadata"
+            android:id="@+id/follow_followers"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/base_layout_margin"
+            android:text="@{@string/item_follow_metadata(userItem.follower.size(), userItem.following.size())}"
+            app:layout_constraintTop_toBottomOf="@id/follow_username"
+            app:layout_constraintStart_toStartOf="@id/follow_username"
+            app:layout_constraintEnd_toEndOf="@id/follow_username"
+            app:layout_constraintBottom_toBottomOf="@id/follow_profile"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

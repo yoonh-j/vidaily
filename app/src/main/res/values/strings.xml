@@ -70,6 +70,9 @@
     <!-- Search Fragment -->
     <string name="search_label">동영상을 검색해보세요.</string>
 
+    <!-- Follow Fragment -->
+    <string name="item_follow_metadata">팔로워 %d명 · 팔로잉 %d명</string>
+
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>
     <string name="sync_header">Sync</string>

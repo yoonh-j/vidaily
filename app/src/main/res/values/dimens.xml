@@ -37,4 +37,7 @@
 
     <!-- Search fragment -->
     <dimen name="search_label_height">300dp</dimen>
+
+    <!-- Follow fragment -->
+    <dimen name="item_follow_profile_size">50dp</dimen>
 </resources>

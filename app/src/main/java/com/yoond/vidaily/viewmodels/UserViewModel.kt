@@ -3,6 +3,7 @@ package com.yoond.vidaily.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.amplifyframework.datastore.generated.model.User
+import com.yoond.vidaily.data.UserItem
 import com.yoond.vidaily.data.UserRepository
 import java.io.File
 
@@ -21,9 +22,9 @@ class UserViewModel: ViewModel() {
     fun getUser(uid: String): LiveData<User> =
         repository.getUser(uid)
 
-    fun getFollowers(fIds: List<String>): LiveData<MutableList<User>> =
-        repository.getFollowers(fIds)
+    fun getFollowers(uId: String): LiveData<MutableList<UserItem>> =
+        repository.getFollowers(uId)
 
-    fun getFollowings(fIds: List<String>): LiveData<MutableList<User>> =
-        repository.getFollowings(fIds)
+    fun getFollowings(uId: String): LiveData<MutableList<UserItem>> =
+        repository.getFollowings(uId)
 }

@@ -57,6 +57,7 @@ class UserFragment : Fragment(), OnVideoItemClickListener {
         binding.userRecycler.adapter = videoAdapter
 
         subscribeUi(videoAdapter)
+        setOnFollowClick()
 
         Glide.with(this)
             .load(args.profileUrl)
@@ -118,11 +119,28 @@ class UserFragment : Fragment(), OnVideoItemClickListener {
         }
     }
 
+    private fun setOnFollowClick() {
+        binding.userFollower.setOnClickListener {
+            if (binding.user != null) {
+                navigateToFollow(binding.user!!.id, true)
+            }
+        }
+        binding.userFollowing.setOnClickListener {
+            if (binding.user != null) {
+                navigateToFollow(binding.user!!.id, false)
+            }
+        }
+    }
+
     override fun onVideoItemClick(videoItem: VideoItem) {
         navigateToVideo(videoItem)
     }
 
     private fun navigateToVideo(videoItem: VideoItem) {
         findNavController().navigate(UserFragmentDirections.actionNavUserToNavVideo(videoItem))
+    }
+
+    private fun navigateToFollow(uId: String, isFollowerList: Boolean) {
+        findNavController().navigate(UserFragmentDirections.actionNavUserToNavFollow(uId, isFollowerList))
     }
 }
