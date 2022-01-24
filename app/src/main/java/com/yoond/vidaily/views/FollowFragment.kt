@@ -33,13 +33,6 @@ class FollowFragment : Fragment(), OnProfileItemClickListener {
         return binding.root
     }
 
-    override fun onResume() {
-        super.onResume()
-        (activity as MainActivity).setToolbarVisible(true)
-        (activity as MainActivity).setBackButtonVisible(true)
-        (activity as MainActivity).setBottomNavVisible(false)
-    }
-
     private fun init() {
         val followAdapter = FollowListAdapter((activity as MainActivity), requireContext(), this)
         binding.followRecycler.adapter = followAdapter

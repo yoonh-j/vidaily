@@ -46,14 +46,11 @@ class VideoFragment : Fragment(), OnProfileItemClickListener {
     override fun onResume() {
         super.onResume()
         exoPlayer?.playWhenReady = true
-        (activity as MainActivity).setBottomNavVisible(false)
-        (activity as MainActivity).setBackButtonVisible(true)
     }
 
     override fun onPause() {
         super.onPause()
         exoPlayer?.playWhenReady = false
-        (activity as MainActivity).setBackButtonVisible(false)
     }
 
     override fun onDestroy() {

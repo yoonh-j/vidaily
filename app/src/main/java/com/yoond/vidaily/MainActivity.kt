@@ -42,16 +42,29 @@ class MainActivity : AppCompatActivity() {
         navController = navHostFragment.navController
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            if (destination.id == R.id.nav_upload) {
-                supportActionBar?.setDisplayHomeAsUpEnabled(true)
-                supportActionBar?.setDisplayShowHomeEnabled(true)
-                supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_baseline_close_24)
-                binding.toolbarLogo.visibility = View.GONE
+            if (destination.id == R.id.nav_signup ||
+                destination.id == R.id.nav_login ||
+                destination.id == R.id.nav_profile) {
+                setToolbarVisible(false)
             } else {
-                supportActionBar?.setDisplayHomeAsUpEnabled(false)
-                supportActionBar?.setDisplayShowHomeEnabled(false)
+                setToolbarVisible(true)
+            }
+            if (destination.id == R.id.nav_home || destination.id == R.id.nav_my) {
+                setBackButtonVisible(false)
+            } else {
+                setBackButtonVisible(true)
+            }
+            if (destination.id == R.id.nav_home ||
+                destination.id == R.id.nav_my ||
+                destination.id == R.id.nav_user) {
+                setBottomNavVisible(true)
+            } else {
+                setBottomNavVisible(false)
+            }
+            if (destination.id == R.id.nav_upload) {
+                supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_baseline_close_24)
+            } else {
                 supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_24)
-                binding.toolbarLogo.visibility = View.VISIBLE
             }
         }
         binding.bottomNav.setupWithNavController(navController)
@@ -76,18 +89,18 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun setBottomNavVisible(visible: Boolean) {
+    private fun setBottomNavVisible(visible: Boolean) {
         binding.bottomNav.visibility =
             if (visible) View.VISIBLE
             else View.GONE
     }
 
-    fun setToolbarVisible(visible: Boolean) {
+    private fun setToolbarVisible(visible: Boolean) {
         if (visible) supportActionBar?.show()
         else supportActionBar?.hide()
     }
 
-    fun setBackButtonVisible(visible: Boolean) {
+    private fun setBackButtonVisible(visible: Boolean) {
         supportActionBar?.setDisplayHomeAsUpEnabled(visible)
         supportActionBar?.setDisplayShowHomeEnabled(visible)
 

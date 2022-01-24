@@ -32,12 +32,6 @@ class SignupFragment : Fragment() {
         return binding.root
     }
 
-    override fun onResume() {
-        super.onResume()
-        (activity as MainActivity).setToolbarVisible(false)
-        (activity as MainActivity).setBottomNavVisible(false)
-    }
-
     private fun init() {
 
         binding.signupCodeBtn.setOnClickListener {

@@ -41,18 +41,6 @@ class UserFragment : Fragment(), OnVideoItemClickListener {
         return binding.root
     }
 
-    override fun onResume() {
-        super.onResume()
-        (activity as MainActivity).setToolbarVisible(true)
-        (activity as MainActivity).setBackButtonVisible(true)
-        (activity as MainActivity).setBottomNavVisible(false)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        (activity as MainActivity).setBackButtonVisible(false)
-    }
-
     private fun init() {
         val videoAdapter = SmallVideoListAdapter((activity as MainActivity), requireContext(), this)
         binding.userRecycler.adapter = videoAdapter

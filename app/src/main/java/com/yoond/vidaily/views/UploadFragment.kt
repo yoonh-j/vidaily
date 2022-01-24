@@ -39,8 +39,6 @@ class UploadFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        (activity as MainActivity).setToolbarVisible(true)
-        (activity as MainActivity).setBottomNavVisible(false)
         exoPlayer?.playWhenReady = false
     }
 

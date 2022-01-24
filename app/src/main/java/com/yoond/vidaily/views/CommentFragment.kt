@@ -22,11 +22,4 @@ class CommentFragment : Fragment() {
         binding = FragmentCommentBinding.inflate(inflater, container, false)
         return binding.root
     }
-
-    override fun onResume() {
-        super.onResume()
-        (activity as MainActivity).setToolbarVisible(true)
-        (activity as MainActivity).setBottomNavVisible(true)
-    }
-
 }

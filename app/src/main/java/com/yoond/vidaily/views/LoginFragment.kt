@@ -42,12 +42,6 @@ class LoginFragment : Fragment() {
         activity?.onBackPressedDispatcher?.addCallback(this, callback)
     }
 
-    override fun onResume() {
-        super.onResume()
-        (activity as MainActivity).setToolbarVisible(false)
-        (activity as MainActivity).setBottomNavVisible(false)
-    }
-
     private fun init() {
         binding.loginSignup.setOnClickListener {
             findNavController().navigate(R.id.nav_signup)

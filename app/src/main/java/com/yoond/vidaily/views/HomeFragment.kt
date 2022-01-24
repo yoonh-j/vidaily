@@ -10,7 +10,6 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.amplifyframework.core.Amplify
-import com.google.firebase.messaging.FirebaseMessaging
 import com.yoond.vidaily.MainActivity
 import com.yoond.vidaily.R
 import com.yoond.vidaily.adapters.HomeHorizontalListAdapter
@@ -54,12 +53,6 @@ class HomeFragment : Fragment(), OnVideoItemClickListener {
             }
         }
         activity?.onBackPressedDispatcher?.addCallback(this, callback)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        (activity as MainActivity).setToolbarVisible(true)
-        (activity as MainActivity).setBottomNavVisible(true)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
