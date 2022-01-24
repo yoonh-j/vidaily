@@ -3,19 +3,26 @@ package com.yoond.vidaily
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.amplifyframework.api.graphql.model.ModelMutation
 import com.amplifyframework.core.Amplify
+import com.amplifyframework.datastore.generated.model.PushToken
+import com.google.firebase.messaging.FirebaseMessaging
 import com.yoond.vidaily.databinding.ActivityMainBinding
+import com.yoond.vidaily.viewmodels.AuthViewModel
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navHostFragment: NavHostFragment
     private lateinit var navController: NavController
+    private val authViewModel: AuthViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,6 +60,19 @@ class MainActivity : AppCompatActivity() {
     private fun setStartDestination() {
         if (Amplify.Auth.currentUser == null) {
             navController.navigate(R.id.nav_login)
+        } else {
+            updatePushToken()
+        }
+    }
+
+    private fun updatePushToken() {
+        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val token = task.result
+                authViewModel.updatePushToken(token)
+            } else {
+                Log.e("MAIN_ACTIVITY", "updatePushToken failed", task.exception)
+            }
         }
     }
 

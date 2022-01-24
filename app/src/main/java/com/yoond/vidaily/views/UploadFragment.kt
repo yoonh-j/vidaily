@@ -62,6 +62,8 @@ class UploadFragment : Fragment() {
             data != null) {
                 videoUri = data.data!!
                 initPlayer(videoUri)
+        } else {
+            navigateUp()
         }
     }
 

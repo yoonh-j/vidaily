@@ -116,3 +116,26 @@ query ListComments(
     nextToken
   }
 }
+query GetPushToken($id: ID!) {
+  getPushToken(id: $id) {
+    id
+    token
+    createdAt
+    updatedAt
+  }
+}
+query ListPushTokens(
+  $filter: ModelPushTokenFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listPushTokens(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      token
+      createdAt
+      updatedAt
+    }
+    nextToken
+  }
+}

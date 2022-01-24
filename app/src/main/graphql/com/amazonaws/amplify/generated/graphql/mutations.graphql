@@ -170,3 +170,36 @@ mutation DeleteComment(
     updatedAt
   }
 }
+mutation CreatePushToken(
+  $input: CreatePushTokenInput!
+  $condition: ModelPushTokenConditionInput
+) {
+  createPushToken(input: $input, condition: $condition) {
+    id
+    token
+    createdAt
+    updatedAt
+  }
+}
+mutation UpdatePushToken(
+  $input: UpdatePushTokenInput!
+  $condition: ModelPushTokenConditionInput
+) {
+  updatePushToken(input: $input, condition: $condition) {
+    id
+    token
+    createdAt
+    updatedAt
+  }
+}
+mutation DeletePushToken(
+  $input: DeletePushTokenInput!
+  $condition: ModelPushTokenConditionInput
+) {
+  deletePushToken(input: $input, condition: $condition) {
+    id
+    token
+    createdAt
+    updatedAt
+  }
+}

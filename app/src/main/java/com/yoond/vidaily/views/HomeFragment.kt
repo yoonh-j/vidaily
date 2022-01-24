@@ -10,6 +10,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.amplifyframework.core.Amplify
+import com.google.firebase.messaging.FirebaseMessaging
 import com.yoond.vidaily.MainActivity
 import com.yoond.vidaily.R
 import com.yoond.vidaily.adapters.HomeHorizontalListAdapter
@@ -18,6 +19,7 @@ import com.yoond.vidaily.data.VideoItem
 import com.yoond.vidaily.databinding.FragmentHomeBinding
 import com.yoond.vidaily.decorators.ListDecoration
 import com.yoond.vidaily.interfaces.OnVideoItemClickListener
+import com.yoond.vidaily.viewmodels.AuthViewModel
 import com.yoond.vidaily.viewmodels.UserViewModel
 import com.yoond.vidaily.viewmodels.VideoViewModel
 
@@ -29,6 +31,7 @@ class HomeFragment : Fragment(), OnVideoItemClickListener {
     private lateinit var binding: FragmentHomeBinding
     private val videoViewModel: VideoViewModel by viewModels()
     private val userViewModel: UserViewModel by viewModels()
+    private val authViewModel: AuthViewModel by viewModels()
     private var pressedTimeInMillis: Long = 0L
     private lateinit var todayAdapter: HomeHorizontalListAdapter
     private lateinit var popularAdapter: HomeHorizontalListAdapter
@@ -120,7 +123,7 @@ class HomeFragment : Fragment(), OnVideoItemClickListener {
             navigateToHomeList(popularAdapter.currentList.toTypedArray())
         }
 
-        binding.homeRefresh.setColorSchemeResources(R.color.orange_200)
+        binding.homeRefresh.setColorSchemeResources(R.color.orange_500)
         binding.homeRefresh.setOnRefreshListener {
             subscribeUi(todayAdapter, popularAdapter, followAdapter)
             binding.homeRefresh.isRefreshing = false

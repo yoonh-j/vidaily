@@ -16,4 +16,10 @@ class AuthViewModel: ViewModel() {
     fun login(email: String, pwd: String): LiveData<Boolean> =
         repository.login(email, pwd)
 
+    fun createPushToken(token: String) =
+        repository.createPushToken(token)
+
+    fun updatePushToken(pushToken: String) =
+        repository.updatePushToken(pushToken)
+
 }

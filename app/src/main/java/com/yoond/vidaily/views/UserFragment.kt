@@ -18,6 +18,7 @@ import com.yoond.vidaily.adapters.SmallVideoListAdapter
 import com.yoond.vidaily.data.VideoItem
 import com.yoond.vidaily.databinding.FragmentUserBinding
 import com.yoond.vidaily.interfaces.OnVideoItemClickListener
+import com.yoond.vidaily.utils.FcmPushUtil
 import com.yoond.vidaily.viewmodels.UserViewModel
 import com.yoond.vidaily.viewmodels.VideoViewModel
 
@@ -105,6 +106,7 @@ class UserFragment : Fragment(), OnVideoItemClickListener {
                     if (it) {
                         val followers = binding.userFollower.text.toString().toInt()
                         binding.userFollower.text = (followers + 1).toString()
+                        sendPush(user)
                     }
                 }
             } else {
@@ -134,6 +136,13 @@ class UserFragment : Fragment(), OnVideoItemClickListener {
 
     override fun onVideoItemClick(videoItem: VideoItem) {
         navigateToVideo(videoItem)
+    }
+
+    private fun sendPush(user: User) {
+        val title = resources.getString(R.string.app_name)
+        val message = resources.getString(R.string.alarm_following)
+
+        FcmPushUtil.instance.sendPush(user.id, title, message)
     }
 
     private fun navigateToVideo(videoItem: VideoItem) {

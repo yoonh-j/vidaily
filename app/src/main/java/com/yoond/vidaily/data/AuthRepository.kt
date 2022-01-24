@@ -3,9 +3,11 @@ package com.yoond.vidaily.data
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.amplifyframework.api.graphql.model.ModelMutation
 import com.amplifyframework.auth.AuthUserAttributeKey
 import com.amplifyframework.auth.options.AuthSignUpOptions
 import com.amplifyframework.core.Amplify
+import com.amplifyframework.datastore.generated.model.PushToken
 
 class AuthRepository {
 
@@ -52,4 +54,34 @@ class AuthRepository {
         )
         return isLoggedIn
     }
+
+    /**
+     * creates push token in db
+     */
+    fun createPushToken(pushToken: String) {
+        val uid = Amplify.Auth.currentUser.userId
+        val token = PushToken.builder()
+            .token(pushToken)
+            .id(uid)
+            .build()
+        Amplify.API.mutate(ModelMutation.create(token),
+            { Log.i("USER_REPOSITORY", "createPushToken succeeded, $it") },
+            { Log.e("USER_REPOSITORY", "createPushToken failed", it) }
+        )
+    }
+
+    fun updatePushToken(pushToken: String) {
+        val uid = Amplify.Auth.currentUser.userId
+        val token = PushToken.builder()
+            .token(pushToken)
+            .id(uid)
+            .build()
+
+        Amplify.API.mutate(
+            ModelMutation.update(token),
+            { Log.i("USER_REPOSITORY", "updatePushToken succeeded: $it") },
+            { Log.e("USER_REPOSITORY", "updatePushToken failed", it) }
+        )
+    }
+
 }

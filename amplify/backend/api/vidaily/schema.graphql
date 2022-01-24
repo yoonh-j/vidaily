@@ -28,3 +28,8 @@ type Comment @model {
   uid: ID!
   user: User @hasOne(fields: ["uid"])
 }
+
+type PushToken @model {
+  id: ID!
+  token: String!
+}

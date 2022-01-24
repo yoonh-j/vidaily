@@ -143,3 +143,27 @@ subscription OnDeleteComment {
     updatedAt
   }
 }
+subscription OnCreatePushToken {
+  onCreatePushToken {
+    id
+    token
+    createdAt
+    updatedAt
+  }
+}
+subscription OnUpdatePushToken {
+  onUpdatePushToken {
+    id
+    token
+    createdAt
+    updatedAt
+  }
+}
+subscription OnDeletePushToken {
+  onDeletePushToken {
+    id
+    token
+    createdAt
+    updatedAt
+  }
+}

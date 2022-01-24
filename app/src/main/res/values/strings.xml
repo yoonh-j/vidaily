@@ -19,6 +19,10 @@
     <string name="menu_preference">설정</string>
     <string name="menu_done">완료</string>
 
+    <!-- Alarm -->
+    <string name="alarm_following">새로운 팔로워가 있습니다.</string>
+    <string name="alarm_comment">글 \"%s\"에 새로운 댓글이 달렸습니다.</string>
+
     <!-- Video Metadata -->
     <string name="video_views">조회수 %1d회</string>
     <string name="createdDate">%1$tY년 %1$tb %1$te일</string>

@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.amplifyframework.core.Amplify
+import com.google.firebase.messaging.FirebaseMessaging
 import com.yoond.vidaily.MainActivity
 import com.yoond.vidaily.R
 import com.yoond.vidaily.databinding.FragmentSignupBinding
@@ -55,8 +56,7 @@ class SignupFragment : Fragment() {
                     resources.getString(R.string.toast_no_pwd),
                     Toast.LENGTH_SHORT
                 ).show()
-            } // 몇 자 이상인지 등등 조건 추가
-            else {
+            } else {
                 authViewModel.signUp(email, pwd)
             }
         }
@@ -70,6 +70,7 @@ class SignupFragment : Fragment() {
                 if (isConfirmed) {
                     authViewModel.login(email, pwd).observe(viewLifecycleOwner) { isLoggedIn ->
                         if (isLoggedIn) {
+                            createPushToken()
                             navigateToProfile()
                         }
                     }
@@ -80,5 +81,16 @@ class SignupFragment : Fragment() {
 
     private fun navigateToProfile() {
         findNavController().navigate(SignupFragmentDirections.actionNavSignupToNavProfile())
+    }
+
+    private fun createPushToken() {
+        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val token = task.result
+                authViewModel.createPushToken(token)
+            } else {
+                Log.e("SIGNUP_FRAGMENT", "createPushToken failed", task.exception)
+            }
+        }
     }
 }
