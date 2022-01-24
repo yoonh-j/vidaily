@@ -41,6 +41,7 @@ class MyFragment : Fragment(), OnVideoItemClickListener {
 
         subscribeUi(videoAdapter)
         setLogoutBtn()
+        setOnFollowClick()
     }
 
     private fun subscribeUi(videoAdapter: SmallVideoListAdapter) {
@@ -73,12 +74,29 @@ class MyFragment : Fragment(), OnVideoItemClickListener {
         }
     }
 
+    private fun setOnFollowClick() {
+        binding.myFollower.setOnClickListener {
+            if (binding.user != null) {
+                navigateToFollow(binding.user!!.id, true)
+            }
+        }
+        binding.myFollowing.setOnClickListener {
+            if (binding.user != null) {
+                navigateToFollow(binding.user!!.id, false)
+            }
+        }
+    }
+
     override fun onVideoItemClick(videoItem: VideoItem) {
         navigateToVideo(videoItem)
     }
 
     private fun navigateToLogin() {
         findNavController().navigate(MyFragmentDirections.actionNavMyToNavLogin())
+    }
+
+    private fun navigateToFollow(uId: String, isFollowerList: Boolean) {
+        findNavController().navigate(MyFragmentDirections.actionNavMyToNavFollow(uId, isFollowerList))
     }
 
     private fun navigateToVideo(videoItem: VideoItem) {

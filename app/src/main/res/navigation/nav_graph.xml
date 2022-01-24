@@ -84,6 +84,9 @@
             android:id="@+id/action_nav_my_to_nav_login"
             app:destination="@id/nav_login"/>
         <action
+            android:id="@+id/action_nav_my_to_nav_follow"
+            app:destination="@id/nav_follow"/>
+        <action
             android:id="@+id/action_nav_my_to_nav_video"
             app:destination="@id/nav_video" />
     </fragment>
