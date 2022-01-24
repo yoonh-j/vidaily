@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.amplifyframework.datastore.generated.model.User
 import com.bumptech.glide.Glide
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
@@ -19,6 +20,7 @@ import com.yoond.vidaily.adapters.CommentListAdapter
 import com.yoond.vidaily.data.CommentItem
 import com.yoond.vidaily.databinding.FragmentVideoBinding
 import com.yoond.vidaily.interfaces.OnProfileItemClickListener
+import com.yoond.vidaily.utils.FcmPushUtil
 import com.yoond.vidaily.viewmodels.VideoViewModel
 
 /**
@@ -134,8 +136,23 @@ class VideoFragment : Fragment(), OnProfileItemClickListener {
 
                 videoViewModel.uploadComment(content, createdAt, vId)
                 binding.videoCommentInput.setText("")
+                sendPush()
             }
         }
+    }
+
+    private fun sendPush() {
+        val uId = args.videoItem.uid
+        val title = resources.getString(R.string.app_name)
+        val videoTitle = args.videoItem.title
+        val message =
+            if (videoTitle.length > 10) {
+                resources.getString(R.string.alarm_comment, videoTitle.substring(0, 10) + "...")
+            } else {
+                resources.getString(R.string.alarm_comment, videoTitle)
+            }
+
+        FcmPushUtil.instance.sendPush(uId, title, message)
     }
 
     override fun onProfileItemClick(uId: String, profileUrl: String) {
