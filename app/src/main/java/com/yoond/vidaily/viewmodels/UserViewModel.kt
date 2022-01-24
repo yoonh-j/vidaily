@@ -27,4 +27,7 @@ class UserViewModel: ViewModel() {
 
     fun getFollowings(uId: String): LiveData<MutableList<UserItem>> =
         repository.getFollowings(uId)
+
+    fun getProfileUrl(uId: String): LiveData<String> =
+        repository.getProfileUrl(uId)
 }

@@ -6,7 +6,7 @@
     <!-- Titles -->
     <string name="title_home">홈</string>
     <string name="title_upload">업로드</string>
-    <string name="title_alarm">알림</string>
+    <string name="title_my">마이</string>
     <string name="title_video">영상 조회</string>
     <string name="title_search">검색</string>
     <string name="title_user">사용자</string>
@@ -64,6 +64,9 @@
     <string name="hint_upload_description">설명</string>
     <string name="toast_no_title">제목을 입력하세요.</string>
     <string name="toast_upload_error">동영상 업로드 중 문제가 발생했습니다.</string>
+
+    <!-- My Fragment -->
+    <string name="my_logout">로그아웃</string>
 
     <!-- Video Fragment -->
     <string name="hint_comment">댓글</string>

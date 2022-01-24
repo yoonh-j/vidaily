@@ -76,13 +76,15 @@
         tools:layout="@layout/fragment_upload"/>
 
     <fragment
-        android:id="@+id/nav_alarm"
-        android:name="com.yoond.vidaily.views.AlarmFragment"
-        android:label="@string/title_alarm"
-        tools:layout="@layout/fragment_alarm">
-
+        android:id="@+id/nav_my"
+        android:name="com.yoond.vidaily.views.MyFragment"
+        android:label="@string/title_my"
+        tools:layout="@layout/fragment_my">
         <action
-            android:id="@+id/action_nav_alarm_to_nav_video"
+            android:id="@+id/action_nav_my_to_nav_login"
+            app:destination="@id/nav_login"/>
+        <action
+            android:id="@+id/action_nav_my_to_nav_video"
             app:destination="@id/nav_video" />
     </fragment>
 

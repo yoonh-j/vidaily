@@ -10,6 +10,6 @@
     <item
         android:id="@+id/menu_home_preference"
         android:title="@string/menu_preference"
-        android:icon="@drawable/ic_baseline_preference_24"
+        android:icon="@drawable/ic_outline_preference_24"
         app:showAsAction="ifRoom"/>
 </menu>

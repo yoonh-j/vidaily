@@ -7,6 +7,8 @@ import com.amplifyframework.api.graphql.model.ModelMutation
 import com.amplifyframework.api.graphql.model.ModelQuery
 import com.amplifyframework.core.Amplify
 import com.amplifyframework.datastore.generated.model.User
+import com.bumptech.glide.Glide
+import com.yoond.vidaily.R
 import java.io.File
 
 /**
@@ -223,5 +225,15 @@ class UserRepository {
             { Log.e("USER_REPOSITORY", "getFollowings failed", it) }
         )
         return followingList
+    }
+
+    fun getProfileUrl(uId: String): LiveData<String> {
+        val profileUrl = MutableLiveData<String>()
+
+        Amplify.Storage.getUrl("profiles/${uId}",
+            { profileUrl.postValue(it.url.toString()) },
+            { Log.e("FOLLOW_LIST_ADAPTER", "getProfileUrl failed", it) }
+        )
+        return profileUrl
     }
 }

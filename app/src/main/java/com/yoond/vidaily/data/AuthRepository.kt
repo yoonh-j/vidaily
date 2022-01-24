@@ -55,6 +55,13 @@ class AuthRepository {
         return isLoggedIn
     }
 
+    fun logout() {
+        Amplify.Auth.signOut(
+            { Log.i("AUTH_REPOSITORY", "logout succeeded") },
+            { Log.e("AUTH_REPOSITORY", "logout failed", it) }
+        )
+    }
+
     /**
      * creates push token in db
      */
@@ -83,5 +90,4 @@ class AuthRepository {
             { Log.e("USER_REPOSITORY", "updatePushToken failed", it) }
         )
     }
-
 }
