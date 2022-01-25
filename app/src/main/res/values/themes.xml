@@ -49,4 +49,12 @@
         <item name="android:textColor">@color/gray_500</item>
         <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Caption</item>
     </style>
+
+    <style name="Theme.Vidaily.LicenseActivity" parent="Theme.AppCompat.Light">
+        <!-- action bar color -->
+        <item name="colorPrimary">@color/white</item>
+        <!-- status bar and icon color -->
+        <item name="colorPrimaryDark">@color/white</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
 </resources>

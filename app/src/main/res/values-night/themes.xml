@@ -51,4 +51,13 @@
         <item name="android:textColor">@color/gray_500</item>
         <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Caption</item>
     </style>
+
+    <style name="Theme.Vidaily.LicenseActivity" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- action bar color -->
+        <item name="colorPrimary">@color/dark_gray</item>
+        <!-- status bar color -->
+        <item name="colorPrimaryDark">@color/dark_gray</item>
+        <!-- navigation bar color -->
+        <item name="android:navigationBarColor">?attr/colorSurface</item>
+    </style>
 </resources>
