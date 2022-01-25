@@ -19,6 +19,10 @@
     <string name="menu_preference">설정</string>
     <string name="menu_done">완료</string>
 
+    <!-- Dialog -->
+    <string name="dialog_positive">확인</string>
+    <string name="dialog_neutral">취소</string>
+
     <!-- Alarm -->
     <string name="alarm_following">새로운 팔로워가 있습니다.</string>
     <string name="alarm_comment">글 \"%s\"에 새로운 댓글이 달렸습니다.</string>
@@ -50,7 +54,7 @@
     <string name="hint_username">닉네임</string>
     <string name="toast_no_image">프로필 사진을 선택하세요.</string>
     <string name="toast_no_username">닉네임을 입력하세요.</string>
-    <string name="profile_confirm">완료</string>
+    <string name="confirm">완료</string>
 
     <!-- Home Fragment -->
     <string name="home_label_today">오늘의 동영상</string>
@@ -66,7 +70,7 @@
     <string name="toast_upload_error">동영상 업로드 중 문제가 발생했습니다.</string>
 
     <!-- My Fragment -->
-    <string name="my_logout">로그아웃</string>
+    <string name="my_edit">프로필 편집</string>
 
     <!-- Video Fragment -->
     <string name="hint_comment">댓글</string>
@@ -85,17 +89,15 @@
     <string name="item_follow_metadata">팔로워 %d명 · 팔로잉 %d명</string>
 
     <!-- Preference Titles -->
-    <string name="messages_header">Messages</string>
-    <string name="sync_header">Sync</string>
+    <string name="account_header">계정</string>
+    <string name="etc_header">기타</string>
 
-    <!-- Messages Preferences -->
-    <string name="signature_title">Your signature</string>
-    <string name="reply_title">Default reply action</string>
+    <!-- Account Preferences -->
+    <string name="pref_account_comments">내 댓글</string>
+    <string name="pref_account_profile">프로필 편집</string>
+    <string name="pref_account_logout">로그아웃</string>
+    <string name="pref_dialog_logout">로그아웃 하시겠습니까?</string>
 
-    <!-- Sync Preferences -->
-    <string name="sync_title">Sync email periodically</string>
-    <string name="attachment_title">Download incoming attachments</string>
-    <string name="attachment_summary_on">Automatically download attachments for incoming emails
-    </string>
-    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <!-- ETC Preferences -->
+    <string name="pref_etc_license">오픈소스 라이선스</string>
 </resources>

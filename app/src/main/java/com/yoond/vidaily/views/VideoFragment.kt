@@ -1,7 +1,6 @@
 package com.yoond.vidaily.views
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +9,6 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.amplifyframework.datastore.generated.model.User
 import com.bumptech.glide.Glide
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
@@ -74,7 +72,7 @@ class VideoFragment : Fragment(), OnProfileItemClickListener {
     }
 
     private fun subscribeUi() {
-        videoViewModel.getComments(args.videoItem.id).observe(viewLifecycleOwner) { commentList ->
+        videoViewModel.getCommentsByVideo(args.videoItem.id).observe(viewLifecycleOwner) { commentList ->
             commentList.sortByDescending { it.createdAt } // 작성 시간 내림차순 정렬
             comments = commentList
             setAdapter(comments)
@@ -101,10 +99,6 @@ class VideoFragment : Fragment(), OnProfileItemClickListener {
 
     private fun setMetadata() {
         binding.videoItem = args.videoItem
-        binding.videoViews.text =
-            resources.getString(R.string.video_views, args.videoItem.views)
-        binding.videoCreatedAt.text =
-            resources.getString(R.string.createdDate, args.videoItem.createdAt.toLong())
 
         Glide.with(this)
             .load(args.videoItem.profileUrl)

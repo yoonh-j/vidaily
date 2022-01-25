@@ -47,8 +47,6 @@ class CommentListAdapter(
         }
         fun bind(item: CommentItem) {
             binding.commentItem = item
-            binding.itemCommentCreatedAt.text =
-                context.resources.getString(R.string.createdTime, item.createdAt.toLong())
 
             // get profile url
             Amplify.Storage.getUrl("profiles/${item.uId}",

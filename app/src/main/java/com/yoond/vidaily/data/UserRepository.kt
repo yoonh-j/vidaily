@@ -57,6 +57,35 @@ class UserRepository {
         )
     }
 
+    fun updateUser(user: User, username: String, profileImage: File?): LiveData<User> {
+        val result = MutableLiveData<User>()
+        val item = User.builder()
+            .username(username)
+            .follower(user.follower)
+            .following(user.following)
+            .id(user.id)
+            .build()
+
+        Amplify.API.mutate(ModelMutation.update(item),
+            { response ->
+                if (response.hasData()) {
+                    result.postValue(response.data)
+
+                    if (profileImage != null) {
+                        Amplify.Storage.uploadFile(
+                            "profiles/${user.id}",
+                            profileImage,
+                            { Log.d("USER_REPOSITORY", "uploadProfileImage success: ${it.key}") },
+                            { Log.e("USER_REPOSITORY", "uploadProfileImage failed", it)}
+                        )
+                    }
+                }
+            },
+            { Log.e("USER_REPOSITORY", "updateUser failed", it) }
+        )
+        return result
+    }
+
     fun createFollower(fId: String): LiveData<Boolean> {
         val isDone = MutableLiveData<Boolean>()
         // 여기서 curUser의 following 목록 갱신

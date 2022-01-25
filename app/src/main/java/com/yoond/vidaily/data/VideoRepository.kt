@@ -220,7 +220,7 @@ class VideoRepository {
         return video
     }
 
-    fun getComments(vid: String): LiveData<MutableList<CommentItem>> {
+    fun getCommentsByVideo(vid: String): LiveData<MutableList<CommentItem>> {
         val commentList = MutableLiveData<MutableList<CommentItem>>()
 
         Amplify.API.query(ModelQuery.list(Comment::class.java, Comment.VID.contains(vid)),
@@ -244,7 +244,36 @@ class VideoRepository {
                     commentList.postValue(list)
                 }
             },
-            { Log.e("VIDEO_REPOSITORY", "getComments failed", it) }
+            { Log.e("VIDEO_REPOSITORY", "getCommentsByVideo failed", it) }
+        )
+        return commentList
+    }
+
+    fun getCommentsByUser(uId: String) : LiveData<MutableList<CommentItem>> {
+        val commentList = MutableLiveData<MutableList<CommentItem>>()
+
+        Amplify.API.query(ModelQuery.list(Comment::class.java, Comment.UID.contains(uId)),
+            { result ->
+                if (result.hasData()) {
+                    val list = mutableListOf<CommentItem>()
+
+                    result.data.items.forEach { comment ->
+                        if (comment != null) {
+                            list.add(CommentItem(
+                                comment.id,
+                                comment.content,
+                                comment.createdAt,
+                                comment.vid,
+                                comment.uid,
+                                comment.user.username,
+                                ""
+                            ))
+                        }
+                    }
+                    commentList.postValue(list)
+                }
+            },
+            { Log.e("VIDEO_REPOSITORY", "getCommentsByUser failed", it) }
         )
         return commentList
     }

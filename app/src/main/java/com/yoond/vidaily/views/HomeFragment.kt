@@ -2,7 +2,6 @@ package com.yoond.vidaily.views
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.Toast
@@ -10,6 +9,8 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.amplifyframework.core.Amplify
+import com.amplifyframework.datastore.generated.model.User
+import com.google.gson.Gson
 import com.yoond.vidaily.MainActivity
 import com.yoond.vidaily.R
 import com.yoond.vidaily.adapters.HomeHorizontalListAdapter
@@ -18,6 +19,7 @@ import com.yoond.vidaily.data.VideoItem
 import com.yoond.vidaily.databinding.FragmentHomeBinding
 import com.yoond.vidaily.decorators.ListDecoration
 import com.yoond.vidaily.interfaces.OnVideoItemClickListener
+import com.yoond.vidaily.utils.SHARED_PREFS_CURRENT_USER
 import com.yoond.vidaily.viewmodels.AuthViewModel
 import com.yoond.vidaily.viewmodels.UserViewModel
 import com.yoond.vidaily.viewmodels.VideoViewModel
@@ -65,10 +67,6 @@ class HomeFragment : Fragment(), OnVideoItemClickListener {
                 navigateToSearch()
                 true
             }
-            R.id.menu_home_preference -> {
-                navigateToPreference()
-                true
-            }
             else -> {
                 super.onOptionsItemSelected(item)
             }
@@ -108,11 +106,9 @@ class HomeFragment : Fragment(), OnVideoItemClickListener {
 
     private fun setListeners() {
         binding.homeMoreToday.setOnClickListener {
-            Log.d("HOME_FRAGMENT", "${todayAdapter.currentList}")
             navigateToHomeList(todayAdapter.currentList.toTypedArray())
         }
         binding.homeMorePopular.setOnClickListener {
-            Log.d("HOME_FRAGMENT", "${popularAdapter.currentList}")
             navigateToHomeList(popularAdapter.currentList.toTypedArray())
         }
 
@@ -129,7 +125,6 @@ class HomeFragment : Fragment(), OnVideoItemClickListener {
         followAdapter: LargeVideoListAdapter
     ){
         videoViewModel.getVideosByDate().observe(viewLifecycleOwner) { videoList ->
-            Log.d("HOME_FRAGMENT", "date videos: $videoList")
             videoList.shuffle()  // 리스트 랜덤으로 섞음
             todayAdapter.submitList(videoList) {
                 binding.homeRecyclerToday.invalidateItemDecorations()
@@ -145,6 +140,7 @@ class HomeFragment : Fragment(), OnVideoItemClickListener {
             val uid = Amplify.Auth.currentUser.userId
 
             userViewModel.getUser(uid).observe(viewLifecycleOwner) { user ->
+                updateCurUserInSharedPrefs(user)
                 videoViewModel.getVideosByFollowing(user.following).observe(viewLifecycleOwner) { videoList ->
                     videoList.sortByDescending { it.createdAt } // 시간 내림차순(최근 영상이 위로 올라오도록) 정렬
                     followAdapter.submitList(videoList) {
@@ -160,6 +156,14 @@ class HomeFragment : Fragment(), OnVideoItemClickListener {
         videoViewModel.updateVideoViews(videoItem)
     }
 
+    private fun updateCurUserInSharedPrefs(curUser: User) {
+        val sharedPrefs = activity?.getPreferences(Context.MODE_PRIVATE)
+        val user = Gson().toJson(curUser)
+        sharedPrefs?.edit()
+            ?.putString(SHARED_PREFS_CURRENT_USER, user)
+            ?.apply()
+    }
+
     private fun navigateToVideo(videoItem: VideoItem) {
         findNavController().navigate(HomeFragmentDirections.actionNavHomeToNavVideo(videoItem))
     }
@@ -168,11 +172,7 @@ class HomeFragment : Fragment(), OnVideoItemClickListener {
         findNavController().navigate(HomeFragmentDirections.actionNavHomeToNavSearch())
     }
 
-    private fun navigateToPreference() {
-    }
-
     private fun navigateToHomeList(videoItems: Array<VideoItem>) {
-
         findNavController().navigate(HomeFragmentDirections.actionNavHomeToNavHomeList(videoItems))
     }
 

@@ -1,35 +1,31 @@
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory app:title="@string/messages_header">
+    <PreferenceCategory
+        app:title="@string/account_header"
+        app:iconSpaceReserved="false">
 
-        <EditTextPreference
-            app:key="signature"
-            app:title="@string/signature_title"
-            app:useSimpleSummaryProvider="true" />
-
-        <ListPreference
-            app:defaultValue="reply"
-            app:entries="@array/reply_entries"
-            app:entryValues="@array/reply_values"
-            app:key="reply"
-            app:title="@string/reply_title"
-            app:useSimpleSummaryProvider="true" />
-
+        <Preference
+            app:key="comments"
+            app:title="@string/pref_account_comments"
+            app:iconSpaceReserved="false"/>
+        <Preference
+            app:key="profile"
+            app:title="@string/pref_account_profile"
+            app:iconSpaceReserved="false"/>
+        <Preference
+            app:key="logout"
+            app:title="@string/pref_account_logout"
+            app:iconSpaceReserved="false"/>
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="@string/sync_header">
+    <PreferenceCategory
+        app:title="@string/etc_header"
+        app:iconSpaceReserved="false">
 
-        <SwitchPreferenceCompat
-            app:key="sync"
-            app:title="@string/sync_title" />
-
-        <SwitchPreferenceCompat
-            app:dependency="sync"
-            app:key="attachment"
-            app:summaryOff="@string/attachment_summary_off"
-            app:summaryOn="@string/attachment_summary_on"
-            app:title="@string/attachment_title" />
-
+        <Preference
+            app:key="license"
+            app:title="@string/pref_etc_license"
+            app:iconSpaceReserved="false"/>
     </PreferenceCategory>
-
 </PreferenceScreen>

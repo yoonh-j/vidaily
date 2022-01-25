@@ -28,8 +28,11 @@ class VideoViewModel: ViewModel() {
     fun getVideosByQuery(query: String): LiveData<MutableList<VideoItem>> =
         repository.getVideosByQuery(query)
 
-    fun getComments(vId: String): LiveData<MutableList<CommentItem>> =
-        repository.getComments(vId)
+    fun getCommentsByVideo(vId: String): LiveData<MutableList<CommentItem>> =
+        repository.getCommentsByVideo(vId)
+
+    fun getCommentsByUser(uId: String): LiveData<MutableList<CommentItem>> =
+        repository.getCommentsByUser(uId)
 
     fun subscribeComments(vId: String): LiveData<CommentItem> =
         repository.subscribeComments(vId)

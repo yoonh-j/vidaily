@@ -39,6 +39,7 @@
             android:id="@+id/item_comment_createdAt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@{@string/createdTime(Long.valueOf(commentItem.createdAt))}"
             app:layout_constraintTop_toTopOf="@id/item_comment_username"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="@id/item_comment_username"/>

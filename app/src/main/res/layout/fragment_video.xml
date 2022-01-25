@@ -57,6 +57,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/video_metadata_margin"
+                    android:text="@{@string/video_views(videoItem.views)}"
                     app:layout_constraintTop_toBottomOf="@id/video_description"/>
 
                 <TextView
@@ -64,6 +65,7 @@
                     android:id="@+id/video_createdAt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:text="@{@string/createdDate(Long.valueOf(videoItem.createdAt))}"
                     app:layout_constraintTop_toBottomOf="@id/video_views"/>
 
                 <de.hdodenhof.circleimageview.CircleImageView

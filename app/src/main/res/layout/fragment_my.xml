@@ -60,8 +60,10 @@
                 android:id="@+id/my_follower"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/base_layout_margin"
+                android:paddingStart="@dimen/base_layout_margin"
+                android:paddingEnd="@dimen/base_layout_margin"
                 android:text="@{String.valueOf(user.follower.size())}"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
                 app:layout_constraintTop_toBottomOf="@id/my_label_follower"
                 app:layout_constraintStart_toStartOf="@id/my_label_follower"
                 app:layout_constraintEnd_toEndOf="@id/my_label_follower"/>
@@ -70,21 +72,14 @@
                 android:id="@+id/my_following"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/base_layout_margin"
+                android:paddingStart="@dimen/base_layout_margin"
+                android:paddingEnd="@dimen/base_layout_margin"
                 android:text="@{String.valueOf(user.following.size())}"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
                 app:layout_constraintTop_toTopOf="@id/my_follower"
                 app:layout_constraintStart_toStartOf="@id/my_label_following"
                 app:layout_constraintEnd_toEndOf="@id/my_label_following"
                 app:layout_constraintBottom_toBottomOf="@id/my_follower"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/my_btn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/base_layout_margin"
-                android:text="@string/my_logout"
-                android:background="@drawable/bg_btn_border"
-                app:layout_constraintTop_toBottomOf="@id/my_follower"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/my_recycler"
@@ -92,7 +87,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/user_recycler_margin"
                 android:nestedScrollingEnabled="false"
-                app:layout_constraintTop_toBottomOf="@id/my_btn"
+                app:layout_constraintTop_toBottomOf="@id/my_follower"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/item_video_small"/>
         </androidx.constraintlayout.widget.ConstraintLayout>

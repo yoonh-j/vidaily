@@ -13,6 +13,9 @@ class UserViewModel: ViewModel() {
     fun uploadUser(profileImage: File, username: String) =
         repository.uploadUser(profileImage, username)
 
+    fun updateUser(user: User, username: String, profileImage: File?): LiveData<User> =
+        repository.updateUser(user, username, profileImage)
+
     fun createFollower(fId: String): LiveData<Boolean> =
         repository.createFollower(fId)
 

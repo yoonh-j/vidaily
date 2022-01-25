@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="commentItem"
+            type="com.yoond.vidaily.data.CommentItem" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/base_layout_margin"
+        android:paddingStart="@dimen/base_layout_margin"
+        android:paddingEnd="@dimen/base_layout_margin">
+
+        <TextView
+            android:id="@+id/item_my_comment_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{commentItem.content}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/item_my_comment_createdAt"/>
+
+        <TextView
+            style="@style/Theme.Vidaily.VideoMetadata"
+            android:id="@+id/item_my_comment_createdAt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/base_layout_margin"
+            android:layout_marginBottom="@dimen/base_layout_margin"
+            android:text="@{@string/createdTime(Long.valueOf(commentItem.createdAt))}"
+            app:layout_constraintTop_toBottomOf="@id/item_my_comment_content"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+    </LinearLayout>
+</layout>

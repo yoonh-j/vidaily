@@ -52,9 +52,6 @@
         <action
             android:id="@+id/action_nav_home_to_nav_video"
             app:destination="@id/nav_video" />
-        <action
-            android:id="@+id/action_nav_home_to_nav_user"
-            app:destination="@id/nav_user" />
     </fragment>
 
     <fragment
@@ -89,6 +86,9 @@
         <action
             android:id="@+id/action_nav_my_to_nav_video"
             app:destination="@id/nav_video" />
+        <action
+            android:id="@+id/action_nav_my_to_nav_preference"
+            app:destination="@id/nav_preference"/>
     </fragment>
 
     <fragment
@@ -150,8 +150,30 @@
     </fragment>
 
     <fragment
-        android:id="@+id/nav_comment"
-        android:name="com.yoond.vidaily.views.CommentFragment"
+        android:id="@+id/nav_preference_comment"
+        android:name="com.yoond.vidaily.views.PreferenceCommentFragment"
         android:label="@string/title_comment"
-        tools:layout="@layout/fragment_comment"/>
+        tools:layout="@layout/fragment_preference_comment"/>
+
+    <fragment
+        android:id="@+id/nav_preference"
+        android:name="com.yoond.vidaily.views.PreferenceFragment"
+        android:label=""
+        tools:layout="@layout/fragment_preference">
+        <action
+            android:id="@+id/action_nav_preference_to_nav_preference_comments"
+            app:destination="@id/nav_preference_comment"/>
+        <action
+            android:id="@+id/action_nav_preference_to_nav_preference_profile"
+            app:destination="@id/nav_preference_profile"/>
+        <action
+            android:id="@+id/action_nav_preference_to_nav_login"
+            app:destination="@id/nav_login"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_preference_profile"
+        android:name="com.yoond.vidaily.views.PreferenceProfileFragment"
+        android:label=""
+        tools:layout="@layout/fragment_preference_profile"/>
 </navigation>

@@ -1,0 +1,4 @@
+package com.yoond.vidaily.utils
+
+const val SHARED_PREFS_CURRENT_USER = "SHARED_PREFS_CURRENT_USER"
+const val SHARED_PREFS_PROFILE_URL = "SHARED_PREFS_PROFILE_URL"
