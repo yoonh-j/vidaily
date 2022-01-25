@@ -69,7 +69,7 @@ class FCMService: FirebaseMessagingService() {
         }
         val pendingIntent = PendingIntent.getActivity(this, NOTI_ID, intent, PendingIntent.FLAG_ONE_SHOT)
         val notification = NotificationCompat.Builder(this, NOTI_CHANNEL_ID)
-            .setSmallIcon(R.mipmap.ic_launcher)
+            .setSmallIcon(R.drawable.ic_action_logo)
             .setContentTitle(title)
             .setContentText(body)
             .setPriority(NotificationCompat.PRIORITY_HIGH)

@@ -18,6 +18,7 @@
 
     <!-- Login fragment -->
     <dimen name="login_signup_padding">20dp</dimen>
+    <dimen name="login_logo_size">150dp</dimen>
 
     <!-- Profile fragment -->
     <dimen name="profile_profile_size">200dp</dimen>
