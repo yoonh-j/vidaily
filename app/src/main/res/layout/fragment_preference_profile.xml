@@ -11,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="@dimen/base_layout_margin">
+        android:padding="@dimen/base_layout_margin"
+        android:background="?android:colorBackground">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/pref_profile"

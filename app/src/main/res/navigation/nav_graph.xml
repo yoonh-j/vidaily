@@ -45,13 +45,19 @@
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_nav_home_to_nav_home_list"
-            app:destination="@id/nav_home_list"/>
+            app:destination="@id/nav_home_list"
+            app:enterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
         <action
             android:id="@+id/action_nav_home_to_nav_search"
-            app:destination="@id/nav_search" />
+            app:destination="@id/nav_search"
+            app:enterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
         <action
             android:id="@+id/action_nav_home_to_nav_video"
-            app:destination="@id/nav_video" />
+            app:destination="@id/nav_video"
+            app:enterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
     </fragment>
 
     <fragment
@@ -64,7 +70,9 @@
             app:argType="com.yoond.vidaily.data.VideoItem[]"/>
         <action
             android:id="@+id/action_nav_home_list_to_nav_video"
-            app:destination="@id/nav_video"/>
+            app:destination="@id/nav_video"
+            app:enterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
     </fragment>
 
     <fragment android:id="@+id/nav_upload"
@@ -78,17 +86,20 @@
         android:label="@string/title_my"
         tools:layout="@layout/fragment_my">
         <action
-            android:id="@+id/action_nav_my_to_nav_login"
-            app:destination="@id/nav_login"/>
-        <action
             android:id="@+id/action_nav_my_to_nav_follow"
-            app:destination="@id/nav_follow"/>
+            app:destination="@id/nav_follow"
+            app:enterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
         <action
             android:id="@+id/action_nav_my_to_nav_video"
-            app:destination="@id/nav_video" />
+            app:destination="@id/nav_video"
+            app:enterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
         <action
             android:id="@+id/action_nav_my_to_nav_preference"
-            app:destination="@id/nav_preference"/>
+            app:destination="@id/nav_preference"
+            app:enterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
     </fragment>
 
     <fragment
@@ -101,7 +112,9 @@
             app:argType="com.yoond.vidaily.data.VideoItem"/>
         <action
             android:id="@+id/action_nav_video_to_nav_user"
-            app:destination="@id/nav_user" />
+            app:destination="@id/nav_user"
+            app:enterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
     </fragment>
 
     <fragment
@@ -117,10 +130,14 @@
             app:argType="string"/>
         <action
             android:id="@+id/action_nav_user_to_nav_video"
-            app:destination="@id/nav_video" />
+            app:destination="@id/nav_video"
+            app:enterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
         <action
             android:id="@+id/action_nav_user_to_nav_follow"
-            app:destination="@id/nav_follow"/>
+            app:destination="@id/nav_follow"
+            app:enterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
     </fragment>
 
     <fragment
@@ -136,7 +153,9 @@
             app:argType="boolean"/>
         <action
             android:id="@+id/action_nav_follow_to_nav_user"
-            app:destination="@id/nav_user"/>
+            app:destination="@id/nav_user"
+            app:enterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
     </fragment>
 
     <fragment
@@ -146,7 +165,9 @@
         tools:layout="@layout/fragment_search">
         <action
             android:id="@+id/action_nav_search_to_nav_video"
-            app:destination="@id/nav_video"/>
+            app:destination="@id/nav_video"
+            app:enterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
     </fragment>
 
     <fragment
@@ -162,13 +183,19 @@
         tools:layout="@layout/fragment_preference">
         <action
             android:id="@+id/action_nav_preference_to_nav_preference_comments"
-            app:destination="@id/nav_preference_comment"/>
+            app:destination="@id/nav_preference_comment"
+            app:enterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
         <action
             android:id="@+id/action_nav_preference_to_nav_preference_profile"
-            app:destination="@id/nav_preference_profile"/>
+            app:destination="@id/nav_preference_profile"
+            app:enterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
         <action
             android:id="@+id/action_nav_preference_to_nav_login"
-            app:destination="@id/nav_login"/>
+            app:destination="@id/nav_login"
+            app:enterAnim="@anim/slide_in_up"
+            app:popExitAnim="@anim/slide_out_up"/>
     </fragment>
 
     <fragment
